@@ -1,70 +1,102 @@
-﻿<div align="center">
-  <img src="https://img.icons8.com/fluency/100/000000/driver-license.png" alt="Logo" width="100" height="100">
-  <h1 align="center">DVLD System</h1>
-  <p align="center">
-    <b>Driving & Vehicle Licensing Department Management System</b>
-    <br />
-    A professional C# Solution for managing licensing processes.
-  </p>
-</div>
+﻿<div align="right" dir="rtl">
 
----
+  <div align="center">
+    <img src="https://www.svgrepo.com/show/77000/id-card.svg" width="120" height="120">
+    <h1 align="center">نظام DVLD - إدارة التراخيص</h1>
+    <p align="center">
+      <b>مشروع هندسة برمجية يركز على سلامة البيانات وضوابط الإدخال (Input Validation)</b>
+      <br />
+      تم بناء هذا النظام لضمان أعلى مستويات الدقة من خلال منع الأخطاء في طبقة العرض مباشرة.
+    </p>
+  </div>
 
-### 📖 Overview
-The **DVLD** project is a desktop-based application designed to automate and organize the workflow of a licensing department. It's built with a strong focus on **Object-Oriented Programming (OOP)** and **N-Tier Architecture**.
+  ---
 
----
+  ### 📖 نظرة عامة (Overview)
+  هذا المشروع يتجاوز فكرة واجهات المستخدم التقليدية، حيث يركز على بناء **Presentation Layer** ذكية تعمل كخط دفاع أول لضمان صحة البيانات. يتمحور المشروع حول **منع الأخطاء البشرية** قبل وصولها إلى قاعدة البيانات.
 
-### 🛠 Tech Stack
-<table align="center">
-  <tr>
-    <td align="center" width="96">
-      <img src="https://skillicons.dev/icons?i=cs" width="40" height="40" alt="C#" />
-      <br />C#
-    </td>
-    <td align="center" width="96">
-      <img src="https://skillicons.dev/icons?i=dotnet" width="40" height="40" alt=".NET" />
-      <br />.NET WinForms
-    </td>
-    <td align="center" width="96">
-      <img src="https://skillicons.dev/icons?i=msql" width="40" height="40" alt="SQL Server" />
-      <br />SQL Server
-    </td>
-    <td align="center" width="96">
-      <img src="https://skillicons.dev/icons?i=visualstudio" width="40" height="40" alt="VS" />
-      <br />Visual Studio
-    </td>
-  </tr>
-</table>
+  > **ملاحظة للمستعرض:** الواجهات الحالية (UI) صُممت لتكون وظيفية لاختبار المنطق البرمجي، وسيتم تطوير واجهة احترافية (Modern UI) في إصدارات لاحقة.
 
----
+  ---
 
-### 🚀 Features & Roadmap
+  ### 🛠️ الوظائف الأساسية (Core Functionality)
+  يوفر النظام إدارة كاملة لسجلات الأشخاص من خلال العمليات التالية:
+  * 🟢 **إضافة شخص جديد:** إدخال كافة البيانات الشخصية مع دعم رفع الصور وحفظها في المسارات المخصصة.
+  * 🔵 **تعديل البيانات:** تحديث معلومات الأشخاص المسجلين مسبقاً بكل سهولة مع الحفاظ على وحدة البيانات.
+  * 🟡 **عرض معلومات الشخص:** استعراض تفاصيل الشخص بالكامل في "بطاقة معلومات" (Person Card) واضحة ومنظمة.
+  * 🔴 **حذف السجل:** إمكانية حذف السجل نهائياً مع ميزة "التنظيف التلقائي" للملفات (حذف صورة الشخص من القرص الصلب فور حذفه من النظام).
 
-#### 🟢 Phase 1: People Management (Current)
-- [x] **Advanced Search:** Filter people by ID, National No, Name, etc.
-- [x] **Data Integrity:** Business rules to prevent duplicate National IDs.
-- [x] **Image Management:** Store and display person photos dynamically.
-- [ ] **Deletion Logic:** Secure deletion with database constraint checks.
+  ---
 
-#### 🟡 Phase 2: User & Security (Next)
-- [ ] Role-based access control (Admin/User).
-- [ ] Encrypted password storage.
+  ### 🛡️ ضوابط التحقق في طبقة العرض (Presentation Layer Validation)
 
-#### 🔴 Phase 3: Applications & Licenses (Planned)
-- [ ] Local & International license issuance.
-- [ ] Test appointments and results management.
+  تعتمد هذه الطبقة على مجموعة من القواعد البرمجية الصارمة لضمان سلامة المدخلات:
 
----
+  #### 👤 منطق إدارة الأشخاص
+  * ✅ **التحقق الشامل قبل الحفظ:** يقوم النظام بفحص كافة الحقول المطلوبة برمجياً وتنبيه المستخدم برسائل دقيقة في حال وجود نقص.
+  * ✅ **منع تكرار الرقم الوطني:** يتم التحقق فورياً من عدم وجود الرقم الوطني مسبقاً في النظام لمنع تكرار السجلات الشخصية.
+  * ✅ **قيود الإدخال الصارمة (Input Masks):**
+    * حقول (الرقم الوطني، الهاتف) مبرمجة لاستقبال **أرقاماً فقط**؛ حيث يتم تعطيل استجابة الحقل لأي مفتاح غير رقمي برمجياً.
+  * ✅ **منطق السن القانوني (+18):** تم ضبط أداة اختيار التاريخ برمجياً لمنع تسجيل أي شخص يقل عمره عن 18 عاماً، توافقاً مع شروط الترخيص.
+  * ✅ **التحقق من صيغة البريد:** بالرغم من أن البريد الإلكتروني حقل اختياري (مثل الاسم الثالث والصورة)، إلا أن النظام يفرض صيغة صحيحة (Valid Format) في حال تم استخدامه.
+  * ✅ **القيم الافتراضية الذكية:** يتم تحديد "ليبيا" كدولة افتراضية تلقائياً لتسهيل تجربة المستخدم المحلي وسرعة الإدخال.
 
-### 🏗 Architecture Structure
-This project follows the **3-Tier Architecture** pattern:
-* **`DVLD_UI`**: The interface where the user interacts with the system.
-* **`DVLD_Business`**: The brain of the app (validation and logic).
-* **`DVLD_DataAccess`**: The bridge to SQL Server using ADO.NET.
+  #### 🔍 التصفية والبحث الذكي (Filtering Logic)
+  * ✅ **نظام فلترة ديناميكي:** القدرة على البحث بناءً على خيارات متعددة (ID, National No, First Name, Second Name, Third Name, Last Name, Phone, Email).
+  * ✅ **حماية البحث بالمعرف (ID):** عند اختيار البحث بواسطة الـ ID، يتم قفل الحقل برمجياً لاستقبال الأرقام فقط ومنع الحروف نهائياً لتجنب الـ Exceptions.
 
----
+  ---
 
-<div align="center">
-  <sub>Built with ❤️ by Abdallbaset - 2026</sub>
+  ### 💻 التقنيات المستخدمة (Tech Stack)
+  <div align="center">
+    <table border="1">
+      <tr>
+        <td align="center" width="120">
+          <img src="https://skillicons.dev/icons?i=cs" width="45" height="45" alt="C#" />
+          <br />C#
+        </td>
+        <td align="center" width="120">
+          <img src="https://skillicons.dev/icons?i=dotnet" width="45" height="45" alt=".NET" />
+          <br />.NET WinForms
+        </td>
+        <td align="center" width="120">
+          <img src="https://www.svgrepo.com/show/303229/microsoft-sql-server-logo.svg" width="45" height="45" alt="SQL Server" />
+          <br />SQL Server
+        </td>
+        <td align="center" width="120">
+          <img src="https://skillicons.dev/icons?i=visualstudio" width="45" height="45" alt="VS" />
+          <br />Visual Studio
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  ---
+
+  ### 🚀 المزايا والخدمات المستقبلية (Future Features)
+  يعمل النظام حالياً على توسيع نطاق خدماته الإلكترونية لتشمل:
+   <div align="center">
+  
+  | الخدمة | الوصف | الحالة |
+  | :--- | :--- | :---: |
+  | **الخدمات الرقمية** | تفعيل محرك إرسال البريد الإلكتروني للتواصل الآلي | ⏳ قيد التطوير |
+  | **منظومة الاتصال** | دمج ميزة الاتصال الهاتفي المباشر من داخل النظام | ⏳ قيد التطوير |
+  | **تطوير الواجهات** | إصدار نسخة Modern UI تركز على تجربة المستخدم | ⏳ قيد التطوير |
+  
+  </div>.
+
+  ---
+
+  ### 🏗 هندسة النظام (Architecture)
+  تم بناء المشروع باستخدام هيكلية **N-Tier Architecture** لضمان فصل المهام وسهولة الصيانة:
+    * **`DVLD_UI` (Presentation Layer)**: خط الدفاع الأول المسؤول عن كافة عمليات التحقق (Validation) وضوابط لوحة المفاتيح والرسائل التنبيهية.
+  * **`DVLD_Business`**: طبقة منطق العمل (Brain) التي تدير تدفق البيانات وقواعد التحقق المركزية.
+  * **`DVLD_DataAccess`**: الطبقة المسؤولة عن تنفيذ استعلامات SQL والتعامل المباشر مع قاعدة البيانات.
+  * **`DVLD_Model`**: كائنات تمثيل البيانات المستخدمة للتنقل بين الطبقات.
+  ---
+
+  <div align="center">
+    <sub>تم تطوير المنطق البرمجي بواسطة عبد الباسط - 2026</sub>
+  </div>
+
 </div>

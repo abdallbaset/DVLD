@@ -139,6 +139,7 @@
             // 
             // phoneCallToolStripMenuItem
             // 
+            this.phoneCallToolStripMenuItem.Image = global::DVLD_UI.Properties.Resources.phone_call;
             this.phoneCallToolStripMenuItem.Name = "phoneCallToolStripMenuItem";
             this.phoneCallToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.phoneCallToolStripMenuItem.Text = "Phone Call";
