@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ctrlPersonCard));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btn_EditPerson = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.lbl_Country = new System.Windows.Forms.Label();
             this.lbl_Phone = new System.Windows.Forms.Label();
@@ -42,24 +43,23 @@
             this.lbl_FullName = new System.Windows.Forms.Label();
             this.lbl_PersonID = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.btn_EditPerson = new System.Windows.Forms.Button();
             this.pictureBox10 = new System.Windows.Forms.PictureBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.ptb_PersonalPhoto = new System.Windows.Forms.PictureBox();
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.ptb_Gendor = new System.Windows.Forms.PictureBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ptb_PersonalPhoto)).BeginInit();
@@ -109,6 +109,25 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Person Information";
+            // 
+            // btn_EditPerson
+            // 
+            this.btn_EditPerson.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btn_EditPerson.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_EditPerson.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.btn_EditPerson.ForeColor = System.Drawing.Color.White;
+            this.btn_EditPerson.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_EditPerson.ImageIndex = 0;
+            this.btn_EditPerson.ImageList = this.imageList1;
+            this.btn_EditPerson.Location = new System.Drawing.Point(902, 33);
+            this.btn_EditPerson.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_EditPerson.Name = "btn_EditPerson";
+            this.btn_EditPerson.Size = new System.Drawing.Size(164, 52);
+            this.btn_EditPerson.TabIndex = 64;
+            this.btn_EditPerson.Text = "Edit Person";
+            this.btn_EditPerson.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_EditPerson.UseVisualStyleBackColor = false;
+            this.btn_EditPerson.Click += new System.EventHandler(this.btn_EditPerson_Click);
             // 
             // imageList1
             // 
@@ -252,105 +271,6 @@
             this.label1.TabIndex = 53;
             this.label1.Text = "Person ID :";
             // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(8, 289);
-            this.label13.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(98, 24);
-            this.label13.TabIndex = 51;
-            this.label13.Text = "Address:";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(482, 225);
-            this.label12.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(97, 24);
-            this.label12.TabIndex = 48;
-            this.label12.Text = "Country:";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(496, 177);
-            this.label11.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(80, 24);
-            this.label11.TabIndex = 46;
-            this.label11.Text = "Phone:";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(434, 140);
-            this.label10.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(149, 24);
-            this.label10.TabIndex = 41;
-            this.label10.Text = "Date Of Birth:";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(8, 235);
-            this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(72, 24);
-            this.label9.TabIndex = 44;
-            this.label9.Text = "Email:";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(8, 187);
-            this.label8.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(91, 24);
-            this.label8.TabIndex = 40;
-            this.label8.Text = "Gendor:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(8, 140);
-            this.label7.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(137, 24);
-            this.label7.TabIndex = 38;
-            this.label7.Text = "Notional NO:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 92);
-            this.label2.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(81, 24);
-            this.label2.TabIndex = 36;
-            this.label2.Text = "Name :";
-            // 
-            // btn_EditPerson
-            // 
-            this.btn_EditPerson.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btn_EditPerson.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_EditPerson.Font = new System.Drawing.Font("Tahoma", 12F);
-            this.btn_EditPerson.ForeColor = System.Drawing.Color.White;
-            this.btn_EditPerson.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btn_EditPerson.ImageIndex = 0;
-            this.btn_EditPerson.ImageList = this.imageList1;
-            this.btn_EditPerson.Location = new System.Drawing.Point(902, 33);
-            this.btn_EditPerson.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_EditPerson.Name = "btn_EditPerson";
-            this.btn_EditPerson.Size = new System.Drawing.Size(164, 52);
-            this.btn_EditPerson.TabIndex = 64;
-            this.btn_EditPerson.Text = "Edit Person";
-            this.btn_EditPerson.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btn_EditPerson.UseVisualStyleBackColor = false;
-            this.btn_EditPerson.Click += new System.EventHandler(this.btn_EditPerson_Click);
-            // 
             // pictureBox10
             // 
             this.pictureBox10.Image = global::DVLD_UI.Properties.Resources.address;
@@ -360,6 +280,16 @@
             this.pictureBox10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox10.TabIndex = 52;
             this.pictureBox10.TabStop = false;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(8, 289);
+            this.label13.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(98, 24);
+            this.label13.TabIndex = 51;
+            this.label13.Text = "Address:";
             // 
             // ptb_PersonalPhoto
             // 
@@ -381,6 +311,16 @@
             this.pictureBox8.TabIndex = 49;
             this.pictureBox8.TabStop = false;
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(482, 225);
+            this.label12.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(97, 24);
+            this.label12.TabIndex = 48;
+            this.label12.Text = "Country:";
+            // 
             // pictureBox7
             // 
             this.pictureBox7.Image = global::DVLD_UI.Properties.Resources.phone_call;
@@ -390,6 +330,16 @@
             this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox7.TabIndex = 47;
             this.pictureBox7.TabStop = false;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(496, 177);
+            this.label11.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(80, 24);
+            this.label11.TabIndex = 46;
+            this.label11.Text = "Phone:";
             // 
             // pictureBox6
             // 
@@ -401,6 +351,16 @@
             this.pictureBox6.TabIndex = 43;
             this.pictureBox6.TabStop = false;
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(434, 140);
+            this.label10.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(149, 24);
+            this.label10.TabIndex = 41;
+            this.label10.Text = "Date Of Birth:";
+            // 
             // pictureBox5
             // 
             this.pictureBox5.Image = global::DVLD_UI.Properties.Resources.email;
@@ -410,6 +370,16 @@
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox5.TabIndex = 45;
             this.pictureBox5.TabStop = false;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(8, 235);
+            this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(72, 24);
+            this.label9.TabIndex = 44;
+            this.label9.Text = "Email:";
             // 
             // ptb_Gendor
             // 
@@ -421,6 +391,16 @@
             this.ptb_Gendor.TabIndex = 42;
             this.ptb_Gendor.TabStop = false;
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(8, 187);
+            this.label8.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(91, 24);
+            this.label8.TabIndex = 40;
+            this.label8.Text = "Gendor:";
+            // 
             // pictureBox2
             // 
             this.pictureBox2.Image = global::DVLD_UI.Properties.Resources.id;
@@ -431,6 +411,16 @@
             this.pictureBox2.TabIndex = 39;
             this.pictureBox2.TabStop = false;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(8, 140);
+            this.label7.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(137, 24);
+            this.label7.TabIndex = 38;
+            this.label7.Text = "Notional NO:";
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::DVLD_UI.Properties.Resources.person_svgrepo;
@@ -440,6 +430,16 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 37;
             this.pictureBox1.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 92);
+            this.label2.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(81, 24);
+            this.label2.TabIndex = 36;
+            this.label2.Text = "Name :";
             // 
             // ctrlPersonCard
             // 

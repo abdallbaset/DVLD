@@ -29,6 +29,7 @@ namespace DVLD_UI
             clsPeople Person = clsPeople.Find(PersonID);
             if (Person == null)
             {
+                LoadDefaultData();
                 MessageBox.Show($"No Person with ID [{PersonID}] was found in the system.",
                                     "Not Found",
                                     MessageBoxButtons.OK,
@@ -51,8 +52,54 @@ namespace DVLD_UI
             ptb_PersonalPhoto.ImageLocation = (Person.PersonInfo.ImagePath != "") ? Person.PersonInfo.ImagePath : null ;
             
           }
+      public void LoadPersonInfo(string NationalNo)
+        {
+            clsPeople Person = clsPeople.Find(NationalNo);
+            if (Person == null)
+            {
+                LoadDefaultData();
+                MessageBox.Show($"No Person with National Number [{NationalNo}] was found in the system.",
+                                    "Not Found",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Exclamation);
+                return;
+            }
+            _PersonID = Person.PersonInfo.PersonID;
+            lbl_PersonID.Text = Person.PersonInfo.PersonID.ToString();
+            lbl_FullName.Text = Person.PersonInfo.FullName;
+            lbl_NotionalNumber.Text = Person.PersonInfo.NationalNo;
+            lbl_Phone.Text = Person.PersonInfo.phone;
+            lbl_Address.Text = Person.PersonInfo.Address;
+            lbl_Email.Text = Person.PersonInfo.Email;
+            lbl_Gendor.Text =(Person.PersonInfo.Gendor == (byte)enGendor.Male)? "Male" :"Female" ;
+            lbl_Country.Text = clsCountries.GetCountryNameByCountryID(Person.PersonInfo.NationalityCountryID);
+            lbl_DateOfBirth.Text = Person.PersonInfo.DateOfBirth.ToString("dd-MM-yyyy");
+            
+            ptb_Gendor.Image = (Person.PersonInfo.Gendor == (byte)enGendor.Male) ? Properties.Resources.male_svgrepo_com : Properties.Resources.female_svgrepo_com;
+
+            ptb_PersonalPhoto.ImageLocation = (Person.PersonInfo.ImagePath != "") ? Person.PersonInfo.ImagePath : null ;
+            
+          }
 
      
+
+        public void LoadDefaultData ()
+        {
+            _PersonID =-1 ;
+            lbl_PersonID.Text = "???";
+            lbl_FullName.Text = "???";
+            lbl_NotionalNumber.Text = "???";
+            lbl_Phone.Text = "???";
+            lbl_Address.Text = "???";
+            lbl_Email.Text = "???";
+            lbl_Gendor.Text = "???";
+            lbl_Country.Text = "???";
+            lbl_DateOfBirth.Text = "???";
+
+            ptb_Gendor.Image = Properties.Resources.male_svgrepo_com ;
+
+            ptb_PersonalPhoto.ImageLocation = null;
+        }
 
         frmAddAndEditPersonInfo frm;
         private void btn_EditPerson_Click(object sender, EventArgs e)
@@ -70,5 +117,7 @@ namespace DVLD_UI
             frm.ShowDialog();
             LoadPersonInfo(_PersonID);
         }
+
+    
     }
 }
