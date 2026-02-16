@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmManagePeople));
             this.dgv_ListPeople = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -62,6 +63,14 @@
             this.dgv_ListPeople.AllowUserToOrderColumns = true;
             this.dgv_ListPeople.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgv_ListPeople.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_ListPeople.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgv_ListPeople.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_ListPeople.ContextMenuStrip = this.contextMenuStrip1;
             this.dgv_ListPeople.Location = new System.Drawing.Point(12, 352);
@@ -71,6 +80,7 @@
             this.dgv_ListPeople.RowTemplate.Height = 26;
             this.dgv_ListPeople.Size = new System.Drawing.Size(1308, 438);
             this.dgv_ListPeople.TabIndex = 2;
+            this.dgv_ListPeople.DoubleClick += new System.EventHandler(this.dgv_ListPeople_DoubleClick);
             // 
             // contextMenuStrip1
             // 
@@ -254,6 +264,7 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Image = global::DVLD_UI.Properties.Resources.people;
             this.pictureBox1.Location = new System.Drawing.Point(1, 12);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(1319, 179);

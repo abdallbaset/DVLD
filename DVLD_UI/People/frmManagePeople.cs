@@ -15,14 +15,14 @@ namespace DVLD_UI
     public partial class frmManagePeople : Form
     {
 
-        enum enFilterMode { None , PersonID , NationalNO, FirstName, SecondName , ThirdName , LastName , Nationality , Gendor , Phone , Email }
+        enum enFilterMode { None, PersonID, NationalNO, FirstName, SecondName, ThirdName, LastName, Nationality, Gendor, Phone, Email }
         enFilterMode _FilterMode;
         public frmManagePeople()
         {
             InitializeComponent();
         }
-        private DataView _ListPeople; 
-        
+        private DataView _ListPeople;
+
         private void _GetNumberOfRecords()
         {
             lbl_NumberOfRecords.Text = _ListPeople.Count.ToString();
@@ -32,73 +32,54 @@ namespace DVLD_UI
             DataTable dtPeople = clsPeople.ListPeople();
             _ListPeople = new DataView(dtPeople);
             dgv_ListPeople.DataSource = _ListPeople;
-           _GetNumberOfRecords();
+            _GetNumberOfRecords();
         }
+      
         private void frmManagePeople_Load(object sender, EventArgs e)
         {
             _RefreshPeopleList();
             cmb_AllFilter.SelectedIndex = cmb_AllFilter.FindString("None");
+
         }
 
 
         private void _FilterResult()
         {
+            string filterExpression = "";
+
             if (string.IsNullOrWhiteSpace(mtxt_Value.Text))
             {
                 _ListPeople.RowFilter = "";
                 return;
             }
 
-            string FilterValue = mtxt_Value.Text.Trim();
+            string filterValue = mtxt_Value.Text.Trim().Replace("'", "''");
 
             switch (_FilterMode)
             {
                 case enFilterMode.PersonID:
-                
-                        _ListPeople.RowFilter = $"PersonID = {FilterValue}";
-                  
+                    filterExpression = $"PersonID = {filterValue}";
                     break;
 
                 case enFilterMode.NationalNO:
-                    _ListPeople.RowFilter = $"NationalNO  LIKE '%{FilterValue}%'";
-                    break;
-
                 case enFilterMode.FirstName:
-                    _ListPeople.RowFilter = $"FirstName LIKE '%{FilterValue}%'";
-                    break;
-
                 case enFilterMode.SecondName:
-                    _ListPeople.RowFilter = $"SecondName LIKE '%{FilterValue}%'";
-                    break;
-
                 case enFilterMode.ThirdName:
-                    _ListPeople.RowFilter = $"ThirdName LIKE '%{FilterValue}%'";
-                    break;
-
                 case enFilterMode.LastName:
-                    _ListPeople.RowFilter = $"LastName LIKE '%{FilterValue}%'";
-                    break;
-
                 case enFilterMode.Nationality:
-                    _ListPeople.RowFilter = $"Nationality LIKE '%{FilterValue}%'";
-                    break;
-
                 case enFilterMode.Gendor:
-                    _ListPeople.RowFilter = $"Gendor LIKE '%{FilterValue}%'";
-                    break;
-
                 case enFilterMode.Phone:
-                    _ListPeople.RowFilter = $"Phone LIKE '%{FilterValue}%'";
-                    break;
-
                 case enFilterMode.Email:
-                    _ListPeople.RowFilter = $"Email LIKE '%{FilterValue}%'";
+
+                    filterExpression = $"{_FilterMode} LIKE '%{filterValue}%'";
                     break;
 
                 default:
-                    _ListPeople.RowFilter = "";
+                    filterExpression = "";
                     break;
             }
+
+            _ListPeople.RowFilter = filterExpression;
         }
 
         private void btn_Close_Click(object sender, EventArgs e)
@@ -115,48 +96,43 @@ namespace DVLD_UI
         private void cmb_AllFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             _FilterMode = (enFilterMode)cmb_AllFilter.SelectedIndex;
-          
+
 
             if (_FilterMode == enFilterMode.None)
             {
                 _RefreshPeopleList();
                 mtxt_Value.Visible = false;
             }
-          else
-            {
-                mtxt_Value.Visible = true;
-            }
-        }
-
-       private void _ShowFormAddNewPerson()
-        {
-            frmAddAndEditPersonInfo frm = new frmAddAndEditPersonInfo(-1);
-            frm.ShowDialog();
-            _RefreshPeopleList();
-        }
-       private void _ShowFormEditPerson()
-        {
-            if (dgv_ListPeople.Rows.Count > 0 && dgv_ListPeople.CurrentRow != null)
-            {
-                int PersonID = Convert.ToInt32(dgv_ListPeople.CurrentRow.Cells["PersonID"].Value);
-
-                frmAddAndEditPersonInfo frmPersonDetails = new frmAddAndEditPersonInfo(PersonID);
-                frmPersonDetails.ShowDialog();
-                _RefreshPeopleList();
-            }
             else
             {
-                MessageBox.Show("Please select a person first!", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                mtxt_Value.Visible = true;
+                mtxt_Value.Clear();
+                mtxt_Value.Focus();
             }
         }
 
 
-        private void btn_AddPerson_Click(object sender, EventArgs e)
+        private void _ShowFormAddAndEditPerson(int PersonID = -1)
         {
-            _ShowFormAddNewPerson();
+            frmAddAndEditPersonInfo frm;
+            if (PersonID == -1)
+            {
+                frm = new frmAddAndEditPersonInfo(PersonID);
+                frm.ShowDialog();
+                _RefreshPeopleList();
+                return;
+            }
+
+
+
+
+            frm = new frmAddAndEditPersonInfo(PersonID);
+            frm.ShowDialog();
+            _RefreshPeopleList();
+
         }
 
-        private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void _ShowDetailsPerson()
         {
             if (dgv_ListPeople.Rows.Count > 0 && dgv_ListPeople.CurrentRow != null)
             {
@@ -172,13 +148,25 @@ namespace DVLD_UI
             {
                 MessageBox.Show("Please select a person first!", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            
+
+        }
+
+        private void btn_AddPerson_Click(object sender, EventArgs e)
+        {
+            _ShowFormAddAndEditPerson();
+
+        }
+
+        private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            _ShowDetailsPerson();
 
         }
 
         private void mtxt_Value_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (_FilterMode == enFilterMode.PersonID)
+            if (_FilterMode == enFilterMode.PersonID || _FilterMode == enFilterMode.NationalNO || _FilterMode == enFilterMode.Phone)
             {
                 if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)8)
                 {
@@ -195,16 +183,17 @@ namespace DVLD_UI
                MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
                 {
                     int PersonID = Convert.ToInt32(dgv_ListPeople.CurrentRow.Cells["PersonID"].Value);
-                    string ImageDeletingPath = clsPeople.Find(PersonID).PersonInfo.ImagePath;
+                  
 
                     if (clsPeople.IsExist(PersonID))
                     {
+                        string ImageDeletingPath = clsPeople.Find(PersonID).PersonInfo.ImagePath;
                         if (clsPeople.DeletePerson(PersonID))
                         {
                             MessageBox.Show("Person Deleted Successfully.", "Deleted",
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                            clsGlobal.DeletePersonImageOnDisk(ImageDeletingPath);
+                                clsUtil.DeletePersonImageOnDisk(ImageDeletingPath);
 
                             _RefreshPeopleList();
                         }
@@ -226,17 +215,26 @@ namespace DVLD_UI
             {
                 MessageBox.Show("Please select a person first!", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-           
+
         }
 
         private void addNewPersonToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _ShowFormAddNewPerson();
+            _ShowFormAddAndEditPerson();
         }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _ShowFormEditPerson();
+
+            if (dgv_ListPeople.Rows.Count > 0 && dgv_ListPeople.CurrentRow != null)
+            {
+                int PersonID = Convert.ToInt32(dgv_ListPeople.CurrentRow.Cells["PersonID"].Value);
+                _ShowFormAddAndEditPerson(PersonID);
+            }
+            else
+            {
+                MessageBox.Show("Please select a person first!", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
 
@@ -256,5 +254,10 @@ namespace DVLD_UI
         {
             _NotifyNotImplemented();
         }
+
+        private void dgv_ListPeople_DoubleClick(object sender, EventArgs e)
+        {
+            _ShowDetailsPerson();
+        }
     }
-}
+    }

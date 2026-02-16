@@ -1,5 +1,6 @@
 ﻿using DVLD_Business;
 using DVLD_UI.GlobalClasses;
+using DVLD_UI.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,25 +8,33 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TheArtOfDevHtmlRenderer.Adapters;
 
 namespace DVLD_UI
 {
     public partial class frmAddAndEditPersonInfo : Form
     {
+        public delegate void DataBackEventHandler(object sender, int PersonID);
+
+        public event DataBackEventHandler DataBack;
+
+
         enum enMode { AddNew, Edit }
         enum enGendor : byte { Male = 0, Female = 1 }
 
         private enMode _Mode;
         private int _PersonID;
         private clsPeople _Person;
-        private string _SelectedImagePath ="";
-        private string _OldPathImage = "";
+    
 
         public frmAddAndEditPersonInfo(int PersonID)
         {
+             
+
             InitializeComponent();
             if (PersonID == -1)
             {
@@ -40,7 +49,7 @@ namespace DVLD_UI
             _PersonID = PersonID;
 
         }
-        public void FillCountryInCombBx()
+        public void _FillCountriesInComoboBox()
         {
             DataTable dtCountry = clsCountries.GetAllCountry();
             foreach (DataRow dr in dtCountry.Rows)
@@ -48,26 +57,61 @@ namespace DVLD_UI
                 cmb_Countrys.Items.Add(dr["CountryName"].ToString());
             }
         }
-        private void _loadData()
+
+
+        private void _ResetDefualtValues()
         {
-
-            FillCountryInCombBx();
-            dtp_DateOfBirth.MaxDate = DateTime.Now.AddYears(-18);
-            dtp_DateOfBirth.Value = dtp_DateOfBirth.MaxDate;
-            rdb_Male.Checked = true;
-            cmb_Countrys.SelectedIndex = cmb_Countrys.FindString("libya");
-
+            _FillCountriesInComoboBox();
 
             if (_Mode == enMode.AddNew)
             {
                 lbl_Mode.Text = "Add New Person";
                 _Person = new clsPeople();
-                btn_RemoveImage.Visible = false;
-                return;
+
+            }
+            else
+            {
+                lbl_Mode.Text = "Update Person";
             }
 
-            lbl_Mode.Text = "Update Person";
+            rdb_Male.Checked = true;
+
+            if (rdb_Male.Checked)
+                ptb_PersonImage.Image = Properties.Resources.male_Man_face; 
+            else
+                ptb_PersonImage.Image = Properties.Resources.female_girl_face;
+
+            btn_RemoveImage.Visible = (ptb_PersonImage.ImageLocation != null);
+
+            dtp_DateOfBirth.MaxDate = DateTime.Now.AddYears(-18);
+            dtp_DateOfBirth.Value = dtp_DateOfBirth.MaxDate;
+
+            dtp_DateOfBirth.MinDate = DateTime.Now.AddYears(-100);
+
+            cmb_Countrys.SelectedIndex = cmb_Countrys.FindString("libya");
+
+            txt_FirstName.Text = string.Empty;
+            txt_SecondName.Text = string.Empty;
+            txt_ThirdName.Text = string.Empty;
+            txt_LastName.Text = string.Empty;
+            txt_NotionalNO.Text = string.Empty;
+          
+            txt_Phone.Text = string.Empty;
+            txt_Email.Text = string.Empty;
+            txt_Address.Text = string.Empty;
+
+
+        }
+        private void _loadData()
+        {
             _Person = clsPeople.Find(_PersonID);
+
+            if (_Person == null)
+            {
+                MessageBox.Show("No Person with ID = " + _PersonID, "Person Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                this.Close();
+                return;
+            }
 
             if (_Person != null)
             {
@@ -90,15 +134,14 @@ namespace DVLD_UI
                 txt_Address.Text = _Person.PersonInfo.Address;
                 if (_Person.PersonInfo.ImagePath != "")
                 {
-                    ptb_Image.ImageLocation = _Person.PersonInfo.ImagePath;
-                    _OldPathImage = ptb_Image.ImageLocation;
+                    ptb_PersonImage.ImageLocation = _Person.PersonInfo.ImagePath;
                 }
                 else
                 {
-                    ptb_Image.Image = null;
+                    ptb_PersonImage.Image = null;
                 }
 
-                btn_RemoveImage.Visible = (ptb_Image.ImageLocation != null);
+                btn_RemoveImage.Visible = (ptb_PersonImage.ImageLocation != null);
 
             }
 
@@ -111,87 +154,53 @@ namespace DVLD_UI
 
             TextBox activeTextBox = sender as TextBox;
 
-            if (string.IsNullOrEmpty(activeTextBox.Text))
+            if (string.IsNullOrEmpty(activeTextBox.Text.Trim()))
             {
                 e.Cancel = true;
                 errorProvider1.SetError(activeTextBox, $"{activeTextBox.Tag} is required");
             }
             else
             {
-
-                if (clsPeople.IsExist(activeTextBox.Text) && activeTextBox.Text != _Person.PersonInfo.NationalNo.ToString())
-                {
-                    e.Cancel = true;
-                    errorProvider1.SetError(activeTextBox, $"{activeTextBox.Tag} is Used For another Person!");
-                }
-                else
-                {
-                    e.Cancel = false;
+                
                     errorProvider1.SetError(activeTextBox, "");
-
-                }
+                
             }
 
         }
 
-        private  string _SaveImageToProjectFolder(string sourceFile)
-        {
-            string folderPath = @"C:\DVLD-People-Images\";
 
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
-            }
-
-            string extension = Path.GetExtension(sourceFile);
-            string newFileName = Guid.NewGuid().ToString() + extension;
-
-            string destinationFile = Path.Combine(folderPath, newFileName);
-
-            try
-            {
-                File.Copy(sourceFile, destinationFile, true);
-
-                return destinationFile;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error saving image: " + ex.Message);
-                return null;
-            }
-        }
 
         private bool _HandlePersonImage()
         {
-          
-            if (_Person.PersonInfo.ImagePath == _SelectedImagePath)
+
+       
+            if (_Person.PersonInfo.ImagePath != ptb_PersonImage.ImageLocation)
             {
-                return true;
-            }
-
-                clsGlobal.DeletePersonImageOnDisk(_Person.PersonInfo.ImagePath);
-
-
-            if (_SelectedImagePath != "")
-            {
-                string NewPath = _SaveImageToProjectFolder(_SelectedImagePath);
-               
-                if (NewPath != "")
+                if (_Person.PersonInfo.ImagePath != "")
                 {
-                    _Person.PersonInfo.ImagePath = NewPath;
-                    _OldPathImage = NewPath;
-                    return true;
-                }
-                else
-                    return false;
-            }
-            else
-            {
-                _Person.PersonInfo.ImagePath = "";
-                return true;
-            }
-        }
 
+                    clsUtil.DeletePersonImageOnDisk(_Person.PersonInfo.ImagePath);
+                }
+
+                if (ptb_PersonImage.ImageLocation != null)
+                {
+                    string SourceImageFile = ptb_PersonImage.ImageLocation.ToString();
+
+                    if (clsUtil.CopyImageToProjectImagesFolder(ref SourceImageFile))
+                    {
+                        ptb_PersonImage.ImageLocation = SourceImageFile;
+                        return true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error Copying Image File", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                }
+
+            }
+            return true;
+        }
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
@@ -204,48 +213,36 @@ namespace DVLD_UI
                 return;
             }
 
-            int CountryID = clsCountries.GetCountryIDByCountryName(cmb_Countrys.Text);
-
-            _Person.PersonInfo.FirstName = txt_FirstName.Text;
-            _Person.PersonInfo.SecondName = txt_SecondName.Text;
-            _Person.PersonInfo.ThirdName = txt_ThirdName.Text;
-            _Person.PersonInfo.LastName = txt_LastName.Text;
-            _Person.PersonInfo.NationalNo = txt_NotionalNO.Text;
-            _Person.PersonInfo.DateOfBirth = dtp_DateOfBirth.Value;
-            _Person.PersonInfo.Gendor = (rdb_Male.Checked) ? (byte)enGendor.Male : (byte)enGendor.Female;
-            _Person.PersonInfo.phone = txt_Phone.Text;
-            _Person.PersonInfo.Email = txt_Email.Text;
-            _Person.PersonInfo.NationalityCountryID = CountryID;
-            _Person.PersonInfo.Address = txt_Address.Text;
-
-            if(_Mode == enMode.AddNew)
-            _Person.PersonInfo.ImagePath = "";
-            else
-            {
-                _Person.PersonInfo.ImagePath = (ptb_Image.Image != null) ? _OldPathImage : "";
-
-            }
-
-
             if (!_HandlePersonImage())
             {
-                MessageBox.Show("Could not save the image. Please check the file path or try again with a different image.",
-                     "Image Save Error",
-                     MessageBoxButtons.OK,
-                     MessageBoxIcon.Error);
-
+                return;
             }
 
-         
 
+            int CountryID = clsCountries.GetCountryIDByCountryName(cmb_Countrys.Text);
 
+            _Person.PersonInfo.FirstName = txt_FirstName.Text.Trim();
+            _Person.PersonInfo.SecondName = txt_SecondName.Text.Trim();
+            _Person.PersonInfo.ThirdName = txt_ThirdName.Text.Trim();
+            _Person.PersonInfo.LastName = txt_LastName.Text.Trim();
+            _Person.PersonInfo.NationalNo = txt_NotionalNO.Text.Trim();
+            _Person.PersonInfo.DateOfBirth = dtp_DateOfBirth.Value;
+            _Person.PersonInfo.Gendor = (rdb_Male.Checked) ? (byte)enGendor.Male : (byte)enGendor.Female;
+            _Person.PersonInfo.phone = txt_Phone.Text.Trim();
+            _Person.PersonInfo.Email = txt_Email.Text.Trim();
+            _Person.PersonInfo.NationalityCountryID = CountryID;
+            _Person.PersonInfo.Address = txt_Address.Text.Trim();  
+            _Person.PersonInfo.ImagePath = (ptb_PersonImage.ImageLocation != null) ? ptb_PersonImage.ImageLocation : "";
+
+           
 
             if (_Person.Save())
             {
-                MessageBox.Show("Person information saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 lbl_Mode.Text = "Update Person";
                 lbl_PersonID.Text = _Person.PersonInfo.PersonID.ToString();
                 _Mode = enMode.Edit;
+                MessageBox.Show("Person information saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DataBack?.Invoke(this, _Person.PersonInfo.PersonID);
             }
             else
             {
@@ -254,53 +251,55 @@ namespace DVLD_UI
             }
 
         }
-        private void rdb_Male_Female_CheckedChanged(object sender, EventArgs e)
-        {
-
-            ptb_Image.Image = (rdb_Male.Checked) ? Properties.Resources.male_Man_face : Properties.Resources.female_girl_face;
-
-
-        }
+  
 
         private void txt_Email_Validating(object sender, CancelEventArgs e)
         {
 
-            string Email = txt_Email.Text;
-            if (!Email.Contains("@gmail.com") && txt_Email.Text != "")
+
+            if (string.IsNullOrWhiteSpace(txt_Email.Text)) return;
+
+            if (!clsValidatoin.ValidateEmail(txt_Email.Text.Trim()))
             {
                 e.Cancel = true;
                 errorProvider1.SetError(txt_Email, $"Valid Email Address Format!");
             }
             else
             {
-                e.Cancel = false;
                 errorProvider1.SetError(txt_Email, "");
 
             }
         }
         private void frmAddAndEditPersonInfo_Load(object sender, EventArgs e)
         {
-            _loadData();
+            _ResetDefualtValues();
+
+            if(_Mode == enMode.Edit)
+                _loadData();
         }
 
 
 
         private void btn_SetImage_Click(object sender, EventArgs e)
         {
+            openFileDialog1.Filter = "JPEG Files (*.jpg;*.jpeg)|*.jpg;*.jpeg|PNG Files (*.png)|*.png|BMP Files (*.bmp)|*.bmp";
+            openFileDialog1.FilterIndex = 1;
+            openFileDialog1.RestoreDirectory = true;
+
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                ptb_Image.ImageLocation = openFileDialog1.FileName;
-                _SelectedImagePath = openFileDialog1.FileName;
+                ptb_PersonImage.ImageLocation = openFileDialog1.FileName;
                 btn_RemoveImage.Visible = true;
             }
         }
 
         private void btn_RemoveImage_Click(object sender, EventArgs e)
         {
-            ptb_Image.Image = null;
+            ptb_PersonImage.ImageLocation = null;
             btn_RemoveImage.Visible = false;
-            _SelectedImagePath = "";
-            clsGlobal.DeletePersonImageOnDisk(_OldPathImage);
+
+            ptb_PersonImage.Image = (rdb_Male.Checked) ? Properties.Resources.male_Man_face : Properties.Resources.female_girl_face;
+
         }
 
         private void btn_Close_Click(object sender, EventArgs e)
@@ -322,6 +321,59 @@ namespace DVLD_UI
             {
                 e.Handled = true;
             }
+        }
+
+        private void rdb_Male_Click(object sender, EventArgs e)
+        {
+            if (ptb_PersonImage.ImageLocation == null)
+                ptb_PersonImage.Image = Properties.Resources.male_Man_face; 
+        }
+
+        private void rdb_Female_Click(object sender, EventArgs e)
+        {
+            if (ptb_PersonImage.ImageLocation == null)
+                ptb_PersonImage.Image = Properties.Resources.female_girl_face;
+        }
+
+        private void txt_NotionalNO_Validating(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrEmpty(txt_NotionalNO.Text))
+            {
+                 e.Cancel = true;
+                errorProvider1.SetError(txt_NotionalNO, $"{txt_NotionalNO.Tag} is required");
+            }
+            else
+
+            { 
+
+               errorProvider1.SetError(txt_NotionalNO, "");
+                
+
+            }
+
+            if (clsPeople.IsExist(txt_NotionalNO.Text) && txt_NotionalNO.Text.Trim() != _Person.PersonInfo.NationalNo)
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(txt_NotionalNO, $"{txt_NotionalNO.Tag} is Used For another Person!");
+            }
+            else
+            {
+
+                errorProvider1.SetError(txt_NotionalNO, "");
+            }
+
+        }
+
+        private void txt_Email_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsLetterOrDigit(e.KeyChar)) return;
+
+            if (char.IsControl(e.KeyChar)) return;
+
+            if (e.KeyChar == '@' || e.KeyChar == '.' || e.KeyChar == '_' ) return;
+
+          
+            e.Handled = true;
         }
     }
 }

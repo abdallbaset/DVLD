@@ -40,7 +40,7 @@
             this.txt_Address = new System.Windows.Forms.TextBox();
             this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.ptb_Image = new System.Windows.Forms.PictureBox();
+            this.ptb_PersonImage = new System.Windows.Forms.PictureBox();
             this.cmb_Countrys = new System.Windows.Forms.ComboBox();
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -78,7 +78,7 @@
             this.pictureBox9 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ptb_Image)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ptb_PersonImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
@@ -113,7 +113,7 @@
             this.panel1.Controls.Add(this.txt_Address);
             this.panel1.Controls.Add(this.pictureBox10);
             this.panel1.Controls.Add(this.label13);
-            this.panel1.Controls.Add(this.ptb_Image);
+            this.panel1.Controls.Add(this.ptb_PersonImage);
             this.panel1.Controls.Add(this.cmb_Countrys);
             this.panel1.Controls.Add(this.pictureBox8);
             this.panel1.Controls.Add(this.label12);
@@ -258,16 +258,16 @@
             this.label13.TabIndex = 32;
             this.label13.Text = "Address:";
             // 
-            // ptb_Image
+            // ptb_PersonImage
             // 
-            this.ptb_Image.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ptb_Image.Location = new System.Drawing.Point(1005, 118);
-            this.ptb_Image.Margin = new System.Windows.Forms.Padding(4);
-            this.ptb_Image.Name = "ptb_Image";
-            this.ptb_Image.Size = new System.Drawing.Size(214, 212);
-            this.ptb_Image.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.ptb_Image.TabIndex = 31;
-            this.ptb_Image.TabStop = false;
+            this.ptb_PersonImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ptb_PersonImage.Location = new System.Drawing.Point(1005, 118);
+            this.ptb_PersonImage.Margin = new System.Windows.Forms.Padding(4);
+            this.ptb_PersonImage.Name = "ptb_PersonImage";
+            this.ptb_PersonImage.Size = new System.Drawing.Size(214, 212);
+            this.ptb_PersonImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.ptb_PersonImage.TabIndex = 31;
+            this.ptb_PersonImage.TabStop = false;
             // 
             // cmb_Countrys
             // 
@@ -361,6 +361,7 @@
             this.txt_Email.Size = new System.Drawing.Size(308, 32);
             this.txt_Email.TabIndex = 9;
             this.txt_Email.Tag = "Email";
+            this.txt_Email.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Email_KeyPress);
             this.txt_Email.Validating += new System.ComponentModel.CancelEventHandler(this.txt_Email_Validating);
             // 
             // label10
@@ -405,7 +406,7 @@
             this.rdb_Female.TabStop = true;
             this.rdb_Female.Text = "Female";
             this.rdb_Female.UseVisualStyleBackColor = true;
-            this.rdb_Female.CheckedChanged += new System.EventHandler(this.rdb_Male_Female_CheckedChanged);
+            this.rdb_Female.Click += new System.EventHandler(this.rdb_Female_Click);
             // 
             // pictureBox4
             // 
@@ -429,7 +430,7 @@
             this.rdb_Male.TabStop = true;
             this.rdb_Male.Text = "Male";
             this.rdb_Male.UseVisualStyleBackColor = true;
-            this.rdb_Male.CheckedChanged += new System.EventHandler(this.rdb_Male_Female_CheckedChanged);
+            this.rdb_Male.Click += new System.EventHandler(this.rdb_Male_Click);
             // 
             // pictureBox3
             // 
@@ -462,7 +463,7 @@
             this.txt_NotionalNO.TabIndex = 4;
             this.txt_NotionalNO.Tag = "Notional Number";
             this.txt_NotionalNO.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_NotionalNO_KeyPress);
-            this.txt_NotionalNO.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Validating);
+            this.txt_NotionalNO.Validating += new System.ComponentModel.CancelEventHandler(this.txt_NotionalNO_Validating);
             // 
             // pictureBox2
             // 
@@ -654,7 +655,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ptb_Image)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ptb_PersonImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
@@ -681,7 +682,7 @@
         private System.Windows.Forms.TextBox txt_Address;
         private System.Windows.Forms.PictureBox pictureBox10;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.PictureBox ptb_Image;
+        private System.Windows.Forms.PictureBox ptb_PersonImage;
         private System.Windows.Forms.ComboBox cmb_Countrys;
         private System.Windows.Forms.PictureBox pictureBox8;
         private System.Windows.Forms.Label label12;
