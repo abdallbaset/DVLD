@@ -16,12 +16,12 @@ namespace DVLD_UI
         {
             InitializeComponent();
         }
-        private frmManagePeople _frmManagePeople;
+          
         private void peopleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _frmManagePeople = new frmManagePeople();
-            _frmManagePeople.MdiParent = this;
-            _frmManagePeople.Show();
+            frmManagePeople frmManagePeople = new frmManagePeople();
+            frmManagePeople.MdiParent = this;
+            frmManagePeople.Show();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DVLD_UI.Users;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,8 +17,10 @@ namespace DVLD_UI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMain());
+           Application.Run(new frmMain());
+            //Application.Run(new frmManageUsers());
             //Application.Run(new frmTest());
+        //    Application.Run(new frmAddNewAndEditUser());
 
         }
     }
