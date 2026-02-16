@@ -31,9 +31,9 @@ namespace DVLD_Business
 
         public static clsPeople Find(int PersonId)
         {
-            clsPeopleModel PersonInfo = new clsPeopleModel();
+            clsPeopleModel PersonInfo = clsPeopleData.GetPersonInfoByID(PersonId);
 
-            if (clsPeopleData.GetPersonInfoByID(PersonId , PersonInfo))
+            if (PersonInfo != null)
             {
                 return new clsPeople(PersonInfo);
             }
@@ -42,9 +42,9 @@ namespace DVLD_Business
         }
         public static clsPeople Find(string NationalNo)
         {
-            clsPeopleModel PersonInfo = new clsPeopleModel();
+            clsPeopleModel PersonInfo = clsPeopleData.GetPersonInfoByNationalNo(NationalNo);
 
-            if (clsPeopleData.GetPersonInfoByNationalNo(NationalNo,  PersonInfo))
+            if (PersonInfo != null)
             {
                 return new clsPeople(PersonInfo);
             }
