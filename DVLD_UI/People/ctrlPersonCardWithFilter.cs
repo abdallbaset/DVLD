@@ -57,6 +57,10 @@ namespace DVLD_UI.Controls
             }
 
         }
+        public void DisableFilter()
+        {
+            grb_Filter.Enabled = false;
+        }
         private void cmb_AllFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             _FilterMode = (enFilterMode)cmb_AllFilter.SelectedIndex;

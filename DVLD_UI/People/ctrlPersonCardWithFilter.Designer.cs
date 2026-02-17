@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ctrlPersonCardWithFilter));
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.grb_Filter = new System.Windows.Forms.GroupBox();
             this.btn_Research = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.mtxt_Value = new System.Windows.Forms.MaskedTextBox();
@@ -38,23 +38,23 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btn_AddPerson = new System.Windows.Forms.Button();
             this.ctrlPersonCard = new DVLD_UI.ctrlPersonCard();
-            this.groupBox1.SuspendLayout();
+            this.grb_Filter.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox1
+            // grb_Filter
             // 
-            this.groupBox1.Controls.Add(this.btn_Research);
-            this.groupBox1.Controls.Add(this.mtxt_Value);
-            this.groupBox1.Controls.Add(this.cmb_AllFilter);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.btn_AddPerson);
-            this.groupBox1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(5, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1119, 122);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Filter";
+            this.grb_Filter.Controls.Add(this.btn_Research);
+            this.grb_Filter.Controls.Add(this.mtxt_Value);
+            this.grb_Filter.Controls.Add(this.cmb_AllFilter);
+            this.grb_Filter.Controls.Add(this.label2);
+            this.grb_Filter.Controls.Add(this.btn_AddPerson);
+            this.grb_Filter.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grb_Filter.Location = new System.Drawing.Point(5, 3);
+            this.grb_Filter.Name = "grb_Filter";
+            this.grb_Filter.Size = new System.Drawing.Size(1119, 122);
+            this.grb_Filter.TabIndex = 1;
+            this.grb_Filter.TabStop = false;
+            this.grb_Filter.Text = "Filter";
             // 
             // btn_Research
             // 
@@ -134,13 +134,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.grb_Filter);
             this.Controls.Add(this.ctrlPersonCard);
             this.Name = "ctrlPersonCardWithFilter";
             this.Size = new System.Drawing.Size(1129, 504);
             this.Load += new System.EventHandler(this.ctrlPersonCardWithFilter_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.grb_Filter.ResumeLayout(false);
+            this.grb_Filter.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -148,7 +148,7 @@
         #endregion
 
         private ctrlPersonCard ctrlPersonCard;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox grb_Filter;
         private System.Windows.Forms.Button btn_Research;
         private System.Windows.Forms.MaskedTextBox mtxt_Value;
         private System.Windows.Forms.ComboBox cmb_AllFilter;
