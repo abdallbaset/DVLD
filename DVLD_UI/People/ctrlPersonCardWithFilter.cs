@@ -80,7 +80,14 @@ namespace DVLD_UI.Controls
         private void btn_AddPerson_Click(object sender, EventArgs e)
         {
             frmAddAndEditPersonInfo frm = new frmAddAndEditPersonInfo(-1);
+            frm.DataBack += OnPersonDataReceived;
             frm.ShowDialog();
+        }
+
+        private void OnPersonDataReceived(object sender, int PersonID)
+        {
+            mtxt_Value.Text = PersonID.ToString();
+            ctrlPersonCard.LoadPersonInfo(PersonID);
         }
     }
 }
