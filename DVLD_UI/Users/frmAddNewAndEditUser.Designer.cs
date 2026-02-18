@@ -33,35 +33,35 @@
             this.lbl_Mode = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tp_PersonInfo = new System.Windows.Forms.TabPage();
-            this.btn_Next = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.ctrlPersonCardWithFilter1 = new DVLD_UI.Controls.ctrlPersonCardWithFilter();
             this.tp_LoginInfo = new System.Windows.Forms.TabPage();
-            this.btn_Back = new System.Windows.Forms.Button();
             this.ckb_IsActive = new System.Windows.Forms.CheckBox();
             this.txt_ConfirmPassWord = new System.Windows.Forms.TextBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txt_PassWord = new System.Windows.Forms.TextBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txt_UserName = new System.Windows.Forms.TextBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
             this.lbl_UserID = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.btn_Close = new System.Windows.Forms.Button();
-            this.btn_Save = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btn_Close = new System.Windows.Forms.Button();
+            this.btn_Next = new System.Windows.Forms.Button();
+            this.btn_Back = new System.Windows.Forms.Button();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btn_Save = new System.Windows.Forms.Button();
+            this.ctrlPersonCardWithFilter1 = new DVLD_UI.Controls.ctrlPersonCardWithFilter();
             this.tabControl1.SuspendLayout();
             this.tp_PersonInfo.SuspendLayout();
             this.tp_LoginInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // lbl_Mode
@@ -102,24 +102,6 @@
             this.tp_PersonInfo.UseVisualStyleBackColor = true;
             this.tp_PersonInfo.Click += new System.EventHandler(this.tp_PersonInfo_Click);
             // 
-            // btn_Next
-            // 
-            this.btn_Next.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btn_Next.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Next.Font = new System.Drawing.Font("Tahoma", 12F);
-            this.btn_Next.ForeColor = System.Drawing.Color.White;
-            this.btn_Next.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btn_Next.ImageIndex = 2;
-            this.btn_Next.ImageList = this.imageList1;
-            this.btn_Next.Location = new System.Drawing.Point(1015, 547);
-            this.btn_Next.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_Next.Name = "btn_Next";
-            this.btn_Next.Size = new System.Drawing.Size(115, 52);
-            this.btn_Next.TabIndex = 17;
-            this.btn_Next.Text = "Next";
-            this.btn_Next.UseVisualStyleBackColor = false;
-            this.btn_Next.Click += new System.EventHandler(this.btn_Next_Click);
-            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
@@ -129,30 +111,22 @@
             this.imageList1.Images.SetKeyName(2, "next.png");
             this.imageList1.Images.SetKeyName(3, "chevron-back.png");
             // 
-            // ctrlPersonCardWithFilter1
-            // 
-            this.ctrlPersonCardWithFilter1.Location = new System.Drawing.Point(19, 36);
-            this.ctrlPersonCardWithFilter1.Name = "ctrlPersonCardWithFilter1";
-            this.ctrlPersonCardWithFilter1.Size = new System.Drawing.Size(1129, 504);
-            this.ctrlPersonCardWithFilter1.TabIndex = 0;
-            this.ctrlPersonCardWithFilter1.Load += new System.EventHandler(this.ctrlPersonCardWithFilter1_Load);
-            // 
             // tp_LoginInfo
             // 
             this.tp_LoginInfo.Controls.Add(this.btn_Back);
             this.tp_LoginInfo.Controls.Add(this.ckb_IsActive);
             this.tp_LoginInfo.Controls.Add(this.txt_ConfirmPassWord);
-            this.tp_LoginInfo.Controls.Add(this.pictureBox4);
             this.tp_LoginInfo.Controls.Add(this.label3);
             this.tp_LoginInfo.Controls.Add(this.txt_PassWord);
-            this.tp_LoginInfo.Controls.Add(this.pictureBox3);
             this.tp_LoginInfo.Controls.Add(this.label2);
             this.tp_LoginInfo.Controls.Add(this.txt_UserName);
-            this.tp_LoginInfo.Controls.Add(this.pictureBox2);
             this.tp_LoginInfo.Controls.Add(this.label4);
             this.tp_LoginInfo.Controls.Add(this.lbl_UserID);
-            this.tp_LoginInfo.Controls.Add(this.pictureBox1);
             this.tp_LoginInfo.Controls.Add(this.label1);
+            this.tp_LoginInfo.Controls.Add(this.pictureBox4);
+            this.tp_LoginInfo.Controls.Add(this.pictureBox3);
+            this.tp_LoginInfo.Controls.Add(this.pictureBox2);
+            this.tp_LoginInfo.Controls.Add(this.pictureBox1);
             this.tp_LoginInfo.Location = new System.Drawing.Point(4, 33);
             this.tp_LoginInfo.Name = "tp_LoginInfo";
             this.tp_LoginInfo.Padding = new System.Windows.Forms.Padding(3);
@@ -160,24 +134,6 @@
             this.tp_LoginInfo.TabIndex = 1;
             this.tp_LoginInfo.Text = "Login Info";
             this.tp_LoginInfo.UseVisualStyleBackColor = true;
-            // 
-            // btn_Back
-            // 
-            this.btn_Back.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btn_Back.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Back.Font = new System.Drawing.Font("Tahoma", 12F);
-            this.btn_Back.ForeColor = System.Drawing.Color.White;
-            this.btn_Back.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_Back.ImageIndex = 3;
-            this.btn_Back.ImageList = this.imageList1;
-            this.btn_Back.Location = new System.Drawing.Point(7, 558);
-            this.btn_Back.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_Back.Name = "btn_Back";
-            this.btn_Back.Size = new System.Drawing.Size(115, 52);
-            this.btn_Back.TabIndex = 69;
-            this.btn_Back.Text = "Back";
-            this.btn_Back.UseVisualStyleBackColor = false;
-            this.btn_Back.Click += new System.EventHandler(this.btn_Back_Click);
             // 
             // ckb_IsActive
             // 
@@ -201,16 +157,6 @@
             this.txt_ConfirmPassWord.Tag = "Confirm PassWord";
             this.txt_ConfirmPassWord.Validating += new System.ComponentModel.CancelEventHandler(this.txt_ConfirmPassWord_Validating);
             // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(255, 223);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(31, 28);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 66;
-            this.pictureBox4.TabStop = false;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -233,16 +179,6 @@
             this.txt_PassWord.Tag = "Pass Word";
             this.txt_PassWord.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Validating);
             // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(255, 167);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(31, 28);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox3.TabIndex = 63;
-            this.pictureBox3.TabStop = false;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -263,16 +199,6 @@
             this.txt_UserName.TabIndex = 61;
             this.txt_UserName.Tag = "User Name";
             this.txt_UserName.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Validating);
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(255, 109);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(31, 28);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 59;
-            this.pictureBox2.TabStop = false;
             // 
             // label4
             // 
@@ -296,16 +222,6 @@
             this.lbl_UserID.TabIndex = 56;
             this.lbl_UserID.Text = "???";
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(255, 52);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(31, 28);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 55;
-            this.pictureBox1.TabStop = false;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -316,6 +232,10 @@
             this.label1.Size = new System.Drawing.Size(91, 22);
             this.label1.TabIndex = 54;
             this.label1.Text = "User ID :";
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
             // 
             // btn_Close
             // 
@@ -336,6 +256,82 @@
             this.btn_Close.UseVisualStyleBackColor = false;
             this.btn_Close.Click += new System.EventHandler(this.btn_Close_Click);
             // 
+            // btn_Next
+            // 
+            this.btn_Next.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btn_Next.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Next.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.btn_Next.ForeColor = System.Drawing.Color.White;
+            this.btn_Next.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_Next.ImageIndex = 2;
+            this.btn_Next.ImageList = this.imageList1;
+            this.btn_Next.Location = new System.Drawing.Point(1015, 547);
+            this.btn_Next.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_Next.Name = "btn_Next";
+            this.btn_Next.Size = new System.Drawing.Size(115, 52);
+            this.btn_Next.TabIndex = 17;
+            this.btn_Next.Text = "Next";
+            this.btn_Next.UseVisualStyleBackColor = false;
+            this.btn_Next.Click += new System.EventHandler(this.btn_Next_Click);
+            // 
+            // btn_Back
+            // 
+            this.btn_Back.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btn_Back.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Back.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.btn_Back.ForeColor = System.Drawing.Color.White;
+            this.btn_Back.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_Back.ImageIndex = 3;
+            this.btn_Back.ImageList = this.imageList1;
+            this.btn_Back.Location = new System.Drawing.Point(7, 558);
+            this.btn_Back.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_Back.Name = "btn_Back";
+            this.btn_Back.Size = new System.Drawing.Size(115, 52);
+            this.btn_Back.TabIndex = 69;
+            this.btn_Back.Text = "Back";
+            this.btn_Back.UseVisualStyleBackColor = false;
+            this.btn_Back.Click += new System.EventHandler(this.btn_Back_Click);
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
+            this.pictureBox4.Location = new System.Drawing.Point(255, 223);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(31, 28);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox4.TabIndex = 66;
+            this.pictureBox4.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(255, 167);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(31, 28);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 63;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(255, 109);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(31, 28);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 59;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(255, 52);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(31, 28);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 55;
+            this.pictureBox1.TabStop = false;
+            // 
             // btn_Save
             // 
             this.btn_Save.BackColor = System.Drawing.Color.Green;
@@ -355,9 +351,13 @@
             this.btn_Save.UseVisualStyleBackColor = false;
             this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
-            // errorProvider1
+            // ctrlPersonCardWithFilter1
             // 
-            this.errorProvider1.ContainerControl = this;
+            this.ctrlPersonCardWithFilter1.Location = new System.Drawing.Point(19, 36);
+            this.ctrlPersonCardWithFilter1.Name = "ctrlPersonCardWithFilter1";
+            this.ctrlPersonCardWithFilter1.Size = new System.Drawing.Size(1129, 504);
+            this.ctrlPersonCardWithFilter1.TabIndex = 0;
+            this.ctrlPersonCardWithFilter1.Load += new System.EventHandler(this.ctrlPersonCardWithFilter1_Load);
             // 
             // frmAddNewAndEditUser
             // 
@@ -371,17 +371,18 @@
             this.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "frmAddNewAndEditUser";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AddNewAndEditUser";
             this.Load += new System.EventHandler(this.frmAddNewAndEditUser_Load);
             this.tabControl1.ResumeLayout(false);
             this.tp_PersonInfo.ResumeLayout(false);
             this.tp_LoginInfo.ResumeLayout(false);
             this.tp_LoginInfo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
