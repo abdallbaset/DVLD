@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DVLD_UI.Users;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -22,6 +23,13 @@ namespace DVLD_UI
             frmManagePeople frmManagePeople = new frmManagePeople();
             frmManagePeople.MdiParent = this;
             frmManagePeople.Show();
+        }
+
+        private void usersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmManageUsers frmManageUsers = new frmManageUsers();
+            frmManageUsers.MdiParent = this;
+            frmManageUsers.Show();
         }
     }
 }
