@@ -143,7 +143,39 @@ namespace DVLD_UI.Users
 
         private void btn_AddNewUser_Click(object sender, EventArgs e)
         {
-            
+            frmAddNewAndEditUser frm = new frmAddNewAndEditUser();  
+            frm.ShowDialog();
+            _RefreshUsersList();
+
+        }
+
+        private void _ShowDetailsPerson()
+        {
+            if (dgv_ListUsers.Rows.Count > 0 && dgv_ListUsers.CurrentRow != null)
+            {
+                int UserID = Convert.ToInt32(dgv_ListUsers.CurrentRow.Cells["UserID"].Value);
+                frmUserInfo frmUserDetails = new frmUserInfo(UserID);
+
+                frmUserDetails.ShowDialog();
+                _RefreshUsersList();
+                mtxt_Value.Clear();
+
+            }
+            else
+            {
+                MessageBox.Show("Please select a person first!", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+        }
+
+        private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ShowDetailsPerson();
+        }
+
+        private void dgv_ListUsers_DoubleClick(object sender, EventArgs e)
+        {
+            _ShowDetailsPerson();
         }
     }
 }
