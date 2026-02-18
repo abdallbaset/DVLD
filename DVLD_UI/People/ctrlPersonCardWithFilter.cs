@@ -31,6 +31,13 @@ namespace DVLD_UI.Controls
                 e.Handled = true;
             }
         }
+
+
+        public void LoadPersonInfo(int PersonID)
+        {
+            mtxt_Value.Text = PersonID.ToString();
+            ctrlPersonCard.LoadPersonInfo(PersonID);
+        }
         
 
         private void _FilterResult()
