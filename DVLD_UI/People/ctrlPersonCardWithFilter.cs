@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DVLD_Business;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,7 +19,11 @@ namespace DVLD_UI.Controls
         {
             InitializeComponent();
         }
-
+       public bool IsPersonExist = false;
+        public int PersonID
+        { 
+            get { return ctrlPersonCard.PersonID; }
+        }
         private void mtxt_Value_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)8)
@@ -26,6 +31,8 @@ namespace DVLD_UI.Controls
                 e.Handled = true;
             }
         }
+        
+
         private void _FilterResult()
         {
 
@@ -37,19 +44,28 @@ namespace DVLD_UI.Controls
             }
 
             
-            string filterValue = mtxt_Value.Text.Trim().Replace("'", "''");
+            string filterValue = mtxt_Value.Text.Trim();
+
+
 
             switch (_FilterMode)
             {
                 case enFilterMode.PersonID:
-                    int PersonID = Convert.ToInt32(filterValue);
-                   ctrlPersonCard.LoadPersonInfo(PersonID);
+
+                   int PersonID = Convert.ToInt32(filterValue);
+
+                    IsPersonExist= (clsPeople.IsExist(PersonID))? true : false;
+
+
+                    ctrlPersonCard.LoadPersonInfo(PersonID);
                     break;
 
                 case enFilterMode.NationalNO:
 
+                    string NationalNO = filterValue;
+                    ctrlPersonCard.LoadPersonInfo(NationalNO);
+                    IsPersonExist = (clsPeople.IsExist(NationalNO)) ? true : false;
 
-                    ctrlPersonCard.LoadPersonInfo(filterValue);
                     break;
 
                 default:
@@ -86,6 +102,7 @@ namespace DVLD_UI.Controls
 
         private void OnPersonDataReceived(object sender, int PersonID)
         {
+            IsPersonExist = (clsPeople.IsExist(PersonID)) ? true : false;
             mtxt_Value.Text = PersonID.ToString();
             ctrlPersonCard.LoadPersonInfo(PersonID);
         }
