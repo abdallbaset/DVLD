@@ -647,6 +647,7 @@
             this.Controls.Add(this.lbl_Mode);
             this.Font = new System.Drawing.Font("Tahoma", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmAddAndEditPersonInfo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
