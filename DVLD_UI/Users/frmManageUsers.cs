@@ -1,4 +1,5 @@
 ﻿using DVLD_Business;
+using DVLD_UI.GlobalClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -95,7 +96,23 @@ namespace DVLD_UI.Users
             _GetNumberOfRecords();
         }
 
-    
+        private void _ShowFormAddAndEditUser(int UserID = -1)
+        {
+            frmAddNewAndEditUser frm;
+            if (UserID == -1)
+            {
+                frm = new frmAddNewAndEditUser();
+                frm.ShowDialog();
+                _RefreshUsersList();
+                return;
+            }
+
+
+            frm = new frmAddNewAndEditUser(UserID);
+            frm.ShowDialog();
+            _RefreshUsersList();
+
+        }
 
         private void cmb_AllFilter_SelectedIndexChanged_1(object sender, EventArgs e)
         {
@@ -143,9 +160,7 @@ namespace DVLD_UI.Users
 
         private void btn_AddNewUser_Click(object sender, EventArgs e)
         {
-            frmAddNewAndEditUser frm = new frmAddNewAndEditUser();  
-            frm.ShowDialog();
-            _RefreshUsersList();
+            _ShowFormAddAndEditUser();
 
         }
 
@@ -163,7 +178,7 @@ namespace DVLD_UI.Users
             }
             else
             {
-                MessageBox.Show("Please select a person first!", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a User first!", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
         }
@@ -176,6 +191,64 @@ namespace DVLD_UI.Users
         private void dgv_ListUsers_DoubleClick(object sender, EventArgs e)
         {
             _ShowDetailsPerson();
+        }
+
+        private void addNewPersonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ShowFormAddAndEditUser();
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgv_ListUsers.Rows.Count > 0 && dgv_ListUsers.CurrentRow != null)
+            {
+                int UserID = Convert.ToInt32(dgv_ListUsers.CurrentRow.Cells["UserID"].Value);
+                _ShowFormAddAndEditUser(UserID);
+            }
+            else
+            {
+                MessageBox.Show("Please select a User first!", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgv_ListUsers.Rows.Count > 0 && dgv_ListUsers.CurrentRow != null)
+            {
+                int UserID = Convert.ToInt32(dgv_ListUsers.CurrentRow.Cells["UserID"].Value);
+
+                if (MessageBox.Show($"Are you sure you want to delete this User ID [{UserID}] ?", "Confirm Delete",
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
+                {
+
+
+                    if (clsUser.IsUserExist(UserID))
+                    {
+                        if (clsUser.DeleteUser(UserID))
+                        {
+                            MessageBox.Show("User Deleted Successfully.", "Deleted",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            _RefreshUsersList();
+                        }
+                        else
+                        {
+                            MessageBox.Show("User was not deleted because he/she has data linked to other records.",
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("No User with ID [" + UserID + "] exists in the system.",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Please select a User first!", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

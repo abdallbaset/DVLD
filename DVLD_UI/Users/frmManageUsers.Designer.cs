@@ -174,66 +174,69 @@
             this.sendEmailToolStripMenuItem,
             this.phoneCallToolStripMenuItem});
             this.cms_User.Name = "contextMenuStrip1";
-            this.cms_User.Size = new System.Drawing.Size(198, 198);
+            this.cms_User.Size = new System.Drawing.Size(215, 226);
             // 
             // showDetailsToolStripMenuItem
             // 
             this.showDetailsToolStripMenuItem.Image = global::DVLD_UI.Properties.Resources.person_card_details;
             this.showDetailsToolStripMenuItem.Name = "showDetailsToolStripMenuItem";
-            this.showDetailsToolStripMenuItem.Size = new System.Drawing.Size(197, 26);
+            this.showDetailsToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
             this.showDetailsToolStripMenuItem.Text = "Show Details";
             this.showDetailsToolStripMenuItem.Click += new System.EventHandler(this.showDetailsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(194, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(211, 6);
             // 
             // addNewPersonToolStripMenuItem
             // 
             this.addNewPersonToolStripMenuItem.Image = global::DVLD_UI.Properties.Resources.person_add1;
             this.addNewPersonToolStripMenuItem.Name = "addNewPersonToolStripMenuItem";
-            this.addNewPersonToolStripMenuItem.Size = new System.Drawing.Size(197, 26);
+            this.addNewPersonToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
             this.addNewPersonToolStripMenuItem.Text = "Add New User";
+            this.addNewPersonToolStripMenuItem.Click += new System.EventHandler(this.addNewPersonToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Image = global::DVLD_UI.Properties.Resources.edit;
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(197, 26);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
             this.editToolStripMenuItem.Text = "Edit";
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Image = global::DVLD_UI.Properties.Resources.person_delete;
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(197, 26);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
             this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // changePasswordToolStripMenuItem
             // 
             this.changePasswordToolStripMenuItem.Image = global::DVLD_UI.Properties.Resources.password;
             this.changePasswordToolStripMenuItem.Name = "changePasswordToolStripMenuItem";
-            this.changePasswordToolStripMenuItem.Size = new System.Drawing.Size(197, 26);
+            this.changePasswordToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
             this.changePasswordToolStripMenuItem.Text = "Change Password";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(194, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(211, 6);
             // 
             // sendEmailToolStripMenuItem
             // 
             this.sendEmailToolStripMenuItem.Image = global::DVLD_UI.Properties.Resources.send_email;
             this.sendEmailToolStripMenuItem.Name = "sendEmailToolStripMenuItem";
-            this.sendEmailToolStripMenuItem.Size = new System.Drawing.Size(197, 26);
+            this.sendEmailToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
             this.sendEmailToolStripMenuItem.Text = "Send Email";
             // 
             // phoneCallToolStripMenuItem
             // 
             this.phoneCallToolStripMenuItem.Image = global::DVLD_UI.Properties.Resources.phone_call;
             this.phoneCallToolStripMenuItem.Name = "phoneCallToolStripMenuItem";
-            this.phoneCallToolStripMenuItem.Size = new System.Drawing.Size(197, 26);
+            this.phoneCallToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
             this.phoneCallToolStripMenuItem.Text = "Phone Call";
             // 
             // cmb_IsActive
