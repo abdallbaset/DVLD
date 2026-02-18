@@ -23,7 +23,7 @@ namespace DVLD_UI
         {
             InitializeComponent();
         }
-       private int _PersonID = -1;
+       public int PersonID = -1;
       public void LoadPersonInfo(int PersonID)
         {
             clsPeople Person = clsPeople.Find(PersonID);
@@ -36,7 +36,7 @@ namespace DVLD_UI
                                     MessageBoxIcon.Exclamation);
                 return;
             }
-            _PersonID = PersonID;
+            this.PersonID = PersonID;
             lbl_PersonID.Text = PersonID.ToString();
             lbl_FullName.Text = Person.PersonInfo.FullName;
             lbl_NotionalNumber.Text = Person.PersonInfo.NationalNo;
@@ -64,7 +64,7 @@ namespace DVLD_UI
                                     MessageBoxIcon.Exclamation);
                 return;
             }
-            _PersonID = Person.PersonInfo.PersonID;
+            PersonID = Person.PersonInfo.PersonID;
             lbl_PersonID.Text = Person.PersonInfo.PersonID.ToString();
             lbl_FullName.Text = Person.PersonInfo.FullName;
             lbl_NotionalNumber.Text = Person.PersonInfo.NationalNo;
@@ -85,7 +85,7 @@ namespace DVLD_UI
 
         public void LoadDefaultData ()
         {
-            _PersonID =-1 ;
+            PersonID =-1 ;
             lbl_PersonID.Text = "???";
             lbl_FullName.Text = "???";
             lbl_NotionalNumber.Text = "???";
@@ -104,7 +104,7 @@ namespace DVLD_UI
         frmAddAndEditPersonInfo frm;
         private void btn_EditPerson_Click(object sender, EventArgs e)
         {
-            if(_PersonID == -1)
+            if(PersonID == -1)
             {
                 MessageBox.Show($"No Person was found in the system.",
                                    "Not Found",
@@ -113,9 +113,9 @@ namespace DVLD_UI
                 return;
             }
 
-            frm = new frmAddAndEditPersonInfo(_PersonID);
+            frm = new frmAddAndEditPersonInfo(PersonID);
             frm.ShowDialog();
-            LoadPersonInfo(_PersonID);
+            LoadPersonInfo(PersonID);
         }
 
     
