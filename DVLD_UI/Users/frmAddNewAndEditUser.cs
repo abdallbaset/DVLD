@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DVLD_Business;
+using DVLD_UI.Controls;
+using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -6,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DVLD_Business;
 
 namespace DVLD_UI.Users
 {
@@ -76,12 +77,16 @@ namespace DVLD_UI.Users
             }
 
             lbl_Mode.Text = "Update User";
+            ctrlPersonCardWithFilter1.LoadPersonInfo(_User.UserInfo.PersonID);
+            
+            ctrlPersonCardWithFilter1.DisableFilter();
             lbl_UserID.Text = _User.UserInfo.UserID.ToString();
             txt_UserName.Text = _User.UserInfo.UserName;
             txt_PassWord.Text = _User.UserInfo.Password;
             txt_ConfirmPassWord.Text = _User.UserInfo.Password;
-            ckb_IsActive.Checked = _User.UserInfo.IsActive;             
-       }
+            ckb_IsActive.Checked = _User.UserInfo.IsActive; 
+            btn_Save.Enabled = true;
+        }
 
         private void _ResetLoginInfo()
         {
@@ -126,6 +131,10 @@ namespace DVLD_UI.Users
         }
         private bool _IsPersonSelected()
         {
+            if (_Mode == enMode.Update)
+            {
+                return true;
+            }
             _IsPersonExist = ctrlPersonCardWithFilter1.IsPersonExist;
 
             if (!_IsPersonExist)
