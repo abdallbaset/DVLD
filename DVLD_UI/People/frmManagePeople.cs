@@ -179,10 +179,11 @@ namespace DVLD_UI
         {
             if (dgv_ListPeople.Rows.Count > 0 && dgv_ListPeople.CurrentRow != null)
             {
-                if (MessageBox.Show("Are you sure you want to delete this person?", "Confirm Delete",
-               MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
+                int PersonID = Convert.ToInt32(dgv_ListPeople.CurrentRow.Cells["PersonID"].Value);
+
+                if (MessageBox.Show($"Are you sure you want to delete this Person ID [{PersonID}] ?", "Confirm Delete",
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
                 {
-                    int PersonID = Convert.ToInt32(dgv_ListPeople.CurrentRow.Cells["PersonID"].Value);
                   
 
                     if (clsPeople.IsExist(PersonID))
