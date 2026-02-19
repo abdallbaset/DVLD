@@ -14,7 +14,7 @@ namespace DVLD_UI.Users
 {
     public partial class frmManageUsers : Form
     {
-        enum enFilterMode { None, UserID, PersonID, UserName, FullName, IsActive}
+        enum enFilterMode { None, UserID, PersonID, UserName, FullName, IsActive }
 
         private enFilterMode _FilterMode;
         public frmManageUsers()
@@ -61,7 +61,7 @@ namespace DVLD_UI.Users
                 case enFilterMode.PersonID:
                 case enFilterMode.UserID:
 
-                        filterExpression = $"{_FilterMode} = {filterValue}";
+                    filterExpression = $"{_FilterMode} = {filterValue}";
                     break;
 
                 case enFilterMode.UserName:
@@ -72,7 +72,7 @@ namespace DVLD_UI.Users
                 case enFilterMode.IsActive:
                     if (cmb_IsActive.Text != "All")
                     {
-                        bool bitValue = (cmb_IsActive.Text == "Yes") ? true :false;
+                        bool bitValue = (cmb_IsActive.Text == "Yes") ? true : false;
                         filterExpression = $"IsActive = {bitValue}";
                     }
                     break;
@@ -125,7 +125,7 @@ namespace DVLD_UI.Users
                 mtxt_Value.Visible = false;
                 cmb_IsActive.Visible = false;
             }
-            else if(_FilterMode  == enFilterMode.IsActive)
+            else if (_FilterMode == enFilterMode.IsActive)
             {
                 _RefreshUsersList();
                 mtxt_Value.Visible = false;
@@ -175,6 +175,22 @@ namespace DVLD_UI.Users
                 _RefreshUsersList();
                 mtxt_Value.Clear();
 
+            }
+            else
+            {
+                MessageBox.Show("Please select a User first!", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+        }
+        private void _ShowChangePassWord()
+        {
+            if (dgv_ListUsers.Rows.Count > 0 && dgv_ListUsers.CurrentRow != null)
+            {
+                int UserID = Convert.ToInt32(dgv_ListUsers.CurrentRow.Cells["UserID"].Value);
+                frmChangePassword frmChangePassword = new frmChangePassword(UserID);
+
+                frmChangePassword.ShowDialog();
+                _RefreshUsersList();
             }
             else
             {
@@ -249,6 +265,11 @@ namespace DVLD_UI.Users
             {
                 MessageBox.Show("Please select a User first!", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void changePasswordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _ShowChangePassWord();
         }
     }
 }
