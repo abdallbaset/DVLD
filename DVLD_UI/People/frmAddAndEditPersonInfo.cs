@@ -66,12 +66,14 @@ namespace DVLD_UI
             if (_Mode == enMode.AddNew)
             {
                 lbl_Mode.Text = "Add New Person";
+                this.Text = "Add New Person";
                 _Person = new clsPeople();
 
             }
             else
             {
                 lbl_Mode.Text = "Update Person";
+                this.Text = "Update Person";
             }
 
             rdb_Male.Checked = true;
