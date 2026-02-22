@@ -35,6 +35,7 @@
             this.tp_PersonInfo = new System.Windows.Forms.TabPage();
             this.btn_Next = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.ctrlPersonCardWithFilter1 = new DVLD_UI.Controls.ctrlPersonCardWithFilter();
             this.tp_LoginInfo = new System.Windows.Forms.TabPage();
             this.btn_Back = new System.Windows.Forms.Button();
             this.ckb_IsActive = new System.Windows.Forms.CheckBox();
@@ -53,7 +54,6 @@
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.btn_Close = new System.Windows.Forms.Button();
             this.btn_Save = new System.Windows.Forms.Button();
-            this.ctrlPersonCardWithFilter1 = new DVLD_UI.Controls.ctrlPersonCardWithFilter();
             this.tabControl1.SuspendLayout();
             this.tp_PersonInfo.SuspendLayout();
             this.tp_LoginInfo.SuspendLayout();
@@ -127,6 +127,13 @@
             this.imageList1.Images.SetKeyName(1, "close_2.png");
             this.imageList1.Images.SetKeyName(2, "next.png");
             this.imageList1.Images.SetKeyName(3, "chevron-back.png");
+            // 
+            // ctrlPersonCardWithFilter1
+            // 
+            this.ctrlPersonCardWithFilter1.Location = new System.Drawing.Point(19, 36);
+            this.ctrlPersonCardWithFilter1.Name = "ctrlPersonCardWithFilter1";
+            this.ctrlPersonCardWithFilter1.Size = new System.Drawing.Size(1129, 504);
+            this.ctrlPersonCardWithFilter1.TabIndex = 0;
             // 
             // tp_LoginInfo
             // 
@@ -350,17 +357,11 @@
             this.btn_Save.UseVisualStyleBackColor = false;
             this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
-            // ctrlPersonCardWithFilter1
-            // 
-            this.ctrlPersonCardWithFilter1.Location = new System.Drawing.Point(19, 36);
-            this.ctrlPersonCardWithFilter1.Name = "ctrlPersonCardWithFilter1";
-            this.ctrlPersonCardWithFilter1.Size = new System.Drawing.Size(1129, 504);
-            this.ctrlPersonCardWithFilter1.TabIndex = 0;
-            // 
             // frmAddNewAndEditUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(1207, 846);
             this.Controls.Add(this.btn_Close);
             this.Controls.Add(this.tabControl1);

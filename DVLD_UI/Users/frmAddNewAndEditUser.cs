@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Guna.UI2.Native.WinApi;
 
 namespace DVLD_UI.Users
 {
@@ -140,8 +141,13 @@ namespace DVLD_UI.Users
 
         }
 
-       private  bool _IsPersonInvalidForSaving()
+
+   
+
+        private  bool _IsPersonInvalidForSaving()
         {
+            if (_Mode == enMode.Update)
+                return false;
             
             if (_IsPersonNotSelected())
             {
@@ -172,9 +178,7 @@ namespace DVLD_UI.Users
                
                 e.Cancel = true;
             }
-         
-
-           
+        
         }
 
         private void btn_Next_Click(object sender, EventArgs e)
@@ -211,13 +215,13 @@ namespace DVLD_UI.Users
                 return;
             }
 
-
+       
             if (!this.ValidateChildren())
             {
-                MessageBox.Show("Please fill all required fields correctly!",
-                                "Validation Error",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
+                MessageBox.Show("Some fileds are not valide!, put the mouse over the red icon(s) to see the erro", 
+                    "Validation Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
                 return;
             }
 
@@ -266,7 +270,7 @@ namespace DVLD_UI.Users
             }
             else
             {
-                if(txt_ConfirmPassWord.Text != txt_PassWord.Text)
+                if(txt_ConfirmPassWord.Text.Trim() != txt_PassWord.Text.Trim())
                 {
                     e.Cancel = true;
                     errorProvider1.SetError(txt_ConfirmPassWord, $"Password Confirmation does not match Password!");
@@ -287,21 +291,21 @@ namespace DVLD_UI.Users
             }
             else
             {
-                errorProvider1.SetError(txt_UserName, "");
+                if (_Mode == enMode.AddNew || (_Mode == enMode.Update && txt_UserName.Text.Trim() != _User.UserInfo.UserName))
+                {
+                    if (clsUser.IsUserExist(txt_UserName.Text.Trim()))
+                    {
+                        e.Cancel = true;
+                        errorProvider1.SetError(txt_UserName, $"This User Name is already exist, please choose another one!");
+                    }
+                    else
+                    {
+                        errorProvider1.SetError(txt_UserName, "");
+                    }
+                }
             }
 
-            if (_Mode == enMode.AddNew || (_Mode == enMode.Update && txt_UserName.Text.Trim() != _User.UserInfo.UserName))
-            {
-                if (clsUser.IsUserExist(txt_UserName.Text.Trim()))
-                {
-                    e.Cancel = true;
-                    errorProvider1.SetError(txt_UserName, $"This User Name is already exist, please choose another one!");
-                }
-                else
-                {
-                    errorProvider1.SetError(txt_UserName, "");
-                }
-            }
+            
 
 
         }
