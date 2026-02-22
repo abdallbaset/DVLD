@@ -11,5 +11,7 @@ namespace DVLD_UI.GlobalClasses
     {
       static public clsUser CurrentUser { get; set; }
 
+      static public string KeyPath = @"HKEY_CURRENT_USER\SOFTWARE\ABDULBASIT\DVLD_System";
+
     }
 }
