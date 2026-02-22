@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,11 +15,12 @@ namespace DVLD_UI.Users
     public partial class frmAddNewAndEditUser : Form
     {
         enum enMode { AddNew = 1, Update = 2 }
+        enum enPersonInfo { NotExist = -1 }
         private enMode _Mode;
         private int _UserID = -1;
         private clsUser _User;
 
-        bool _IsPersonExist = false;
+        int _PersonID = -1;
 
         public frmAddNewAndEditUser()
         {
@@ -33,10 +35,7 @@ namespace DVLD_UI.Users
             _Mode = enMode.Update;
         }
 
-        private void tp_PersonInfo_Click(object sender, EventArgs e)
-        {
-
-        }
+    
 
         private void frmAddNewAndEditUser_Load(object sender, EventArgs e)
         {
@@ -54,7 +53,16 @@ namespace DVLD_UI.Users
             if(_Mode == enMode.AddNew)
             {
                 lbl_Mode.Text = "Add New User";
+                this.Text = "Add New User";
                 _User = new clsUser();
+                btn_Save.Enabled = false;
+            }
+            else
+            {
+                lbl_Mode.Text = "Update User";
+                this.Text = "Update User";
+                btn_Save.Enabled = true;
+
             }
 
             txt_UserName.Text = string.Empty;
@@ -62,7 +70,6 @@ namespace DVLD_UI.Users
             txt_ConfirmPassWord.Text = string.Empty;
             ckb_IsActive.Checked = true;
             
-            btn_Save.Enabled = false; 
         }
 
         private void _LoadData()
@@ -76,7 +83,6 @@ namespace DVLD_UI.Users
                 return;
             }
 
-            lbl_Mode.Text = "Update User";
             ctrlPersonCardWithFilter1.LoadPersonInfo(_User.UserInfo.PersonID);
             
             ctrlPersonCardWithFilter1.DisableFilter();
@@ -85,31 +91,22 @@ namespace DVLD_UI.Users
             txt_PassWord.Text = _User.UserInfo.Password;
             txt_ConfirmPassWord.Text = _User.UserInfo.Password;
             ckb_IsActive.Checked = _User.UserInfo.IsActive; 
-            btn_Save.Enabled = true;
         }
 
-        private void _ResetLoginInfo()
+
+        bool _IsPersonNotSelected()
         {
-            txt_UserName.Text = string.Empty;
-            txt_PassWord.Text = string.Empty;
-            txt_ConfirmPassWord.Text = string.Empty;
-            ckb_IsActive.Checked = true;
-        }
+            _PersonID = ctrlPersonCardWithFilter1.PersonID;
 
-        private void ctrlPersonCardWithFilter1_Load(object sender, EventArgs e)
-        {
-                            
-        }
+            if (_PersonID == (int)enPersonInfo.NotExist)
+            {
+                return true;
+            }
 
-        private void _MesseageIfPersonNotSelected()
-        {
-            MessageBox.Show("Please select a person first before moving to the next step.",
-                               "Selection Required",
-                               MessageBoxButtons.OK,
-                               MessageBoxIcon.Warning);
+            return false;
         }
-
-        private bool _IsUserExistForPersonID()
+      
+        private bool _IsPersonSelection()
         {
             if (_Mode == enMode.Update)
             {
@@ -117,8 +114,17 @@ namespace DVLD_UI.Users
                 return true;
             }
 
-            int PersonID = ctrlPersonCardWithFilter1.PersonID;
-            if (clsUser.isUserExistForPersonID(PersonID))
+
+            if(_IsPersonNotSelected())
+            {
+                MessageBox.Show("Please select a person first before moving to the next step.",
+                               "Selection Required",
+                               MessageBoxButtons.OK,
+                               MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if (clsUser.isUserExistForPersonID(_PersonID))
             {
                 MessageBox.Show("This person is already linked to another user. Please select a different person.",
                 "Error",
@@ -126,48 +132,49 @@ namespace DVLD_UI.Users
                 MessageBoxIcon.Error);
                 return false;
             }
-            btn_Save.Enabled = true;
-            return true;
-        }
-        private bool _IsPersonSelected()
-        {
-            if (_Mode == enMode.Update)
+            else
             {
+                btn_Save.Enabled = true;
+            }
+            return true;
+
+        }
+
+       private  bool _IsPersonInvalidForSaving()
+        {
+            
+            if (_IsPersonNotSelected())
+            {
+                MessageBox.Show("Please select a person first before Save.",
+                           "Selection Required",
+                           MessageBoxButtons.OK,
+                           MessageBoxIcon.Warning);
+                btn_Save.Enabled = false;
                 return true;
             }
-            _IsPersonExist = ctrlPersonCardWithFilter1.IsPersonExist;
 
-            if (!_IsPersonExist)
+            if (clsUser.isUserExistForPersonID(_PersonID))
             {
-                _ResetLoginInfo();
-
-                return false;
+                MessageBox.Show("This person is already linked to another user. Please select a different person.",
+                "Error",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+                btn_Save.Enabled = false;
+                return true;
             }
-
-            return true;
-
+            return false;
         }
         private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            if(_Mode == enMode.Update)
+        
+            if (e.TabPageIndex != 0 && !_IsPersonSelection())
             {
-                return;
-            }
-
-            if (e.TabPageIndex != 0 && !_IsPersonSelected())
-            {
-                _MesseageIfPersonNotSelected();
+               
                 e.Cancel = true;
-
             }
-            else if (e.TabPageIndex != 0 && !_IsUserExistForPersonID())
-            {
+         
 
-                e.Cancel = true;
-
-            }
-
-
+           
         }
 
         private void btn_Next_Click(object sender, EventArgs e)
@@ -179,19 +186,13 @@ namespace DVLD_UI.Users
                 return;
             }
 
-            if (!_IsPersonSelected())
+            if (!_IsPersonSelection())
             {
-                _MesseageIfPersonNotSelected();
+                return;
             }
             else
             {
-                if (!_IsUserExistForPersonID())
-                {
-                    return;
-                }
-                
                 tabControl1.SelectedIndex = 1;
-
             }
         }
         private void btn_Close_Click(object sender, EventArgs e)
@@ -203,17 +204,10 @@ namespace DVLD_UI.Users
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
-            if (!_IsUserExistForPersonID())
-            {
-                return;
-            }
 
-            if (!_IsPersonSelected())
-            {
-                MessageBox.Show("Please select a person first before Save.",
-                           "Selection Required",
-                           MessageBoxButtons.OK,
-                           MessageBoxIcon.Warning);
+
+           if(_IsPersonInvalidForSaving())
+             {
                 return;
             }
 
@@ -242,11 +236,12 @@ namespace DVLD_UI.Users
             {
                 MessageBox.Show("User information saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 lbl_Mode.Text = "Update User";
+                this.Text = "Update User";
                 lbl_UserID.Text = _User.UserInfo.UserID.ToString();
                 _Mode = enMode.Update;
 
               
-                    ctrlPersonCardWithFilter1.DisableFilter();
+                ctrlPersonCardWithFilter1.DisableFilter();
                 
             }
             else
@@ -260,24 +255,7 @@ namespace DVLD_UI.Users
             tabControl1.SelectedIndex = 0;
         }
 
-        private void TextBox_Validating(object sender, CancelEventArgs e)
-        {
-
-            TextBox activeTextBox = sender as TextBox;
-
-            if (string.IsNullOrEmpty(activeTextBox.Text.Trim()))
-            {
-                e.Cancel = true;
-                errorProvider1.SetError(activeTextBox, $"{activeTextBox.Tag} is required");
-            }
-            else
-            {
-
-                errorProvider1.SetError(activeTextBox, "");
-
-            }
-
-        }
+   
 
         private void txt_ConfirmPassWord_Validating(object sender, CancelEventArgs e)
         {
@@ -297,6 +275,55 @@ namespace DVLD_UI.Users
                     errorProvider1.SetError(txt_ConfirmPassWord, "");
 
             }
+        }
+
+        private void txt_UserName_Validating(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrEmpty(txt_UserName.Text.Trim()))
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(txt_UserName, $"{txt_UserName.Tag} is required");
+                return;
+            }
+            else
+            {
+                errorProvider1.SetError(txt_UserName, "");
+            }
+
+            if (_Mode == enMode.AddNew || (_Mode == enMode.Update && txt_UserName.Text.Trim() != _User.UserInfo.UserName))
+            {
+                if (clsUser.IsUserExist(txt_UserName.Text.Trim()))
+                {
+                    e.Cancel = true;
+                    errorProvider1.SetError(txt_UserName, $"This User Name is already exist, please choose another one!");
+                }
+                else
+                {
+                    errorProvider1.SetError(txt_UserName, "");
+                }
+            }
+
+
+        }
+
+        private void txt_PassWord_Validating(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrEmpty(txt_PassWord.Text.Trim()))
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(txt_PassWord, $"{txt_PassWord.Tag} is required");
+            }
+            else
+            {
+
+                errorProvider1.SetError(txt_PassWord, "");
+
+            }
+        }
+
+        private void frmAddNewAndEditUser_Activated(object sender, EventArgs e)
+        {
+            ctrlPersonCardWithFilter1.FilterFocus();
         }
     }
 }

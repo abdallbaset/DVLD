@@ -33,8 +33,10 @@
             this.lbl_Mode = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tp_PersonInfo = new System.Windows.Forms.TabPage();
+            this.btn_Next = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tp_LoginInfo = new System.Windows.Forms.TabPage();
+            this.btn_Back = new System.Windows.Forms.Button();
             this.ckb_IsActive = new System.Windows.Forms.CheckBox();
             this.txt_ConfirmPassWord = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -44,24 +46,22 @@
             this.label4 = new System.Windows.Forms.Label();
             this.lbl_UserID = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.btn_Close = new System.Windows.Forms.Button();
-            this.btn_Next = new System.Windows.Forms.Button();
-            this.btn_Back = new System.Windows.Forms.Button();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btn_Close = new System.Windows.Forms.Button();
             this.btn_Save = new System.Windows.Forms.Button();
             this.ctrlPersonCardWithFilter1 = new DVLD_UI.Controls.ctrlPersonCardWithFilter();
             this.tabControl1.SuspendLayout();
             this.tp_PersonInfo.SuspendLayout();
             this.tp_LoginInfo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // lbl_Mode
@@ -100,7 +100,24 @@
             this.tp_PersonInfo.TabIndex = 0;
             this.tp_PersonInfo.Text = "Person Info";
             this.tp_PersonInfo.UseVisualStyleBackColor = true;
-            this.tp_PersonInfo.Click += new System.EventHandler(this.tp_PersonInfo_Click);
+            // 
+            // btn_Next
+            // 
+            this.btn_Next.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btn_Next.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Next.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.btn_Next.ForeColor = System.Drawing.Color.White;
+            this.btn_Next.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_Next.ImageIndex = 2;
+            this.btn_Next.ImageList = this.imageList1;
+            this.btn_Next.Location = new System.Drawing.Point(1015, 547);
+            this.btn_Next.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_Next.Name = "btn_Next";
+            this.btn_Next.Size = new System.Drawing.Size(115, 52);
+            this.btn_Next.TabIndex = 17;
+            this.btn_Next.Text = "Next";
+            this.btn_Next.UseVisualStyleBackColor = false;
+            this.btn_Next.Click += new System.EventHandler(this.btn_Next_Click);
             // 
             // imageList1
             // 
@@ -134,6 +151,24 @@
             this.tp_LoginInfo.TabIndex = 1;
             this.tp_LoginInfo.Text = "Login Info";
             this.tp_LoginInfo.UseVisualStyleBackColor = true;
+            // 
+            // btn_Back
+            // 
+            this.btn_Back.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btn_Back.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Back.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.btn_Back.ForeColor = System.Drawing.Color.White;
+            this.btn_Back.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_Back.ImageIndex = 3;
+            this.btn_Back.ImageList = this.imageList1;
+            this.btn_Back.Location = new System.Drawing.Point(7, 558);
+            this.btn_Back.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_Back.Name = "btn_Back";
+            this.btn_Back.Size = new System.Drawing.Size(115, 52);
+            this.btn_Back.TabIndex = 69;
+            this.btn_Back.Text = "Back";
+            this.btn_Back.UseVisualStyleBackColor = false;
+            this.btn_Back.Click += new System.EventHandler(this.btn_Back_Click);
             // 
             // ckb_IsActive
             // 
@@ -177,7 +212,7 @@
             this.txt_PassWord.Size = new System.Drawing.Size(248, 29);
             this.txt_PassWord.TabIndex = 64;
             this.txt_PassWord.Tag = "Pass Word";
-            this.txt_PassWord.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Validating);
+            this.txt_PassWord.Validating += new System.ComponentModel.CancelEventHandler(this.txt_PassWord_Validating);
             // 
             // label2
             // 
@@ -198,7 +233,7 @@
             this.txt_UserName.Size = new System.Drawing.Size(248, 29);
             this.txt_UserName.TabIndex = 61;
             this.txt_UserName.Tag = "User Name";
-            this.txt_UserName.Validating += new System.ComponentModel.CancelEventHandler(this.TextBox_Validating);
+            this.txt_UserName.Validating += new System.ComponentModel.CancelEventHandler(this.txt_UserName_Validating);
             // 
             // label4
             // 
@@ -232,65 +267,6 @@
             this.label1.Size = new System.Drawing.Size(91, 22);
             this.label1.TabIndex = 54;
             this.label1.Text = "User ID :";
-            // 
-            // errorProvider1
-            // 
-            this.errorProvider1.ContainerControl = this;
-            // 
-            // btn_Close
-            // 
-            this.btn_Close.BackColor = System.Drawing.Color.Crimson;
-            this.btn_Close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Close.Font = new System.Drawing.Font("Tahoma", 12F);
-            this.btn_Close.ForeColor = System.Drawing.Color.White;
-            this.btn_Close.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btn_Close.ImageIndex = 1;
-            this.btn_Close.ImageList = this.imageList1;
-            this.btn_Close.Location = new System.Drawing.Point(895, 772);
-            this.btn_Close.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_Close.Name = "btn_Close";
-            this.btn_Close.Size = new System.Drawing.Size(131, 52);
-            this.btn_Close.TabIndex = 16;
-            this.btn_Close.Text = "Close";
-            this.btn_Close.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btn_Close.UseVisualStyleBackColor = false;
-            this.btn_Close.Click += new System.EventHandler(this.btn_Close_Click);
-            // 
-            // btn_Next
-            // 
-            this.btn_Next.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btn_Next.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Next.Font = new System.Drawing.Font("Tahoma", 12F);
-            this.btn_Next.ForeColor = System.Drawing.Color.White;
-            this.btn_Next.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btn_Next.ImageIndex = 2;
-            this.btn_Next.ImageList = this.imageList1;
-            this.btn_Next.Location = new System.Drawing.Point(1015, 547);
-            this.btn_Next.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_Next.Name = "btn_Next";
-            this.btn_Next.Size = new System.Drawing.Size(115, 52);
-            this.btn_Next.TabIndex = 17;
-            this.btn_Next.Text = "Next";
-            this.btn_Next.UseVisualStyleBackColor = false;
-            this.btn_Next.Click += new System.EventHandler(this.btn_Next_Click);
-            // 
-            // btn_Back
-            // 
-            this.btn_Back.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btn_Back.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Back.Font = new System.Drawing.Font("Tahoma", 12F);
-            this.btn_Back.ForeColor = System.Drawing.Color.White;
-            this.btn_Back.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_Back.ImageIndex = 3;
-            this.btn_Back.ImageList = this.imageList1;
-            this.btn_Back.Location = new System.Drawing.Point(7, 558);
-            this.btn_Back.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_Back.Name = "btn_Back";
-            this.btn_Back.Size = new System.Drawing.Size(115, 52);
-            this.btn_Back.TabIndex = 69;
-            this.btn_Back.Text = "Back";
-            this.btn_Back.UseVisualStyleBackColor = false;
-            this.btn_Back.Click += new System.EventHandler(this.btn_Back_Click);
             // 
             // pictureBox4
             // 
@@ -332,6 +308,29 @@
             this.pictureBox1.TabIndex = 55;
             this.pictureBox1.TabStop = false;
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
+            // btn_Close
+            // 
+            this.btn_Close.BackColor = System.Drawing.Color.Crimson;
+            this.btn_Close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Close.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.btn_Close.ForeColor = System.Drawing.Color.White;
+            this.btn_Close.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_Close.ImageIndex = 1;
+            this.btn_Close.ImageList = this.imageList1;
+            this.btn_Close.Location = new System.Drawing.Point(895, 772);
+            this.btn_Close.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_Close.Name = "btn_Close";
+            this.btn_Close.Size = new System.Drawing.Size(131, 52);
+            this.btn_Close.TabIndex = 16;
+            this.btn_Close.Text = "Close";
+            this.btn_Close.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_Close.UseVisualStyleBackColor = false;
+            this.btn_Close.Click += new System.EventHandler(this.btn_Close_Click);
+            // 
             // btn_Save
             // 
             this.btn_Save.BackColor = System.Drawing.Color.Green;
@@ -357,7 +356,6 @@
             this.ctrlPersonCardWithFilter1.Name = "ctrlPersonCardWithFilter1";
             this.ctrlPersonCardWithFilter1.Size = new System.Drawing.Size(1129, 504);
             this.ctrlPersonCardWithFilter1.TabIndex = 0;
-            this.ctrlPersonCardWithFilter1.Load += new System.EventHandler(this.ctrlPersonCardWithFilter1_Load);
             // 
             // frmAddNewAndEditUser
             // 
@@ -373,16 +371,17 @@
             this.Name = "frmAddNewAndEditUser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AddNewAndEditUser";
+            this.Activated += new System.EventHandler(this.frmAddNewAndEditUser_Activated);
             this.Load += new System.EventHandler(this.frmAddNewAndEditUser_Load);
             this.tabControl1.ResumeLayout(false);
             this.tp_PersonInfo.ResumeLayout(false);
             this.tp_LoginInfo.ResumeLayout(false);
             this.tp_LoginInfo.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
