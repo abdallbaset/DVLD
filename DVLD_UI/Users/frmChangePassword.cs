@@ -61,7 +61,8 @@ namespace DVLD_UI.Users
         {
             if (string.IsNullOrEmpty(txt_CurrentPassword.Text.Trim()))
             {
-                errorProvider1.SetError(txt_CurrentPassword, "");
+                e.Cancel = true;
+                errorProvider1.SetError(txt_CurrentPassword, $"{txt_CurrentPassword.Tag} is required");
                 return;
             }
 
@@ -81,8 +82,12 @@ namespace DVLD_UI.Users
         {
             if (string.IsNullOrEmpty(txt_NewPassword.Text.Trim()))
             {
+                e.Cancel = true;
+                errorProvider1.SetError(txt_NewPassword, $"{txt_NewPassword.Tag} is required");
+            }
+            else
+            {
                 errorProvider1.SetError(txt_NewPassword, "");
-                return;
             }
            
         }
@@ -91,7 +96,8 @@ namespace DVLD_UI.Users
         {
             if (string.IsNullOrEmpty(txt_NewPassword.Text.Trim()))
             {
-                errorProvider1.SetError(txt_ConfirmPassWord, "");
+                e.Cancel = true;
+                errorProvider1.SetError(txt_ConfirmPassWord, $"{txt_ConfirmPassWord.Tag} is required");
                 return;
             }
 
@@ -106,26 +112,20 @@ namespace DVLD_UI.Users
             }
         }
 
-        private bool _txtBoxValidate()
-        {
-            return (string.IsNullOrEmpty(txt_NewPassword.Text.Trim()) || string.IsNullOrEmpty(txt_CurrentPassword.Text.Trim()) || string.IsNullOrEmpty(txt_ConfirmPassWord.Text.Trim()));
-        }
+   
         private void btn_Save_Click(object sender, EventArgs e)
         {
-            if (_txtBoxValidate())
-            {
-                MessageBox.Show("Please fill all required fields correctly!",
-                                "Validation Error",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Warning);
-
-                txt_CurrentPassword.Focus();
-
-                return;
-            }
+       
 
             if (!this.ValidateChildren())
+            {
+                MessageBox.Show("Some fileds are not valide!, put the mouse over the red icon(s) to see the erro",
+                   "Validation Error",
+                           MessageBoxButtons.OK,
+                           MessageBoxIcon.Warning);
+                txt_CurrentPassword.Focus();
                 return;
+            }
 
                 _User.UserInfo.Password = txt_NewPassword.Text;
 

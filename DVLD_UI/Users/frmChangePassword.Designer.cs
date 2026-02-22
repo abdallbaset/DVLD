@@ -208,8 +208,10 @@
             // 
             // frmChangePassword
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(1160, 819);
             this.Controls.Add(this.btn_Close);
             this.Controls.Add(this.btn_Save);
