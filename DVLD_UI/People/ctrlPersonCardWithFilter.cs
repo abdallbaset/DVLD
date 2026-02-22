@@ -19,7 +19,6 @@ namespace DVLD_UI.Controls
         {
             InitializeComponent();
         }
-       public bool IsPersonExist = false;
         public int PersonID
         { 
             get { return ctrlPersonCard.PersonID; }
@@ -32,6 +31,10 @@ namespace DVLD_UI.Controls
             }
         }
 
+        public void FilterFocus()
+        {
+            mtxt_Value.Focus();
+        }
 
         public void LoadPersonInfo(int PersonID)
         {
@@ -61,7 +64,6 @@ namespace DVLD_UI.Controls
 
                    int PersonID = Convert.ToInt32(filterValue);
 
-                    IsPersonExist= (clsPeople.IsExist(PersonID))? true : false;
 
 
                     ctrlPersonCard.LoadPersonInfo(PersonID);
@@ -71,7 +73,6 @@ namespace DVLD_UI.Controls
 
                     string NationalNO = filterValue;
                     ctrlPersonCard.LoadPersonInfo(NationalNO);
-                    IsPersonExist = (clsPeople.IsExist(NationalNO)) ? true : false;
 
                     break;
 
@@ -109,7 +110,6 @@ namespace DVLD_UI.Controls
 
         private void OnPersonDataReceived(object sender, int PersonID)
         {
-            IsPersonExist = (clsPeople.IsExist(PersonID)) ? true : false;
             mtxt_Value.Text = PersonID.ToString();
             ctrlPersonCard.LoadPersonInfo(PersonID);
         }
