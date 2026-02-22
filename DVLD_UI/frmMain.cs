@@ -21,15 +21,13 @@ namespace DVLD_UI
         private void peopleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmManagePeople frmManagePeople = new frmManagePeople();
-            frmManagePeople.MdiParent = this;
-            frmManagePeople.Show();
+            frmManagePeople.ShowDialog();
         }
 
         private void usersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmManageUsers frmManageUsers = new frmManageUsers();
-            frmManageUsers.MdiParent = this;
-            frmManageUsers.Show();
+            frmManageUsers.ShowDialog();
         }
     }
 }
