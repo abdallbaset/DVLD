@@ -208,7 +208,7 @@ namespace DVLD_UI
         {
             if (!this.ValidateChildren())
             {
-                MessageBox.Show("Please fill all required fields correctly!",
+                MessageBox.Show("Some fileds are not valide!, put the mouse over the red icon(s) to see the error",
                                 "Validation Error",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
@@ -339,30 +339,29 @@ namespace DVLD_UI
 
         private void txt_NotionalNO_Validating(object sender, CancelEventArgs e)
         {
-            if (string.IsNullOrEmpty(txt_NotionalNO.Text))
+            if (string.IsNullOrEmpty(txt_NotionalNO.Text.Trim()))
             {
                  e.Cancel = true;
                 errorProvider1.SetError(txt_NotionalNO, $"{txt_NotionalNO.Tag} is required");
             }
             else
 
-            { 
-
-               errorProvider1.SetError(txt_NotionalNO, "");
-                
-
-            }
-
-            if (clsPeople.IsExist(txt_NotionalNO.Text) && txt_NotionalNO.Text.Trim() != _Person.PersonInfo.NationalNo)
-            {
-                e.Cancel = true;
-                errorProvider1.SetError(txt_NotionalNO, $"{txt_NotionalNO.Tag} is Used For another Person!");
-            }
-            else
             {
 
-                errorProvider1.SetError(txt_NotionalNO, "");
+                if (clsPeople.IsExist(txt_NotionalNO.Text.Trim()) && txt_NotionalNO.Text.Trim() != _Person.PersonInfo.NationalNo)
+                {
+                    e.Cancel = true;
+                    errorProvider1.SetError(txt_NotionalNO, $"{txt_NotionalNO.Tag} is Used For another Person!");
+                }
+                else
+                {
+
+                    errorProvider1.SetError(txt_NotionalNO, "");
+                }
+
             }
+
+           
 
         }
 
