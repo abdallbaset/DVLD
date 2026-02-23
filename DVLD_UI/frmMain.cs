@@ -18,7 +18,7 @@ namespace DVLD_UI
         {
             InitializeComponent();
         }
-          
+
         private void peopleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmManagePeople frmManagePeople = new frmManagePeople();
@@ -43,6 +43,13 @@ namespace DVLD_UI
         {
             frmChangePassword frmChangePassword = new frmChangePassword(clsGlobal.CurrentUser.UserInfo.UserID);
             frmChangePassword.ShowDialog();
+        }
+
+        private void signOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            clsGlobal.CurrentUser = null;
+            this.Close();
+
         }
     }
 }
