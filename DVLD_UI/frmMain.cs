@@ -1,4 +1,5 @@
-﻿using DVLD_UI.Users;
+﻿using DVLD_UI.GlobalClasses;
+using DVLD_UI.Users;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,5 +30,15 @@ namespace DVLD_UI
             frmManageUsers frmManageUsers = new frmManageUsers();
             frmManageUsers.ShowDialog();
         }
+
+
+        private void currentUserInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int CurrentUserID = clsGlobal.CurrentUser.UserInfo.UserID;
+            frmUserInfo frmUserInfo = new frmUserInfo(CurrentUserID);
+            frmUserInfo.ShowDialog();
+        }
+
+  
     }
 }
