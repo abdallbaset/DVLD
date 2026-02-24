@@ -1,4 +1,5 @@
-﻿using DVLD_UI.GlobalClasses;
+﻿using DVLD_UI.Applications.Application_Types;
+using DVLD_UI.GlobalClasses;
 using DVLD_UI.Users;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,12 @@ namespace DVLD_UI
             clsGlobal.CurrentUser = null;
             this.Close();
 
+        }
+
+        private void manageApplicationTypesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmManageApplicationTypes frmManageApplicationTypes = new frmManageApplicationTypes();
+            frmManageApplicationTypes.ShowDialog();
         }
     }
 }
