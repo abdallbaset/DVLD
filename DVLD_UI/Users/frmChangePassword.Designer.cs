@@ -36,18 +36,18 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txt_CurrentPassword = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.ctrlUserCard1 = new DVLD_UI.Users.ctrlUserCard();
+            this.btn_Close = new System.Windows.Forms.Button();
+            this.btn_Save = new System.Windows.Forms.Button();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.btn_Close = new System.Windows.Forms.Button();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.btn_Save = new System.Windows.Forms.Button();
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.ctrlUserCard1 = new DVLD_UI.Users.ctrlUserCard();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // txt_ConfirmPassWord
@@ -119,35 +119,23 @@
             this.label4.TabIndex = 68;
             this.label4.Text = "Current Password:";
             // 
-            // pictureBox4
+            // imageList1
             // 
-            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(233, 658);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(31, 28);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 75;
-            this.pictureBox4.TabStop = false;
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "save.png");
+            this.imageList1.Images.SetKeyName(1, "close_2.png");
             // 
-            // pictureBox3
+            // errorProvider1
             // 
-            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(233, 602);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(31, 28);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox3.TabIndex = 72;
-            this.pictureBox3.TabStop = false;
+            this.errorProvider1.ContainerControl = this;
             // 
-            // pictureBox2
+            // ctrlUserCard1
             // 
-            this.pictureBox2.Image = global::DVLD_UI.Properties.Resources.password;
-            this.pictureBox2.Location = new System.Drawing.Point(233, 544);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(31, 28);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 69;
-            this.pictureBox2.TabStop = false;
+            this.ctrlUserCard1.Location = new System.Drawing.Point(23, 12);
+            this.ctrlUserCard1.Name = "ctrlUserCard1";
+            this.ctrlUserCard1.Size = new System.Drawing.Size(1132, 492);
+            this.ctrlUserCard1.TabIndex = 0;
             // 
             // btn_Close
             // 
@@ -169,13 +157,6 @@
             this.btn_Close.UseVisualStyleBackColor = false;
             this.btn_Close.Click += new System.EventHandler(this.btn_Close_Click);
             // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "save.png");
-            this.imageList1.Images.SetKeyName(1, "close_2.png");
-            // 
             // btn_Save
             // 
             this.btn_Save.BackColor = System.Drawing.Color.Green;
@@ -195,16 +176,35 @@
             this.btn_Save.UseVisualStyleBackColor = false;
             this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
-            // errorProvider1
+            // pictureBox4
             // 
-            this.errorProvider1.ContainerControl = this;
+            this.pictureBox4.Image = global::DVLD_UI.Properties.Resources.password;
+            this.pictureBox4.Location = new System.Drawing.Point(233, 658);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(31, 28);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox4.TabIndex = 75;
+            this.pictureBox4.TabStop = false;
             // 
-            // ctrlUserCard1
+            // pictureBox3
             // 
-            this.ctrlUserCard1.Location = new System.Drawing.Point(23, 12);
-            this.ctrlUserCard1.Name = "ctrlUserCard1";
-            this.ctrlUserCard1.Size = new System.Drawing.Size(1132, 492);
-            this.ctrlUserCard1.TabIndex = 0;
+            this.pictureBox3.Image = global::DVLD_UI.Properties.Resources.password;
+            this.pictureBox3.Location = new System.Drawing.Point(233, 602);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(31, 28);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 72;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::DVLD_UI.Properties.Resources.password;
+            this.pictureBox2.Location = new System.Drawing.Point(233, 544);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(31, 28);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 69;
+            this.pictureBox2.TabStop = false;
             // 
             // frmChangePassword
             // 
@@ -230,10 +230,10 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Change Password";
             this.Load += new System.EventHandler(this.frmChangePassword_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
