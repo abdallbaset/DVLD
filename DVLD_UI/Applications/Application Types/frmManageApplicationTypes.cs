@@ -22,6 +22,12 @@ namespace DVLD_UI.Applications.Application_Types
         {
             lbl_NumberOfRecords.Text = _ListApplication.Count.ToString();
         }
-   
+        private void _RefreshApplicationList()
+        {
+            _ListApplication = new DataView(clsApplicationType.GetAllApplicationTypes());
+            dgv_ListApplication.DataSource = _ListApplication;
+            _GetNumberOfRecords();
+        }
+ 
     }
 }
