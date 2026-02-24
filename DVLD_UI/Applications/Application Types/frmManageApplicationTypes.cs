@@ -17,5 +17,11 @@ namespace DVLD_UI.Applications.Application_Types
         {
             InitializeComponent();
         }
+        private DataView _ListApplication;
+        private void _GetNumberOfRecords()
+        {
+            lbl_NumberOfRecords.Text = _ListApplication.Count.ToString();
+        }
+   
     }
 }
