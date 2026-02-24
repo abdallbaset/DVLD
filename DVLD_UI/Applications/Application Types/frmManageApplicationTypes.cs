@@ -28,6 +28,10 @@ namespace DVLD_UI.Applications.Application_Types
             dgv_ListApplication.DataSource = _ListApplication;
             _GetNumberOfRecords();
         }
- 
+
+        private void frmManageApplicationTypes_Load(object sender, EventArgs e)
+        {
+            _RefreshApplicationList();
+        }
     }
 }
