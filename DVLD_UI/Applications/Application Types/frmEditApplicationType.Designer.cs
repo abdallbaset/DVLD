@@ -42,8 +42,10 @@
             this.btn_Save = new System.Windows.Forms.Button();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -64,7 +66,9 @@
             this.txt_ApplicationFees.Name = "txt_ApplicationFees";
             this.txt_ApplicationFees.Size = new System.Drawing.Size(375, 29);
             this.txt_ApplicationFees.TabIndex = 78;
-            this.txt_ApplicationFees.Tag = "";
+            this.txt_ApplicationFees.Tag = "Fees";
+            this.txt_ApplicationFees.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_ApplicationFees_KeyPress);
+            this.txt_ApplicationFees.Validating += new System.ComponentModel.CancelEventHandler(this.txt_ApplicationFees_Validating);
             // 
             // label3
             // 
@@ -84,7 +88,8 @@
             this.txt_ApplicationTitle.Name = "txt_ApplicationTitle";
             this.txt_ApplicationTitle.Size = new System.Drawing.Size(375, 29);
             this.txt_ApplicationTitle.TabIndex = 77;
-            this.txt_ApplicationTitle.Tag = "";
+            this.txt_ApplicationTitle.Tag = "Title";
+            this.txt_ApplicationTitle.Validating += new System.ComponentModel.CancelEventHandler(this.txt_ApplicationTitle_Validating);
             // 
             // label2
             // 
@@ -185,10 +190,15 @@
             this.pictureBox3.TabIndex = 82;
             this.pictureBox3.TabStop = false;
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // frmEditApplicationType
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(553, 324);
             this.Controls.Add(this.btn_Close);
             this.Controls.Add(this.btn_Save);
@@ -208,6 +218,7 @@
             this.Load += new System.EventHandler(this.frmEditApplicationType_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -227,5 +238,6 @@
         private System.Windows.Forms.Button btn_Close;
         private System.Windows.Forms.Button btn_Save;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

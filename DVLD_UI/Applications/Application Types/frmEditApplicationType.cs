@@ -41,18 +41,30 @@ namespace DVLD_UI.Applications.Application_Types
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
+            if (!this.ValidateChildren())
+            {
+                MessageBox.Show("Some fileds are not valide!, put the mouse over the red icon(s) to see the erro",
+                   "Validation Error",
+                           MessageBoxButtons.OK,
+                           MessageBoxIcon.Warning);
 
-                _applicationTypeDetails.ApplicationTypeInfo.ApplicationTypeTitle = txt_ApplicationTitle.Text.Trim();
-
-                if (double.TryParse(txt_ApplicationFees.Text.Trim(), out double fees))
+                if (string.IsNullOrWhiteSpace(txt_ApplicationTitle.Text))
+                { 
+                    txt_ApplicationTitle.Focus();
+                }
+                else if (string.IsNullOrWhiteSpace(txt_ApplicationFees.Text))
                 {
-                    _applicationTypeDetails.ApplicationTypeInfo.ApplicationFees = fees;
+                    txt_ApplicationFees.Focus();
                 }
                 else
-                {
-                    MessageBox.Show("Please enter a valid number for Application Fees.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                    txt_ApplicationTitle.Focus();
+
+
+                return;
+            }
+
+            _applicationTypeDetails.ApplicationTypeInfo.ApplicationTypeTitle = txt_ApplicationTitle.Text.Trim();
+            _applicationTypeDetails.ApplicationTypeInfo.ApplicationFees =Convert.ToDouble( txt_ApplicationFees.Text);
 
             if (_applicationTypeDetails.Save())
             {
@@ -67,6 +79,42 @@ namespace DVLD_UI.Applications.Application_Types
         private void btn_Close_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void txt_ApplicationTitle_Validating(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrEmpty(txt_ApplicationTitle.Text.Trim()))
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(txt_ApplicationTitle, $"{txt_ApplicationTitle.Tag} is required");
+            }
+            else
+            {
+                errorProvider1.SetError(txt_ApplicationTitle, "");
+            }
+        }
+
+        private void txt_ApplicationFees_Validating(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrEmpty(txt_ApplicationFees.Text.Trim()))
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(txt_ApplicationFees, $"{txt_ApplicationFees.Tag} is required");
+            }
+            else
+            {
+                errorProvider1.SetError(txt_ApplicationFees, "");
+            }
+        }
+
+        private void txt_ApplicationFees_KeyPress(object sender, KeyPressEventArgs e)
+        {
+           
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)8 && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+
         }
     }
 }
