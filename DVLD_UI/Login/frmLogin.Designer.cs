@@ -42,7 +42,9 @@
             this.ptcb_Close = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ptcb_Close)).BeginInit();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -164,6 +166,7 @@
             // 
             this.panel1.BackgroundImage = global::DVLD_UI.Properties.Resources.License_Department;
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.panel1.Controls.Add(this.label5);
             this.panel1.Location = new System.Drawing.Point(-2, -2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(393, 562);
@@ -172,6 +175,18 @@
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
+            // 
+            // label5
+            // 
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.label5.Font = new System.Drawing.Font("Sitka Small", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(145, 513);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(101, 21);
+            this.label5.TabIndex = 16;
+            this.label5.Text = "version 1.0";
             // 
             // frmLogin
             // 
@@ -195,6 +210,7 @@
             this.Text = "Login";
             this.Load += new System.EventHandler(this.frmLogin_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ptcb_Close)).EndInit();
+            this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -215,5 +231,6 @@
         private System.Windows.Forms.Button btn_Login;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.Label label5;
     }
 }
