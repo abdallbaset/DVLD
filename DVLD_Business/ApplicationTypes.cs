@@ -11,11 +11,11 @@ namespace DVLD_Business
 {
     public class clsApplicationType
     {
-        private clsApplicationTypesModel _ApplicationTypeInfo { get; set; }
+        public clsApplicationTypesModel ApplicationTypeInfo { get; set; }
 
         private clsApplicationType(clsApplicationTypesModel ApplicationTypeInfo)
         {
-            _ApplicationTypeInfo = ApplicationTypeInfo;
+            this.ApplicationTypeInfo = ApplicationTypeInfo;
         }
 
         public static clsApplicationType Find(int ApplicationTypeID)
@@ -37,7 +37,7 @@ namespace DVLD_Business
 
         private bool _UpdateApplicationType()
         {
-            return clsApplicationTypesData.UpdateApplicationType(_ApplicationTypeInfo);
+            return clsApplicationTypesData.UpdateApplicationType(ApplicationTypeInfo);
         }
 
         public bool Save()
