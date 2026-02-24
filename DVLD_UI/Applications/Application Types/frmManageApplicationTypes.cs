@@ -38,5 +38,14 @@ namespace DVLD_UI.Applications.Application_Types
         {
             this.Close();
         }
+
+        private void editApplictionsTypeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int ApplicationTypeID = Convert.ToInt32(dgv_ListApplication.CurrentRow.Cells["ID"].Value);
+            frmEditApplicationType editForm = new frmEditApplicationType(ApplicationTypeID);
+            editForm.ShowDialog();
+            _RefreshApplicationList();
+            
+        }
     }
 }
