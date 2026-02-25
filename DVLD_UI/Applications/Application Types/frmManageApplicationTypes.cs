@@ -22,10 +22,37 @@ namespace DVLD_UI.Applications.Application_Types
         {
             lbl_NumberOfRecords.Text = _ListApplication.Count.ToString();
         }
+        private void _FormatDataGridView()
+        {
+            if (dgv_ListApplication.Rows.Count > 0)
+            {
+                if(dgv_ListApplication.Columns.Contains("ApplicationTypeID"))
+                {
+                    dgv_ListApplication.Columns["ApplicationTypeID"].HeaderText = "ID";
+                    dgv_ListApplication.Columns["ApplicationTypeID"].Width = 110;
+                }
+
+                if(dgv_ListApplication.Columns.Contains("ApplicationTypeTitle"))
+                {
+
+                    dgv_ListApplication.Columns["ApplicationTypeTitle"].HeaderText = "Title";
+                    dgv_ListApplication.Columns["ApplicationTypeTitle"].Width = 400;
+                }
+
+                if(dgv_ListApplication.Columns.Contains("ApplicationFees"))
+                {
+
+                    dgv_ListApplication.Columns["ApplicationFees"].HeaderText = "Fees";
+                    dgv_ListApplication.Columns["ApplicationFees"].Width = 140;
+                }
+            }
+        }
+
         private void _RefreshApplicationList()
         {
             _ListApplication = new DataView(clsApplicationType.GetAllApplicationTypes());
             dgv_ListApplication.DataSource = _ListApplication;
+            _FormatDataGridView();
             _GetNumberOfRecords();
         }
 
@@ -41,7 +68,7 @@ namespace DVLD_UI.Applications.Application_Types
 
         private void editApplictionsTypeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int ApplicationTypeID = Convert.ToInt32(dgv_ListApplication.CurrentRow.Cells["ID"].Value);
+            int ApplicationTypeID = Convert.ToInt32(dgv_ListApplication.CurrentRow.Cells["ApplicationTypeID"].Value);
             frmEditApplicationType editForm = new frmEditApplicationType(ApplicationTypeID);
             editForm.ShowDialog();
             _RefreshApplicationList();
