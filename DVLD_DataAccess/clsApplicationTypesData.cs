@@ -78,7 +78,7 @@ namespace DVLD_DataAccess
 
             using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
             {
-                string sql = "SELECT ApplicationTypeID AS ID,ApplicationTypeTitle AS Title ,ApplicationFees AS Fees   FROM ApplicationTypes;";
+                string sql = "SELECT ApplicationTypeID ,ApplicationTypeTitle  ,ApplicationFees FROM ApplicationTypes;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
                     try
