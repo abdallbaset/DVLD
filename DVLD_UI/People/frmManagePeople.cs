@@ -22,7 +22,73 @@ namespace DVLD_UI
             InitializeComponent();
         }
         private DataView _ListPeople;
+        private void _FormatDataGridView()
+        {
+            if (dgv_ListPeople.Rows.Count > 0)
+            {
+                if (dgv_ListPeople.Columns.Contains("PersonID"))
+                {
+                    dgv_ListPeople.Columns["PersonID"].HeaderText = "ID";
+                    dgv_ListPeople.Columns["PersonID"].Width = 90;
+                }
 
+                if (dgv_ListPeople.Columns.Contains("NationalNo"))
+                {
+                    dgv_ListPeople.Columns["NationalNo"].HeaderText = "National No";
+                    dgv_ListPeople.Columns["NationalNo"].Width = 130;
+                }
+
+                if (dgv_ListPeople.Columns.Contains("FirstName"))
+                {
+                    dgv_ListPeople.Columns["FirstName"].HeaderText = "First Name";
+                    dgv_ListPeople.Columns["FirstName"].Width = 140;
+                }
+                if (dgv_ListPeople.Columns.Contains("SecondName"))
+                {
+                    dgv_ListPeople.Columns["SecondName"].HeaderText = "Second Name";
+                    dgv_ListPeople.Columns["SecondName"].Width = 140;
+                }
+                if (dgv_ListPeople.Columns.Contains("ThirdName"))
+                {
+                    dgv_ListPeople.Columns["ThirdName"].HeaderText = "Third Name";
+                    dgv_ListPeople.Columns["ThirdName"].Width = 120;
+                }
+                if (dgv_ListPeople.Columns.Contains("LastName"))
+                {
+                    dgv_ListPeople.Columns["LastName"].HeaderText = "Last Name";
+                    dgv_ListPeople.Columns["LastName"].Width = 140;
+                }
+
+                if (dgv_ListPeople.Columns.Contains("DateOfBirth"))
+                {
+                    dgv_ListPeople.Columns["DateOfBirth"].HeaderText = "Date of Birth";
+                    dgv_ListPeople.Columns["DateOfBirth"].Width = 110;
+                }
+
+                if (dgv_ListPeople.Columns.Contains("Gendor"))
+                {
+                    dgv_ListPeople.Columns["Gendor"].HeaderText = "Gender";
+                    dgv_ListPeople.Columns["Gendor"].Width = 90;
+                }
+
+                if (dgv_ListPeople.Columns.Contains("Phone"))
+                {
+                    dgv_ListPeople.Columns["Phone"].HeaderText = "Phone";
+                    dgv_ListPeople.Columns["Phone"].Width = 120;
+                }
+                if (dgv_ListPeople.Columns.Contains("Email"))
+                {
+                    dgv_ListPeople.Columns["Email"].HeaderText = "Email";
+                    dgv_ListPeople.Columns["Email"].Width = 200;
+                }
+
+                if (dgv_ListPeople.Columns.Contains("Nationality"))
+                {
+                    dgv_ListPeople.Columns["Nationality"].HeaderText = "Nationality";
+                    dgv_ListPeople.Columns["Nationality"].Width = 150;
+                }
+            }
+        }
         private void _GetNumberOfRecords()
         {
             lbl_NumberOfRecords.Text = _ListPeople.Count.ToString();
@@ -32,6 +98,7 @@ namespace DVLD_UI
             DataTable dtPeople = clsPeople.ListPeople();
             _ListPeople = new DataView(dtPeople);
             dgv_ListPeople.DataSource = _ListPeople;
+            _FormatDataGridView();
             _GetNumberOfRecords();
         }
       
