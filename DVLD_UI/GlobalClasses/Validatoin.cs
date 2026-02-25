@@ -20,5 +20,28 @@ namespace DVLD_UI.GlobalClasses
 
             return Regex.IsMatch(EmailAddress, pattern);
         }
+
+        public static bool IsInteger(string Number)
+        {
+            var pattern = @"^[0-9]*$";
+
+            var regex = new Regex(pattern);
+
+            return regex.IsMatch(Number);
+        }
+
+        public static bool IsFloat(string Number)
+        {
+            var pattern = @"^[0-9]*(?:\.[0-9]*)?$";
+
+            var regex = new Regex(pattern);
+
+            return regex.IsMatch(Number);
+        }
+
+        public static bool IsNumber(string Number)
+        {
+            return (IsInteger(Number) || IsFloat(Number));
+        }
     }
 }
