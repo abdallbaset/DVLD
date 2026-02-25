@@ -1,5 +1,6 @@
 ﻿using DVLD_Business;
 using DVLD_UI.Controls;
+using DVLD_UI.GlobalClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -100,6 +101,13 @@ namespace DVLD_UI.Applications.Application_Types
             {
                 e.Cancel = true;
                 errorProvider1.SetError(txt_ApplicationFees, $"{txt_ApplicationFees.Tag} is required");
+                return;
+            }
+
+            if (!clsValidatoin.IsNumber(txt_ApplicationFees.Text.Trim()))
+            {
+                e.Cancel = true;
+                errorProvider1.SetError(txt_ApplicationFees, $"{txt_ApplicationFees.Tag} must be a valid number");
             }
             else
             {
