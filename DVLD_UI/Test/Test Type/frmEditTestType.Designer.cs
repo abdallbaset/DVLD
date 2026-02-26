@@ -70,6 +70,7 @@
             this.btn_Close.Text = "Close";
             this.btn_Close.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_Close.UseVisualStyleBackColor = false;
+            this.btn_Close.Click += new System.EventHandler(this.btn_Close_Click);
             // 
             // btn_Save
             // 
@@ -88,6 +89,7 @@
             this.btn_Save.Text = "Save";
             this.btn_Save.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_Save.UseVisualStyleBackColor = false;
+            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
             // lbl_TestTypeID
             // 
@@ -108,6 +110,8 @@
             this.txt_Fees.Size = new System.Drawing.Size(375, 29);
             this.txt_Fees.TabIndex = 91;
             this.txt_Fees.Tag = "Fees";
+            this.txt_Fees.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Fees_KeyPress);
+            this.txt_Fees.Validating += new System.ComponentModel.CancelEventHandler(this.txt_Fees_Validating);
             // 
             // label3
             // 
@@ -128,6 +132,7 @@
             this.txt_Title.Size = new System.Drawing.Size(375, 29);
             this.txt_Title.TabIndex = 89;
             this.txt_Title.Tag = "Title";
+            this.txt_Title.Validating += new System.ComponentModel.CancelEventHandler(this.txt_Title_Validating);
             // 
             // label2
             // 
@@ -171,6 +176,7 @@
             this.txt_Description.Size = new System.Drawing.Size(375, 125);
             this.txt_Description.TabIndex = 90;
             this.txt_Description.Tag = "Description";
+            this.txt_Description.Validating += new System.ComponentModel.CancelEventHandler(this.txt_Description_Validating);
             // 
             // label5
             // 
@@ -228,6 +234,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(599, 443);
             this.Controls.Add(this.txt_Description);
             this.Controls.Add(this.label5);
@@ -247,6 +254,7 @@
             this.Name = "frmEditTestType";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Update Test Type";
+            this.Load += new System.EventHandler(this.frmEditTestType_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
