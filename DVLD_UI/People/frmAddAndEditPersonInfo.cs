@@ -140,7 +140,7 @@ namespace DVLD_UI
                 }
                 else
                 {
-                    ptb_PersonImage.Image = null;
+                    ptb_PersonImage.Image = (_Person.PersonInfo.Gendor == (byte)enGendor.Male) ? Properties.Resources.male_Man_face : Properties.Resources.female_girl_face;
                 }
 
                 btn_RemoveImage.Visible = (ptb_PersonImage.ImageLocation != null);
