@@ -29,20 +29,20 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmManageTestTypes));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lbl_NumberOfRecords = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.btn_Close = new System.Windows.Forms.Button();
-            this.dgv_ListTestTypes = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.dgv_ListTestTypes = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.btn_Close = new System.Windows.Forms.Button();
             this.editApplictionsTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_ListTestTypes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // lbl_NumberOfRecords
@@ -65,18 +65,12 @@
             this.label3.TabIndex = 18;
             this.label3.Text = "# Records:";
             // 
-            // btn_Close
+            // imageList1
             // 
-            this.btn_Close.Font = new System.Drawing.Font("Tahoma", 11F);
-            this.btn_Close.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btn_Close.ImageIndex = 1;
-            this.btn_Close.ImageList = this.imageList1;
-            this.btn_Close.Location = new System.Drawing.Point(832, 707);
-            this.btn_Close.Name = "btn_Close";
-            this.btn_Close.Size = new System.Drawing.Size(123, 45);
-            this.btn_Close.TabIndex = 17;
-            this.btn_Close.Text = "Close";
-            this.btn_Close.UseVisualStyleBackColor = true;
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "person-add.png");
+            this.imageList1.Images.SetKeyName(1, "close.png");
             // 
             // dgv_ListTestTypes
             // 
@@ -103,6 +97,14 @@
             this.dgv_ListTestTypes.Size = new System.Drawing.Size(942, 438);
             this.dgv_ListTestTypes.TabIndex = 16;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editApplictionsTypeToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(215, 58);
+            // 
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Tahoma", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -114,6 +116,28 @@
             this.label1.Text = "Mange Test Types";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // btn_Close
+            // 
+            this.btn_Close.Font = new System.Drawing.Font("Tahoma", 11F);
+            this.btn_Close.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_Close.ImageIndex = 1;
+            this.btn_Close.ImageList = this.imageList1;
+            this.btn_Close.Location = new System.Drawing.Point(832, 707);
+            this.btn_Close.Name = "btn_Close";
+            this.btn_Close.Size = new System.Drawing.Size(123, 45);
+            this.btn_Close.TabIndex = 17;
+            this.btn_Close.Text = "Close";
+            this.btn_Close.UseVisualStyleBackColor = true;
+            this.btn_Close.Click += new System.EventHandler(this.btn_Close_Click);
+            // 
+            // editApplictionsTypeToolStripMenuItem
+            // 
+            this.editApplictionsTypeToolStripMenuItem.Image = global::DVLD_UI.Properties.Resources.edit_32;
+            this.editApplictionsTypeToolStripMenuItem.Name = "editApplictionsTypeToolStripMenuItem";
+            this.editApplictionsTypeToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
+            this.editApplictionsTypeToolStripMenuItem.Text = "Edit Test Type";
+            this.editApplictionsTypeToolStripMenuItem.Click += new System.EventHandler(this.editApplictionsTypeToolStripMenuItem_Click);
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::DVLD_UI.Properties.Resources.TestType_512;
@@ -123,28 +147,6 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 14;
             this.pictureBox1.TabStop = false;
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "person-add.png");
-            this.imageList1.Images.SetKeyName(1, "close.png");
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.editApplictionsTypeToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(174, 30);
-            // 
-            // editApplictionsTypeToolStripMenuItem
-            // 
-            this.editApplictionsTypeToolStripMenuItem.Image = global::DVLD_UI.Properties.Resources.edit_32;
-            this.editApplictionsTypeToolStripMenuItem.Name = "editApplictionsTypeToolStripMenuItem";
-            this.editApplictionsTypeToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
-            this.editApplictionsTypeToolStripMenuItem.Text = "Edit Test Type";
             // 
             // frmManageTestTypes
             // 
@@ -161,9 +163,10 @@
             this.Name = "frmManageTestTypes";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Manage Test Types";
+            this.Load += new System.EventHandler(this.frmManageTestTypes_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_ListTestTypes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
