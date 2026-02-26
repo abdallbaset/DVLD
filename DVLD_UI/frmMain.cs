@@ -1,5 +1,6 @@
 ﻿using DVLD_UI.Applications.Application_Types;
 using DVLD_UI.GlobalClasses;
+using DVLD_UI.Test.Test_Type;
 using DVLD_UI.Users;
 using System;
 using System.Collections.Generic;
@@ -57,6 +58,12 @@ namespace DVLD_UI
         {
             frmManageApplicationTypes frmManageApplicationTypes = new frmManageApplicationTypes();
             frmManageApplicationTypes.ShowDialog();
+        }
+
+        private void manageTestTypesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmManageTestTypes frmManageTestTypes = new frmManageTestTypes();
+            frmManageTestTypes.ShowDialog();
         }
     }
 }
