@@ -250,6 +250,7 @@
             // 
             // btn_Close
             // 
+            this.btn_Close.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_Close.Font = new System.Drawing.Font("Tahoma", 11F);
             this.btn_Close.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btn_Close.ImageIndex = 1;
@@ -276,6 +277,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btn_Close;
             this.ClientSize = new System.Drawing.Size(1331, 853);
             this.Controls.Add(this.lbl_NumberOfRecords);
             this.Controls.Add(this.label3);
