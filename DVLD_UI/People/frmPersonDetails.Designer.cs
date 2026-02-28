@@ -61,6 +61,7 @@
             // btn_Close
             // 
             this.btn_Close.BackColor = System.Drawing.Color.Crimson;
+            this.btn_Close.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_Close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Close.Font = new System.Drawing.Font("Tahoma", 12F);
             this.btn_Close.ForeColor = System.Drawing.Color.White;
@@ -87,6 +88,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btn_Close;
             this.ClientSize = new System.Drawing.Size(1195, 581);
             this.Controls.Add(this.btn_Close);
             this.Controls.Add(this.lbl_Mode);
