@@ -35,7 +35,6 @@
             this.tp_PersonInfo = new System.Windows.Forms.TabPage();
             this.btn_Next = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.ctrlPersonCardWithFilter1 = new DVLD_UI.Controls.ctrlPersonCardWithFilter();
             this.tp_LoginInfo = new System.Windows.Forms.TabPage();
             this.btn_Back = new System.Windows.Forms.Button();
             this.ckb_IsActive = new System.Windows.Forms.CheckBox();
@@ -54,6 +53,7 @@
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.btn_Close = new System.Windows.Forms.Button();
             this.btn_Save = new System.Windows.Forms.Button();
+            this.ctrlPersonCardWithFilter1 = new DVLD_UI.Controls.ctrlPersonCardWithFilter();
             this.tabControl1.SuspendLayout();
             this.tp_PersonInfo.SuspendLayout();
             this.tp_LoginInfo.SuspendLayout();
@@ -127,13 +127,6 @@
             this.imageList1.Images.SetKeyName(1, "close_2.png");
             this.imageList1.Images.SetKeyName(2, "next.png");
             this.imageList1.Images.SetKeyName(3, "chevron-back.png");
-            // 
-            // ctrlPersonCardWithFilter1
-            // 
-            this.ctrlPersonCardWithFilter1.Location = new System.Drawing.Point(19, 36);
-            this.ctrlPersonCardWithFilter1.Name = "ctrlPersonCardWithFilter1";
-            this.ctrlPersonCardWithFilter1.Size = new System.Drawing.Size(1129, 504);
-            this.ctrlPersonCardWithFilter1.TabIndex = 0;
             // 
             // tp_LoginInfo
             // 
@@ -322,6 +315,7 @@
             // btn_Close
             // 
             this.btn_Close.BackColor = System.Drawing.Color.Crimson;
+            this.btn_Close.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_Close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Close.Font = new System.Drawing.Font("Tahoma", 12F);
             this.btn_Close.ForeColor = System.Drawing.Color.White;
@@ -357,6 +351,13 @@
             this.btn_Save.UseVisualStyleBackColor = false;
             this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
+            // ctrlPersonCardWithFilter1
+            // 
+            this.ctrlPersonCardWithFilter1.Location = new System.Drawing.Point(19, 36);
+            this.ctrlPersonCardWithFilter1.Name = "ctrlPersonCardWithFilter1";
+            this.ctrlPersonCardWithFilter1.Size = new System.Drawing.Size(1129, 504);
+            this.ctrlPersonCardWithFilter1.TabIndex = 0;
+            // 
             // frmAddNewAndEditUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -369,11 +370,13 @@
             this.Controls.Add(this.lbl_Mode);
             this.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.KeyPreview = true;
             this.Name = "frmAddNewAndEditUser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AddNewAndEditUser";
             this.Activated += new System.EventHandler(this.frmAddNewAndEditUser_Activated);
             this.Load += new System.EventHandler(this.frmAddNewAndEditUser_Load);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.frmAddNewAndEditUser_KeyPress);
             this.tabControl1.ResumeLayout(false);
             this.tp_PersonInfo.ResumeLayout(false);
             this.tp_LoginInfo.ResumeLayout(false);

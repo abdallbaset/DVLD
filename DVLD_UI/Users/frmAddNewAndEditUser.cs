@@ -329,5 +329,23 @@ namespace DVLD_UI.Users
         {
             ctrlPersonCardWithFilter1.FilterFocus();
         }
+
+        private void frmAddNewAndEditUser_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+
+             if(btn_Save.Enabled == true)
+                {
+                    btn_Save.PerformClick();
+                }
+            }
+
+            if (e.KeyChar == (char)Keys.Escape)
+            {
+                btn_Close.PerformClick();
+            }
+
+        }
     }
 }
