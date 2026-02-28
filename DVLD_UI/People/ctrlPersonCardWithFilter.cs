@@ -1,4 +1,5 @@
 ﻿using DVLD_Business;
+using DVLD_Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +14,17 @@ namespace DVLD_UI.Controls
 {
     public partial class ctrlPersonCardWithFilter : UserControl
     {
+
+        public event Action<int> OnPersonSelected;
+        protected virtual void PersonSelected(int PersonID)
+        {
+            Action<int> handler = OnPersonSelected;
+            if (handler != null)
+            {
+                handler(PersonID); 
+            }
+        }
+
         enum enFilterMode {  PersonID, NationalNO }
         enFilterMode _FilterMode;
         public ctrlPersonCardWithFilter()
@@ -23,9 +35,14 @@ namespace DVLD_UI.Controls
         { 
             get { return ctrlPersonCard.PersonID; }
         }
+
+        public clsPeopleModel SelectedPersonInfo
+        {
+            get { return ctrlPersonCard.SelectedPersonInfo; }
+        }
         private void mtxt_Value_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)8)
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
             {
                 e.Handled = true;
             }
@@ -79,6 +96,9 @@ namespace DVLD_UI.Controls
                 default:
                     MessageBox.Show("Invalid search mode selected.", "Technical Error", MessageBoxButtons.OK, MessageBoxIcon.Stop); break;
             }
+
+            if (OnPersonSelected != null )
+                OnPersonSelected(ctrlPersonCard.PersonID);
 
         }
         public void DisableFilter()
