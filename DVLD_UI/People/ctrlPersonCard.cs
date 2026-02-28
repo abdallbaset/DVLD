@@ -26,9 +26,9 @@ namespace DVLD_UI
         }
        public int PersonID = -1;
         private   clsPeople _Person;
-        public clsPeople SelectedPersonInfo
+        public clsPeopleModel SelectedPersonInfo
         {
-            get { return _Person; }
+            get { return _Person.PersonInfo; }
         }
         public void LoadPersonInfo(int PersonID)
         {
