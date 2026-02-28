@@ -10,7 +10,7 @@ namespace DVLD_Business
         enum enMode { AddNew = 1, Update = 2 }
         private enMode _Mode;
         public clsUsersModel UserInfo { get; set; }
-        public clsPeople PersonInfo { get; set; }
+        public clsPeople Person { get; set; }
         public clsUser()
         {
             UserInfo = new clsUsersModel();
@@ -20,7 +20,7 @@ namespace DVLD_Business
         private clsUser(clsUsersModel user)
         {
             UserInfo = user;
-            PersonInfo = clsPeople.Find(UserInfo.PersonID);
+            Person = clsPeople.Find(UserInfo.PersonID);
             _Mode = enMode.Update;
         }
 
