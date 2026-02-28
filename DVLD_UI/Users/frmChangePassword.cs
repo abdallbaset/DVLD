@@ -32,6 +32,7 @@ namespace DVLD_UI.Users
                                         MessageBoxButtons.OK,
                                         MessageBoxIcon.Exclamation);
                     this.Close();
+                return;
             }
             ctrlUserCard1.LoadUserInfo(_UserID);
 
