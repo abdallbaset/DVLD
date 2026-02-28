@@ -13,9 +13,15 @@ namespace DVLD_UI.Users
 {
     public partial class ctrlUserCard : UserControl
     {
+        private clsUser _User;
+        private int _UserID = -1;
+        public int UserID {
+            get { return _UserID; }
+        }
         public ctrlUserCard()
         {
             InitializeComponent();
+
         }
         private void _LoadDefaultData()
         {
@@ -24,10 +30,22 @@ namespace DVLD_UI.Users
             lbl_IsActive.Text = "???";
             ctrlPersonCard1.LoadDefaultData();
         }
+
+
+        private void _FillUserInfo()
+        {
+
+            ctrlPersonCard1.LoadPersonInfo(_User.UserInfo.PersonID);
+
+            lbl_UserID.Text = _User.UserInfo.UserID.ToString();
+            lbl_UserName.Text = _User.UserInfo.UserName;
+            lbl_IsActive.Text = (_User.UserInfo.IsActive) ? "Yes" : "No";
+        }
         public void LoadUserInfo(int UserID)
         {
-            clsUser User = clsUser.FindByUserID(UserID);
-            if (User == null)
+            _UserID = UserID;
+            _User = clsUser.FindByUserID(UserID);
+            if (_User == null)
             {
                 _LoadDefaultData();
                 MessageBox.Show($"No User with ID [{UserID}] was found in the system.",
@@ -37,11 +55,8 @@ namespace DVLD_UI.Users
                 return;
             }
 
-            ctrlPersonCard1.LoadPersonInfo(User.UserInfo.PersonID);
+            _FillUserInfo();
 
-            lbl_UserID.Text = User.UserInfo.UserID.ToString();
-            lbl_UserName.Text = User.UserInfo.UserName;
-            lbl_IsActive.Text = (User.UserInfo.IsActive) ? "Yes" : "No";
         }
     }
 }
