@@ -1,4 +1,5 @@
 ﻿using DVLD_Business;
+using DVLD_Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -77,7 +78,7 @@ namespace DVLD_UI.Test.Test_Type
         {
             if (dgv_ListTestTypes.Rows.Count > 0 && dgv_ListTestTypes.CurrentRow != null)
             {
-                int TestTypeID = Convert.ToInt32(dgv_ListTestTypes.CurrentRow.Cells["TestTypeID"].Value);
+                clsTestTypesModel.enTestType TestTypeID = (clsTestTypesModel.enTestType)(dgv_ListTestTypes.CurrentRow.Cells["TestTypeID"].Value);
                 frmEditTestType editForm = new frmEditTestType(TestTypeID);
                 editForm.ShowDialog();
                 _RefreshTestTypesList();

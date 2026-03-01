@@ -7,7 +7,7 @@ namespace DVLD_DataAccess
 {
     public class clsTestTypesData
     {
-        static public clsTestTypesModel GetTestTypeInfoByID(int TestTypeID)
+        static public clsTestTypesModel GetTestTypeInfoByID(clsTestTypesModel.enTestType TestTypeID)
         {
             clsTestTypesModel TestType = null;
 
@@ -26,7 +26,7 @@ namespace DVLD_DataAccess
                             {
                                 TestType = new clsTestTypesModel();
 
-                                TestType.TestTypeID = Convert.ToInt32(reader["TestTypeID"]);
+                                TestType.ID = TestTypeID;
                                 TestType.TestTypeTitle = reader["TestTypeTitle"].ToString();
                                 TestType.TestTypeDescription = reader["TestTypeDescription"].ToString();
                                 TestType.TestTypeFees = Convert.ToDouble(reader["TestTypeFees"]);
@@ -43,6 +43,38 @@ namespace DVLD_DataAccess
 
             return TestType;
         }
+        static public int AddNewTestType(clsTestTypesModel TestType)
+        {
+            int TestTypeID =(int) clsTestTypesModel.enTestType.NotSpecified;
+
+            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            {
+                string sql = "INSERT INTO TestTypes (TestTypeTitle, TestTypeDescription, TestTypeFees) OUTPUT INSERTED.TestTypeID " +
+                             "VALUES (@Title, @Description, @Fees);";
+                using (SqlCommand cmd = new SqlCommand(sql, Connection))
+                {
+                    cmd.Parameters.AddWithValue("@Title", TestType.TestTypeTitle);
+                    cmd.Parameters.AddWithValue("@Description", TestType.TestTypeDescription);
+                    cmd.Parameters.AddWithValue("@Fees", TestType.TestTypeFees);
+
+                    try
+                    {
+                        Connection.Open();
+                        object Result = cmd.ExecuteScalar();
+                        if (Result != null)
+                        {
+                            TestTypeID = Convert.ToInt32(Result);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        //Errors will be recorded in the LOG file later.
+                    }
+                }
+            }
+
+            return TestTypeID;
+        }
 
         static public bool UpdateTestType(clsTestTypesModel TestType)
         {
@@ -56,7 +88,7 @@ namespace DVLD_DataAccess
                     cmd.Parameters.AddWithValue("@Title", TestType.TestTypeTitle);
                     cmd.Parameters.AddWithValue("@Description", TestType.TestTypeDescription);
                     cmd.Parameters.AddWithValue("@Fees", TestType.TestTypeFees);
-                    cmd.Parameters.AddWithValue("@TestTypeID", TestType.TestTypeID);
+                    cmd.Parameters.AddWithValue("@TestTypeID", TestType.ID);
 
                     try
                     {

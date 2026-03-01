@@ -36,9 +36,9 @@
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.dgv_ListTestTypes = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.editApplictionsTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.btn_Close = new System.Windows.Forms.Button();
-            this.editApplictionsTypeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_ListTestTypes)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -103,7 +103,15 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editApplictionsTypeToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(215, 58);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(174, 30);
+            // 
+            // editApplictionsTypeToolStripMenuItem
+            // 
+            this.editApplictionsTypeToolStripMenuItem.Image = global::DVLD_UI.Properties.Resources.edit_32;
+            this.editApplictionsTypeToolStripMenuItem.Name = "editApplictionsTypeToolStripMenuItem";
+            this.editApplictionsTypeToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
+            this.editApplictionsTypeToolStripMenuItem.Text = "Edit Test Type";
+            this.editApplictionsTypeToolStripMenuItem.Click += new System.EventHandler(this.editApplictionsTypeToolStripMenuItem_Click);
             // 
             // label1
             // 
@@ -118,6 +126,7 @@
             // 
             // btn_Close
             // 
+            this.btn_Close.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_Close.Font = new System.Drawing.Font("Tahoma", 11F);
             this.btn_Close.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btn_Close.ImageIndex = 1;
@@ -129,14 +138,6 @@
             this.btn_Close.Text = "Close";
             this.btn_Close.UseVisualStyleBackColor = true;
             this.btn_Close.Click += new System.EventHandler(this.btn_Close_Click);
-            // 
-            // editApplictionsTypeToolStripMenuItem
-            // 
-            this.editApplictionsTypeToolStripMenuItem.Image = global::DVLD_UI.Properties.Resources.edit_32;
-            this.editApplictionsTypeToolStripMenuItem.Name = "editApplictionsTypeToolStripMenuItem";
-            this.editApplictionsTypeToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
-            this.editApplictionsTypeToolStripMenuItem.Text = "Edit Test Type";
-            this.editApplictionsTypeToolStripMenuItem.Click += new System.EventHandler(this.editApplictionsTypeToolStripMenuItem_Click);
             // 
             // pictureBox1
             // 
@@ -152,6 +153,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btn_Close;
             this.ClientSize = new System.Drawing.Size(973, 766);
             this.Controls.Add(this.lbl_NumberOfRecords);
             this.Controls.Add(this.label3);

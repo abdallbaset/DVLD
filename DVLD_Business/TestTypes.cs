@@ -1,24 +1,34 @@
-﻿using System;
+﻿using DVLD_DataAccess;
+using DVLD_Model;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DVLD_DataAccess;
-using DVLD_Model;
+using System.Xml.Linq;
 
 namespace DVLD_Business
 {
     public class clsTestTypes
     {
+        public enum enMode { AddNew = 0, Update = 1 };
+        private enMode _Mode = enMode.AddNew;
         public clsTestTypesModel TestTypeInfo { get; set; }
 
+        private clsTestTypes()
+        {
+            TestTypeInfo = new clsTestTypesModel();
+            _Mode = enMode.AddNew;
+
+        }
         private clsTestTypes(clsTestTypesModel TestTypeInfo)
         {
             this.TestTypeInfo = TestTypeInfo;
+            _Mode = enMode.Update;
         }
 
-        public static clsTestTypes Find(int TestTypeID)
+        public static clsTestTypes Find(clsTestTypesModel.enTestType TestTypeID)
         {
             clsTestTypesModel TestTypeInfo = clsTestTypesData.GetTestTypeInfoByID(TestTypeID);
 
@@ -29,7 +39,11 @@ namespace DVLD_Business
 
             return null;
         }
-
+        private bool _AddNewTestType()
+        {
+            TestTypeInfo.ID = (clsTestTypesModel.enTestType)clsTestTypesData.AddNewTestType(TestTypeInfo);
+            return (TestTypeInfo.ID != clsTestTypesModel.enTestType.NotSpecified);
+        }
         static public DataTable GetAllTestTypes()
         {
             return clsTestTypesData.GetAllTestTypes();
@@ -42,7 +56,27 @@ namespace DVLD_Business
 
         public bool Save()
         {
-            return _UpdateTestType();
+            switch (_Mode)
+            {
+                case enMode.AddNew:
+                    if (_AddNewTestType())
+                    {
+
+                        _Mode = enMode.Update;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                case enMode.Update:
+
+                    return _UpdateTestType();
+
+            }
+
+            return false;
         }
     }
 }

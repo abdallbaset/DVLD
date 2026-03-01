@@ -1,4 +1,5 @@
 ﻿using DVLD_Business;
+using DVLD_Model;
 using DVLD_UI.GlobalClasses;
 using System;
 using System.ComponentModel;
@@ -8,10 +9,10 @@ namespace DVLD_UI.Test.Test_Type
 {
     public partial class frmEditTestType : Form
     {
-        private int _TestTypeID;
+        private clsTestTypesModel.enTestType _TestTypeID = clsTestTypesModel.enTestType.NotSpecified;
         private clsTestTypes _testTypeDetails = null;
 
-        public frmEditTestType(int TestTypeID)
+        public frmEditTestType(clsTestTypesModel.enTestType TestTypeID)
         {
             InitializeComponent();
             _TestTypeID = TestTypeID;
@@ -22,7 +23,7 @@ namespace DVLD_UI.Test.Test_Type
             _testTypeDetails = clsTestTypes.Find(_TestTypeID);
             if (_testTypeDetails != null)
             {
-                lbl_TestTypeID.Text = _testTypeDetails.TestTypeInfo.TestTypeID.ToString();
+                lbl_TestTypeID.Text = ((int)_testTypeDetails.TestTypeInfo.ID).ToString();
                 txt_Title.Text = _testTypeDetails.TestTypeInfo.TestTypeTitle;
                 txt_Description.Text = _testTypeDetails.TestTypeInfo.TestTypeDescription;
                 txt_Fees.Text = _testTypeDetails.TestTypeInfo.TestTypeFees.ToString();
