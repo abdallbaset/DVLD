@@ -1,4 +1,5 @@
 ﻿using DVLD_Business;
+using DVLD_Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -68,7 +69,7 @@ namespace DVLD_UI.Applications.Application_Types
 
         private void editApplictionsTypeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int ApplicationTypeID = Convert.ToInt32(dgv_ListApplication.CurrentRow.Cells["ApplicationTypeID"].Value);
+            clsApplicationTypesModel.enApplicationTypes ApplicationTypeID = (clsApplicationTypesModel.enApplicationTypes)dgv_ListApplication.CurrentRow.Cells["ApplicationTypeID"].Value;
             frmEditApplicationType editForm = new frmEditApplicationType(ApplicationTypeID);
             editForm.ShowDialog();
             _RefreshApplicationList();

@@ -1,4 +1,5 @@
 ﻿using DVLD_Business;
+using DVLD_Model;
 using DVLD_UI.Controls;
 using DVLD_UI.GlobalClasses;
 using System;
@@ -15,9 +16,9 @@ namespace DVLD_UI.Applications.Application_Types
 {
     public partial class frmEditApplicationType : Form
     {
-        private int _ApplictionTypeID;
+        private clsApplicationTypesModel.enApplicationTypes _ApplictionTypeID = clsApplicationTypesModel.enApplicationTypes.NotSpecified;
         private clsApplicationType _applicationType = null;
-        public frmEditApplicationType(int ApplictionTypeID)
+        public frmEditApplicationType(clsApplicationTypesModel.enApplicationTypes ApplictionTypeID)
         {
             InitializeComponent();
             _ApplictionTypeID = ApplictionTypeID;
@@ -29,7 +30,7 @@ namespace DVLD_UI.Applications.Application_Types
              _applicationType = clsApplicationType.Find(_ApplictionTypeID);
             if (_applicationType != null)
             {
-                lbl_ApplicationID.Text    = _applicationType.ApplicationTypeInfo.ApplicationTypeID.ToString();
+                lbl_ApplicationID.Text    = ((int)_applicationType.ApplicationTypeInfo.ApplicationTypeID).ToString();
                 txt_ApplicationTitle.Text = _applicationType.ApplicationTypeInfo.ApplicationTypeTitle;
                 txt_ApplicationFees.Text  = _applicationType.ApplicationTypeInfo.ApplicationFees.ToString();
             }

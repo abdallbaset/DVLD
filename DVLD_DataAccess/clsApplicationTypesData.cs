@@ -7,7 +7,7 @@ namespace DVLD_DataAccess
 {
     public class clsApplicationTypesData
     {
-        static public clsApplicationTypesModel GetApplicationTypeInfoByID(int ApplicationTypeID)
+        static public clsApplicationTypesModel GetApplicationTypeInfoByID(clsApplicationTypesModel.enApplicationTypes ApplicationTypeID)
         {
             clsApplicationTypesModel ApplicationType = null;
 
@@ -26,7 +26,7 @@ namespace DVLD_DataAccess
                             {
                                 ApplicationType = new clsApplicationTypesModel();
 
-                                ApplicationType.ApplicationTypeID = Convert.ToInt32(reader["ApplicationTypeID"]);
+                                ApplicationType.ApplicationTypeID = ApplicationTypeID;
                                 ApplicationType.ApplicationTypeTitle = reader["ApplicationTypeTitle"].ToString();
                                 ApplicationType.ApplicationFees = Convert.ToDouble(reader["ApplicationFees"]);
 
@@ -42,7 +42,37 @@ namespace DVLD_DataAccess
 
             return ApplicationType;
         }
+        static public int AddNewApplicationType(clsApplicationTypesModel ApplicationType)
+        {
+            int ApplicationTypeID = (int)clsApplicationTypesModel.enApplicationTypes.NotSpecified;
 
+            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            {
+                string sql = "INSERT INTO ApplicationTypes (ApplicationTypeTitle, ApplicationFees) OUTPUT INSERTED.ApplicationTypeID " +
+                             "VALUES (@Title, @Fees);";
+                using (SqlCommand cmd = new SqlCommand(sql, Connection))
+                {
+                    cmd.Parameters.AddWithValue("@Title", ApplicationType.ApplicationTypeTitle);
+                    cmd.Parameters.AddWithValue("@Fees", ApplicationType.ApplicationFees);
+
+                    try
+                    {
+                        Connection.Open();
+                        object Result = cmd.ExecuteScalar();
+                        if (Result != null)
+                        {
+                            ApplicationTypeID = Convert.ToInt32(Result);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        //Errors will be recorded in the LOG file later.
+                    }
+                }
+            }
+
+            return ApplicationTypeID;
+        }
         static public bool UpdateApplicationType(clsApplicationTypesModel ApplicationType)
         {
             bool IsUpdated = false;

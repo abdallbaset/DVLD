@@ -11,14 +11,23 @@ namespace DVLD_Business
 {
     public class clsApplicationType
     {
+        public enum enMode { AddNew = 0, Update = 1 };
+        private enMode _Mode = enMode.AddNew;
         public clsApplicationTypesModel ApplicationTypeInfo { get; set; }
 
+        private clsApplicationType()
+        {
+            ApplicationTypeInfo = new clsApplicationTypesModel();
+            _Mode = enMode.AddNew;
+        }
         private clsApplicationType(clsApplicationTypesModel ApplicationTypeInfo)
         {
             this.ApplicationTypeInfo = ApplicationTypeInfo;
+            _Mode = enMode.Update;
+
         }
 
-        public static clsApplicationType Find(int ApplicationTypeID)
+        public static clsApplicationType Find(clsApplicationTypesModel.enApplicationTypes ApplicationTypeID)
         {
             clsApplicationTypesModel ApplicationTypeInfo = clsApplicationTypesData.GetApplicationTypeInfoByID(ApplicationTypeID);
 
@@ -34,7 +43,11 @@ namespace DVLD_Business
         {
             return clsApplicationTypesData.GetAllApplicationTypes();
         }
-
+        private bool _AddNewApplicationType()
+        {
+            ApplicationTypeInfo.ApplicationTypeID = (clsApplicationTypesModel.enApplicationTypes)clsApplicationTypesData.AddNewApplicationType(ApplicationTypeInfo);
+            return (ApplicationTypeInfo.ApplicationTypeID != clsApplicationTypesModel.enApplicationTypes.NotSpecified);
+        }
         private bool _UpdateApplicationType()
         {
             return clsApplicationTypesData.UpdateApplicationType(ApplicationTypeInfo);
@@ -42,7 +55,25 @@ namespace DVLD_Business
 
         public bool Save()
         {
-            return _UpdateApplicationType();
+            switch (_Mode)
+            {
+                case enMode.AddNew:
+                    if (_AddNewApplicationType())
+                    {
+                        _Mode = enMode.Update;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                case enMode.Update:
+                    return _UpdateApplicationType();
+
+                default:
+                    return false;
+            }
         }
     }
 }
