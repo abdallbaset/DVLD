@@ -135,6 +135,7 @@
             // 
             this.btn_Close.BackColor = System.Drawing.Color.Crimson;
             this.btn_Close.CausesValidation = false;
+            this.btn_Close.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btn_Close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Close.Font = new System.Drawing.Font("Tahoma", 12F);
             this.btn_Close.ForeColor = System.Drawing.Color.White;
@@ -196,9 +197,11 @@
             // 
             // frmEditApplicationType
             // 
+            this.AcceptButton = this.btn_Save;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
+            this.CancelButton = this.btn_Close;
             this.ClientSize = new System.Drawing.Size(553, 324);
             this.Controls.Add(this.btn_Close);
             this.Controls.Add(this.btn_Save);

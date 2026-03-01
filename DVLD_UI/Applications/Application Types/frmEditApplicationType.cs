@@ -16,7 +16,7 @@ namespace DVLD_UI.Applications.Application_Types
     public partial class frmEditApplicationType : Form
     {
         private int _ApplictionTypeID;
-        private clsApplicationType _applicationTypeDetails = null;
+        private clsApplicationType _applicationType = null;
         public frmEditApplicationType(int ApplictionTypeID)
         {
             InitializeComponent();
@@ -26,12 +26,12 @@ namespace DVLD_UI.Applications.Application_Types
 
        private void _LoadApplicationTypeDetails()
         {
-             _applicationTypeDetails = clsApplicationType.Find(_ApplictionTypeID);
-            if (_applicationTypeDetails != null)
+             _applicationType = clsApplicationType.Find(_ApplictionTypeID);
+            if (_applicationType != null)
             {
-                lbl_ApplicationID.Text    = _applicationTypeDetails.ApplicationTypeInfo.ApplicationTypeID.ToString();
-                txt_ApplicationTitle.Text = _applicationTypeDetails.ApplicationTypeInfo.ApplicationTypeTitle;
-                txt_ApplicationFees.Text  = _applicationTypeDetails.ApplicationTypeInfo.ApplicationFees.ToString();
+                lbl_ApplicationID.Text    = _applicationType.ApplicationTypeInfo.ApplicationTypeID.ToString();
+                txt_ApplicationTitle.Text = _applicationType.ApplicationTypeInfo.ApplicationTypeTitle;
+                txt_ApplicationFees.Text  = _applicationType.ApplicationTypeInfo.ApplicationFees.ToString();
             }
         }
 
@@ -64,10 +64,10 @@ namespace DVLD_UI.Applications.Application_Types
                 return;
             }
 
-            _applicationTypeDetails.ApplicationTypeInfo.ApplicationTypeTitle = txt_ApplicationTitle.Text.Trim();
-            _applicationTypeDetails.ApplicationTypeInfo.ApplicationFees =Convert.ToDouble( txt_ApplicationFees.Text);
+            _applicationType.ApplicationTypeInfo.ApplicationTypeTitle = txt_ApplicationTitle.Text.Trim();
+            _applicationType.ApplicationTypeInfo.ApplicationFees =Convert.ToDouble( txt_ApplicationFees.Text);
 
-            if (_applicationTypeDetails.Save())
+            if (_applicationType.Save())
             {
                 MessageBox.Show("information saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
