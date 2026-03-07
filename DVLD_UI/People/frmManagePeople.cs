@@ -179,10 +179,10 @@ namespace DVLD_UI
         }
 
 
-        private void _ShowFormAddAndEditPerson(int PersonID = -1)
+        private void _ShowFormAddAndEditPerson(int PersonID = (int)clsGlobal.enIdentityStatus.NonExistent)
         {
             frmAddAndEditPersonInfo frm;
-            if (PersonID == -1)
+            if (PersonID == (int)clsGlobal.enIdentityStatus.NonExistent)
             {
                 frm = new frmAddAndEditPersonInfo(PersonID);
                 frm.ShowDialog();
@@ -255,7 +255,7 @@ namespace DVLD_UI
 
                     if (clsPeople.IsExist(PersonID))
                     {
-                        string ImageDeletingPath = clsPeople.Find(PersonID).PersonInfo.ImagePath;
+                        string ImageDeletingPath = clsPeople.Find(PersonID).ImagePath;
                         if (clsPeople.DeletePerson(PersonID))
                         {
                             MessageBox.Show("Person Deleted Successfully.", "Deleted",

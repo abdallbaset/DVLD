@@ -37,7 +37,7 @@ namespace DVLD_DataAccess
                                 Person.LastName = reader["LastName"].ToString();
                                 Person.DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]);
                                 Person.Email = (reader["Email"] == DBNull.Value) ? "" : reader["Email"].ToString();
-                                Person.phone = reader["phone"].ToString();
+                                Person.Phone = reader["phone"].ToString();
                                 Person.Address = reader["Address"].ToString();
                                 Person.Gendor = Convert.ToByte(reader["Gendor"]);
                                 Person.NationalityCountryID = Convert.ToInt32(reader["NationalityCountryID"]);
@@ -80,7 +80,7 @@ namespace DVLD_DataAccess
                                 Person.LastName = reader["LastName"].ToString();
                                 Person.DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]);
                                 Person.Email = (reader["Email"] == DBNull.Value) ? "" : reader["Email"].ToString();
-                                Person.phone = reader["phone"].ToString();
+                                Person.Phone = reader["phone"].ToString();
                                 Person.Address = reader["Address"].ToString();
                                 Person.Gendor = Convert.ToByte(reader["Gendor"]);
                                 Person.NationalityCountryID = Convert.ToInt32(reader["NationalityCountryID"]);
@@ -117,7 +117,7 @@ namespace DVLD_DataAccess
                     cmd.Parameters.AddWithValue("@DateOfBirth", Person.DateOfBirth);
                     cmd.Parameters.AddWithValue("@Gendor", Person.Gendor);
                     cmd.Parameters.AddWithValue("@Address", Person.Address);
-                    cmd.Parameters.AddWithValue("@Phone", Person.phone);
+                    cmd.Parameters.AddWithValue("@Phone", Person.Phone);
                     cmd.Parameters.AddWithValue("@Email", string.IsNullOrEmpty(Person.Email) ? (object)DBNull.Value : Person.Email);
                     cmd.Parameters.AddWithValue("@NationalityCountryID", Person.NationalityCountryID);
                     cmd.Parameters.AddWithValue("@ImagePath", string.IsNullOrEmpty(Person.ImagePath) ? (object)DBNull.Value : Person.ImagePath);
@@ -160,7 +160,7 @@ namespace DVLD_DataAccess
                     cmd.Parameters.AddWithValue("@DateOfBirth", Person.DateOfBirth);
                     cmd.Parameters.AddWithValue("@Gendor", Person.Gendor);
                     cmd.Parameters.AddWithValue("@Address", Person.Address);
-                    cmd.Parameters.AddWithValue("@Phone", Person.phone);
+                    cmd.Parameters.AddWithValue("@Phone", Person.Phone);
                     cmd.Parameters.AddWithValue("@Email", string.IsNullOrEmpty(Person.Email) ? (object)DBNull.Value : Person.Email);
                     cmd.Parameters.AddWithValue("@NationalityCountryID", Person.NationalityCountryID);
                     cmd.Parameters.AddWithValue("@ImagePath", string.IsNullOrEmpty(Person.ImagePath) ? (object)DBNull.Value : Person.ImagePath);

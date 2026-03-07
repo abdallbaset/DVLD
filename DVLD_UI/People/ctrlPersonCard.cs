@@ -1,5 +1,6 @@
 ﻿using DVLD_Business;
 using DVLD_Model;
+using DVLD_UI.GlobalClasses;
 using DVLD_UI.Properties;
 using System;
 using System.Collections.Generic;
@@ -65,7 +66,7 @@ namespace DVLD_UI
 
         public void LoadDefaultData ()
         {
-            PersonID =-1 ;
+            PersonID = (int)clsGlobal.enIdentityStatus.NonExistent ;
             lbl_PersonID.Text = "???";
             lbl_FullName.Text = "???";
             lbl_NotionalNumber.Text = "???";
@@ -84,7 +85,7 @@ namespace DVLD_UI
       
         private void btn_EditPerson_Click(object sender, EventArgs e)
         {
-            if(PersonID == -1)
+            if(PersonID == (int)clsGlobal.enIdentityStatus.NonExistent)
             {
                 MessageBox.Show($"No Person was found in the system.",
                                    "Not Found",
@@ -100,10 +101,10 @@ namespace DVLD_UI
 
         private void _LoadPersonImage()
         {
-            ptb_Gendor.Image = (_Person.PersonInfo.Gendor == (byte)enGendor.Male) ? Properties.Resources.male_svgrepo_com : Properties.Resources.female_svgrepo_com;
+            ptb_Gendor.Image = (_Person.Gendor == (byte)enGendor.Male) ? Properties.Resources.male_svgrepo_com : Properties.Resources.female_svgrepo_com;
 
 
-            string ImagePath = _Person.PersonInfo.ImagePath;
+            string ImagePath = _Person.ImagePath;
             if (ImagePath != "")
             {
                 if (File.Exists(ImagePath))
@@ -114,23 +115,23 @@ namespace DVLD_UI
                 }
             }
             else
-                ptb_PersonalPhoto.Image = (_Person.PersonInfo.Gendor == (byte)enGendor.Male) ? Properties.Resources.male_Man_face : Properties.Resources.female_girl_face;
+                ptb_PersonalPhoto.Image = (_Person.Gendor == (byte)enGendor.Male) ? Properties.Resources.male_Man_face : Properties.Resources.female_girl_face;
 
 
         }
 
         private void _FillPersonInfo()
         {
-            PersonID = _Person.PersonInfo.PersonID;
-            lbl_PersonID.Text = _Person.PersonInfo.PersonID.ToString();
-            lbl_FullName.Text = _Person.PersonInfo.FullName;
-            lbl_NotionalNumber.Text = _Person.PersonInfo.NationalNo;
-            lbl_Phone.Text = _Person.PersonInfo.phone;
-            lbl_Address.Text = _Person.PersonInfo.Address;
-            lbl_Email.Text = _Person.PersonInfo.Email;
-            lbl_Gendor.Text = (_Person.PersonInfo.Gendor == (byte)enGendor.Male) ? "Male" : "Female";
-            lbl_Country.Text = clsCountries.GetCountryNameByCountryID(_Person.PersonInfo.NationalityCountryID);
-            lbl_DateOfBirth.Text = _Person.PersonInfo.DateOfBirth.ToString("dd-MM-yyyy");
+            PersonID = _Person.PersonID;
+            lbl_PersonID.Text = PersonID.ToString();
+            lbl_FullName.Text = _Person.FullName;
+            lbl_NotionalNumber.Text = _Person.NationalNo;
+            lbl_Phone.Text = _Person.Phone;
+            lbl_Address.Text = _Person.Address;
+            lbl_Email.Text = _Person.Email;
+            lbl_Gendor.Text = (_Person.Gendor == (byte)enGendor.Male) ? "Male" : "Female";
+            lbl_Country.Text = clsCountries.GetCountryNameByCountryID(_Person.NationalityCountryID);
+            lbl_DateOfBirth.Text = clsFormat.DateToShort( _Person.DateOfBirth);
             _LoadPersonImage();
         }
 

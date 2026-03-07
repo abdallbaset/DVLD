@@ -1,5 +1,6 @@
 ﻿using DVLD_Business;
 using DVLD_Model;
+using DVLD_UI.GlobalClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -123,7 +124,7 @@ namespace DVLD_UI.Controls
 
         private void btn_AddPerson_Click(object sender, EventArgs e)
         {
-            frmAddAndEditPersonInfo frm = new frmAddAndEditPersonInfo(-1);
+            frmAddAndEditPersonInfo frm = new frmAddAndEditPersonInfo((int)clsGlobal.enIdentityStatus.NonExistent);
             frm.DataBack += OnPersonDataReceived;
             frm.ShowDialog();
         }

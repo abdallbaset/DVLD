@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TheArtOfDevHtmlRenderer.Adapters;
+using static DVLD_Model.clsLicenseClassesModel;
 
 namespace DVLD_UI
 {
@@ -36,7 +37,7 @@ namespace DVLD_UI
              
 
             InitializeComponent();
-            if (PersonID == -1)
+            if (PersonID == (int)clsGlobal.enIdentityStatus.NonExistent)
             {
                 _Mode = enMode.AddNew;
 
@@ -52,9 +53,12 @@ namespace DVLD_UI
         public void _FillCountriesInComoboBox()
         {
             DataTable dtCountry = clsCountries.GetAllCountry();
-            foreach (DataRow dr in dtCountry.Rows)
+        
+            if (dtCountry != null && dtCountry.Rows.Count > 0)
             {
-                cmb_Countrys.Items.Add(dr["CountryName"].ToString());
+                cmb_Countrys.DataSource = dtCountry;
+                cmb_Countrys.DisplayMember = "CountryName";
+                cmb_Countrys.ValueMember  = "CountryID";
             }
         }
 
@@ -117,30 +121,30 @@ namespace DVLD_UI
 
             if (_Person != null)
             {
-                lbl_PersonID.Text = _Person.PersonInfo.PersonID.ToString();
-                txt_FirstName.Text = _Person.PersonInfo.FirstName;
-                txt_SecondName.Text = _Person.PersonInfo.SecondName;
-                txt_ThirdName.Text = _Person.PersonInfo.ThirdName;
-                txt_LastName.Text = _Person.PersonInfo.LastName;
-                txt_NotionalNO.Text = _Person.PersonInfo.NationalNo;
-                dtp_DateOfBirth.Value = _Person.PersonInfo.DateOfBirth;
+                lbl_PersonID.Text = _Person.PersonID.ToString();
+                txt_FirstName.Text = _Person.FirstName;
+                txt_SecondName.Text = _Person.SecondName;
+                txt_ThirdName.Text = _Person.ThirdName;
+                txt_LastName.Text = _Person.LastName;
+                txt_NotionalNO.Text = _Person.NationalNo;
+                dtp_DateOfBirth.Value = _Person.DateOfBirth;
 
-                if (_Person.PersonInfo.Gendor == (byte)enGendor.Female)
+                if (_Person.Gendor == (byte)enGendor.Female)
                     rdb_Female.Checked = true;
                 else
                     rdb_Male.Checked = true;
 
-                txt_Phone.Text = _Person.PersonInfo.phone;
-                txt_Email.Text = _Person.PersonInfo.Email;
-                cmb_Countrys.SelectedIndex = cmb_Countrys.FindString(clsCountries.GetCountryNameByCountryID(_Person.PersonInfo.NationalityCountryID));
-                txt_Address.Text = _Person.PersonInfo.Address;
-                if (_Person.PersonInfo.ImagePath != "")
+                txt_Phone.Text = _Person.Phone;
+                txt_Email.Text = _Person.Email;
+                cmb_Countrys.SelectedValue = _Person.NationalityCountryID;
+                txt_Address.Text = _Person.Address;
+                if (_Person.ImagePath != "")
                 {
-                    ptb_PersonImage.ImageLocation = _Person.PersonInfo.ImagePath;
+                    ptb_PersonImage.ImageLocation = _Person.ImagePath;
                 }
                 else
                 {
-                    ptb_PersonImage.Image = (_Person.PersonInfo.Gendor == (byte)enGendor.Male) ? Properties.Resources.male_Man_face : Properties.Resources.female_girl_face;
+                    ptb_PersonImage.Image = (_Person.Gendor == (byte)enGendor.Male) ? Properties.Resources.male_Man_face : Properties.Resources.female_girl_face;
                 }
 
                 btn_RemoveImage.Visible = (ptb_PersonImage.ImageLocation != null);
@@ -176,12 +180,12 @@ namespace DVLD_UI
         {
 
        
-            if (_Person.PersonInfo.ImagePath != ptb_PersonImage.ImageLocation)
+            if (_Person.ImagePath != ptb_PersonImage.ImageLocation)
             {
-                if (_Person.PersonInfo.ImagePath != "")
+                if (_Person.ImagePath != "")
                 {
 
-                    clsUtil.DeletePersonImageOnDisk(_Person.PersonInfo.ImagePath);
+                    clsUtil.DeletePersonImageOnDisk(_Person.ImagePath);
                 }
 
                 if (ptb_PersonImage.ImageLocation != null)
@@ -204,6 +208,22 @@ namespace DVLD_UI
             return true;
         }
 
+
+        private void _SetPersonInfoFromForm()
+        {
+            _Person.FirstName = txt_FirstName.Text.Trim();
+            _Person.SecondName = txt_SecondName.Text.Trim();
+            _Person.ThirdName = txt_ThirdName.Text.Trim();
+            _Person.LastName = txt_LastName.Text.Trim();
+            _Person.NationalNo = txt_NotionalNO.Text.Trim();
+            _Person.DateOfBirth = dtp_DateOfBirth.Value;
+            _Person.Gendor = (rdb_Male.Checked) ? (byte)enGendor.Male : (byte)enGendor.Female;
+            _Person.Phone = txt_Phone.Text.Trim();
+            _Person.Email = txt_Email.Text.Trim();
+            _Person.NationalityCountryID = (int)cmb_Countrys.SelectedValue;
+            _Person.Address = txt_Address.Text.Trim();
+            _Person.ImagePath = (ptb_PersonImage.ImageLocation != null) ? ptb_PersonImage.ImageLocation : "";
+        }
         private void btn_Save_Click(object sender, EventArgs e)
         {
             if (!this.ValidateChildren())
@@ -221,30 +241,16 @@ namespace DVLD_UI
             }
 
 
-            int CountryID = clsCountries.GetCountryIDByCountryName(cmb_Countrys.Text);
+            _SetPersonInfoFromForm();
 
-            _Person.PersonInfo.FirstName = txt_FirstName.Text.Trim();
-            _Person.PersonInfo.SecondName = txt_SecondName.Text.Trim();
-            _Person.PersonInfo.ThirdName = txt_ThirdName.Text.Trim();
-            _Person.PersonInfo.LastName = txt_LastName.Text.Trim();
-            _Person.PersonInfo.NationalNo = txt_NotionalNO.Text.Trim();
-            _Person.PersonInfo.DateOfBirth = dtp_DateOfBirth.Value;
-            _Person.PersonInfo.Gendor = (rdb_Male.Checked) ? (byte)enGendor.Male : (byte)enGendor.Female;
-            _Person.PersonInfo.phone = txt_Phone.Text.Trim();
-            _Person.PersonInfo.Email = txt_Email.Text.Trim();
-            _Person.PersonInfo.NationalityCountryID = CountryID;
-            _Person.PersonInfo.Address = txt_Address.Text.Trim();  
-            _Person.PersonInfo.ImagePath = (ptb_PersonImage.ImageLocation != null) ? ptb_PersonImage.ImageLocation : "";
-
-           
 
             if (_Person.Save())
             {
                 lbl_Mode.Text = "Update Person";
-                lbl_PersonID.Text = _Person.PersonInfo.PersonID.ToString();
+                lbl_PersonID.Text = _Person.PersonID.ToString();
                 _Mode = enMode.Edit;
                 MessageBox.Show("Person information saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                DataBack?.Invoke(this, _Person.PersonInfo.PersonID);
+                DataBack?.Invoke(this, _Person.PersonID);
             }
             else
             {

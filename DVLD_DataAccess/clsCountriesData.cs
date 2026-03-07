@@ -75,7 +75,7 @@ namespace DVLD_DataAccess
 
             using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
             {
-                string sql = "select CountryName from Countries";
+                string sql = "select * from Countries";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
                     try
