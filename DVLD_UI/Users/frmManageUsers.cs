@@ -97,10 +97,10 @@ namespace DVLD_UI.Users
             _GetNumberOfRecords();
         }
 
-        private void _ShowFormAddAndEditUser(int UserID = -1)
+        private void _ShowFormAddAndEditUser(int UserID = (int)clsGlobal.enIdentityStatus.NonExistent )
         {
             frmAddNewAndEditUser frm;
-            if (UserID == -1)
+            if (UserID == (int)clsGlobal.enIdentityStatus.NonExistent)
             {
                 frm = new frmAddNewAndEditUser();
                 frm.ShowDialog();

@@ -1,4 +1,5 @@
 ﻿using DVLD_Business;
+using DVLD_UI.GlobalClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +14,7 @@ namespace DVLD_UI.Users
 {
     public partial class frmChangePassword : Form
     {
-        private int _UserID =-1;
+        private int _UserID = (int)clsGlobal.enIdentityStatus.NonExistent;
         private clsUser _User;
         public frmChangePassword(int UserID)
         {
@@ -113,7 +114,10 @@ namespace DVLD_UI.Users
             }
         }
 
-   
+       private void _UpdateUserPassword()
+        {
+            _User.Password = txt_NewPassword.Text.Trim();
+        }
         private void btn_Save_Click(object sender, EventArgs e)
         {
        
@@ -128,7 +132,7 @@ namespace DVLD_UI.Users
                 return;
             }
 
-                _User.UserInfo.Password = txt_NewPassword.Text;
+            _UpdateUserPassword();
 
             if (_User.Save())
             {

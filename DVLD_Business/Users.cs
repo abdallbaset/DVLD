@@ -16,6 +16,35 @@ namespace DVLD_Business
             UserInfo = new clsUsersModel();
             _Mode = enMode.AddNew;
         }
+        public string UserName
+        {
+            get  =>  UserInfo.UserName;
+            set => UserInfo.UserName = value;
+        }
+        public int UserID
+        {
+            get  =>  UserInfo.UserID; 
+        }
+
+        public string Password
+        {
+            get => UserInfo.Password;
+            set => UserInfo.Password = value;
+        }
+
+        public bool IsActive
+        {
+            get => UserInfo.IsActive;
+            set => UserInfo.IsActive = value;
+        }
+
+        public int PersonID
+        {
+            get => UserInfo.PersonID;    
+            set => UserInfo.PersonID = value;
+            
+        }
+
 
         private clsUser(clsUsersModel user)
         {

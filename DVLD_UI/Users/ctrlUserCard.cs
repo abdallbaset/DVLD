@@ -1,4 +1,5 @@
 ﻿using DVLD_Business;
+using DVLD_UI.GlobalClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,9 +15,9 @@ namespace DVLD_UI.Users
     public partial class ctrlUserCard : UserControl
     {
         private clsUser _User;
-        private int _UserID = -1;
+        private int _UserID = (int)clsGlobal.enIdentityStatus.NonExistent;
         public int UserID {
-            get { return _UserID; }
+            get => _UserID; 
         }
         public ctrlUserCard()
         {
@@ -35,11 +36,11 @@ namespace DVLD_UI.Users
         private void _FillUserInfo()
         {
 
-            ctrlPersonCard1.LoadPersonInfo(_User.UserInfo.PersonID);
+            ctrlPersonCard1.LoadPersonInfo(_User.PersonID);
 
-            lbl_UserID.Text = _User.UserInfo.UserID.ToString();
-            lbl_UserName.Text = _User.UserInfo.UserName;
-            lbl_IsActive.Text = (_User.UserInfo.IsActive) ? "Yes" : "No";
+            lbl_UserID.Text = _User.UserID.ToString();
+            lbl_UserName.Text = _User.UserName;
+            lbl_IsActive.Text = (_User.IsActive) ? "Yes" : "No";
         }
         public void LoadUserInfo(int UserID)
         {

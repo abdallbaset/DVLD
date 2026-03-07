@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DVLD_UI.GlobalClasses;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,7 +13,7 @@ namespace DVLD_UI.Users
 {
     public partial class frmUserInfo : Form
     {
-        private int _UserID =-1;
+        private int _UserID = (int)clsGlobal.enIdentityStatus.NonExistent;
         public frmUserInfo(int userID)
         {
             InitializeComponent();

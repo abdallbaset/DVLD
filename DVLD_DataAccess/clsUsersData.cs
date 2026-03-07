@@ -20,7 +20,7 @@ namespace DVLD_DataAccess
                     try
                     {
                         Connection.Open();
-                        using (SqlDataReader reader = cmd.ExecuteReader()) 
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             if (reader.Read())
                             {
@@ -34,7 +34,7 @@ namespace DVLD_DataAccess
                         }
                     }
                     catch (Exception)
-                    {         
+                    {
                         //Errors will be recorded in the LOG file later.
                     }
                 }
@@ -69,7 +69,7 @@ namespace DVLD_DataAccess
                         }
                     }
                     catch (Exception)
-                    {              
+                    {
                         //Errors will be recorded in the LOG file later.
                     }
                 }

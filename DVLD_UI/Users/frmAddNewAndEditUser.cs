@@ -1,5 +1,6 @@
 ﻿using DVLD_Business;
 using DVLD_UI.Controls;
+using DVLD_UI.GlobalClasses;
 using System;
 using System.ComponentModel;
 using System.Data;
@@ -16,12 +17,11 @@ namespace DVLD_UI.Users
     public partial class frmAddNewAndEditUser : Form
     {
         enum enMode { AddNew = 1, Update = 2 }
-        enum enPersonInfo { NotExist = -1 }
         private enMode _Mode;
-        private int _UserID = -1;
+        private int _UserID = (int)clsGlobal.enIdentityStatus.NonExistent;
         private clsUser _User;
 
-        int _PersonID = -1;
+        int _PersonID = (int)clsGlobal.enIdentityStatus.NonExistent;
 
         public frmAddNewAndEditUser()
         {
@@ -84,14 +84,14 @@ namespace DVLD_UI.Users
                 return;
             }
 
-            ctrlPersonCardWithFilter1.LoadPersonInfo(_User.UserInfo.PersonID);
+            ctrlPersonCardWithFilter1.LoadPersonInfo(_User.PersonID);
             
             ctrlPersonCardWithFilter1.DisableFilter();
-            lbl_UserID.Text = _User.UserInfo.UserID.ToString();
-            txt_UserName.Text = _User.UserInfo.UserName;
-            txt_PassWord.Text = _User.UserInfo.Password;
-            txt_ConfirmPassWord.Text = _User.UserInfo.Password;
-            ckb_IsActive.Checked = _User.UserInfo.IsActive; 
+            lbl_UserID.Text = _User.UserID.ToString();
+            txt_UserName.Text = _User.UserName;
+            txt_PassWord.Text = _User.Password;
+            txt_ConfirmPassWord.Text = _User.Password;
+            ckb_IsActive.Checked = _User.IsActive; 
         }
 
 
@@ -99,7 +99,7 @@ namespace DVLD_UI.Users
         {
             _PersonID = ctrlPersonCardWithFilter1.PersonID;
 
-            if (_PersonID == (int)enPersonInfo.NotExist)
+            if (_PersonID == (int)clsGlobal.enIdentityStatus.NonExistent)
             {
                 return true;
             }
@@ -204,7 +204,13 @@ namespace DVLD_UI.Users
             this.Close();
         }
 
-
+        private void _SetUserInfoFromForm()
+        {
+            _User.UserName = txt_UserName.Text.Trim();
+            _User.PersonID = ctrlPersonCardWithFilter1.PersonID;
+            _User.Password = txt_PassWord.Text.Trim();
+            _User.IsActive = ckb_IsActive.Checked;
+        }
 
         private void btn_Save_Click(object sender, EventArgs e)
         {
@@ -225,23 +231,15 @@ namespace DVLD_UI.Users
                 return;
             }
 
-        
 
-            
-
-            _User.UserInfo.UserName = txt_UserName.Text.Trim();
-            _User.UserInfo.PersonID = ctrlPersonCardWithFilter1.PersonID;
-            _User.UserInfo.Password = txt_PassWord.Text.Trim();
-            _User.UserInfo.IsActive = ckb_IsActive.Checked;
-
-         
+            _SetUserInfoFromForm();
 
             if (_User.Save())
             {
                 MessageBox.Show("User information saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 lbl_Mode.Text = "Update User";
                 this.Text = "Update User";
-                lbl_UserID.Text = _User.UserInfo.UserID.ToString();
+                lbl_UserID.Text = _User.UserID.ToString();
                 _Mode = enMode.Update;
 
               
