@@ -10,6 +10,8 @@ namespace DVLD_UI.GlobalClasses
 {
     public class clsGlobal
     {
+
+      public enum enIdentityStatus { NonExistent = -1 }
       static public clsUser CurrentUser { get; set; }
 
       static public string KeyPath = @"HKEY_CURRENT_USER\SOFTWARE\ABDULBASIT\DVLD_System";
