@@ -15,6 +15,10 @@ namespace DVLD_Business
         private enMode _Mode = enMode.AddNew;
         public clsApplicationTypesModel ApplicationTypeInfo { get; set; }
 
+        public double ApplicationFees
+        {
+            get => ApplicationTypeInfo.ApplicationFees;
+        }
         private clsApplicationType()
         {
             ApplicationTypeInfo = new clsApplicationTypesModel();
@@ -27,6 +31,7 @@ namespace DVLD_Business
 
         }
 
+        
         public static clsApplicationType Find(clsApplicationTypesModel.enApplicationTypes ApplicationTypeID)
         {
             clsApplicationTypesModel ApplicationTypeInfo = clsApplicationTypesData.GetApplicationTypeInfoByID(ApplicationTypeID);
