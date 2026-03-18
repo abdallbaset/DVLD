@@ -2,8 +2,6 @@
 using DVLD_Model;
 using System;
 using System.Data;
-using static System.Net.Mime.MediaTypeNames;
-
 namespace DVLD_Business
 {
     public class clsLocalDrivingLicenseApplications
@@ -12,7 +10,7 @@ namespace DVLD_Business
         private enMode _Mode = enMode.AddNew;
         public clsLocalDrivingLicenseApplicationsModel LocalDrivingLicenseApplicationInfo { get; set; }
         static public clsApplications Application { get; set; }
-
+        public clsLicenseClasses LicenseClasses { get; set; }
         public int ApplicantPersonID
         {
             get => Application.ApplicationInfo.ApplicantPersonID;
@@ -65,10 +63,22 @@ namespace DVLD_Business
         {
             get => LocalDrivingLicenseApplicationInfo.LocalDrivingLicenseApplicationID;
         }
+        public string ClassName
+        {
+            get => LicenseClasses.LicenseClassInfo.ClassName;
+        }
 
         public string CreatedByUserName
         {
-            get => _GetCreatedByUserName();
+            get
+            {
+                if (Application == null || Application.ApplicationInfo == null)
+                {
+                    return "Unknown";
+                }
+                clsUser User = clsUser.FindByUserID(Application.ApplicationInfo.CreatedByUserID);
+                return (User != null) ? User.UserInfo.UserName : "[Unknown]";
+            }
         }
 
         private double _GetApplictionsFeez()
@@ -79,20 +89,12 @@ namespace DVLD_Business
             }
             return clsApplicationType.Find(clsApplicationTypesModel.enApplicationTypes.NewLocalDrivingLicenseService).ApplicationFees;
         }
-        private string _GetCreatedByUserName()
-        {
-            if (Application == null || Application.ApplicationInfo == null)
-            {
-                return "Unknown";
-            }
-            clsUser User = clsUser.FindByUserID(Application.ApplicationInfo.CreatedByUserID);
-            return (User != null) ? User.UserInfo.UserName : "[Unknown]";
 
-        }
         public clsLocalDrivingLicenseApplications()
         {
             LocalDrivingLicenseApplicationInfo = new clsLocalDrivingLicenseApplicationsModel();
             Application = new clsApplications();
+            LicenseClasses = new clsLicenseClasses();
             _Mode = enMode.AddNew;
         }
 
@@ -100,6 +102,7 @@ namespace DVLD_Business
         {
             LocalDrivingLicenseApplicationInfo = info;
             Application = clsApplications.Find(LocalDrivingLicenseApplicationInfo.ApplicationID);
+            LicenseClasses = clsLicenseClasses.Find((int)LocalDrivingLicenseApplicationInfo.LicenseClassID);
             _Mode = enMode.Update;
         }
 
@@ -170,9 +173,9 @@ namespace DVLD_Business
         }
 
 
-        static public DataTable GetAllLocalDrivingLicenses()
+        static public DataTable GetAllLocalDrivingLicenseApplications()
         {
-            return clsLocalDrivingLicenseApplicationsData.GetAllLocalDrivingLicenses();
+            return clsLocalDrivingLicenseApplicationsData.GetAllLocalDrivingLicenseApplications();
         }
 
         static public bool DeleteLocalDrivingLicense(int LocalDrivingLicenseApplicationID)

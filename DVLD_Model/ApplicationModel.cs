@@ -8,7 +8,7 @@ namespace DVLD_Model
 {
     public class clsApplicationModel
     {
-        public enum enApplicationStatus
+        public enum  enApplicationStatus :byte
         {
             New = 1,
             Cancelled = 2,
