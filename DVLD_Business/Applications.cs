@@ -2,7 +2,7 @@
 using DVLD_Model;
 using System;
 using System.Data;
-using static System.Net.Mime.MediaTypeNames;
+using static DVLD_Model.clsApplicationModel;
 
 namespace DVLD_Business
 {
@@ -12,11 +12,74 @@ namespace DVLD_Business
         private enMode _Mode = enMode.AddNew;
         public clsApplicationModel ApplicationInfo { get; set; }
 
-        public double ApplicationFees
+        public int ApplicationID
         {
-            get => _GetApplictionsFeez();
+            get => ApplicationInfo.ApplicationID;
+        }
+        public int ApplicantPersonID
+        {
+            get => ApplicationInfo.ApplicantPersonID;
+        }
+        public double PaidFees
+        {
+            get => ApplicationInfo.PaidFees;
         }
 
+        public string ApplicantName
+        {
+            get 
+            {
+                clsPeople Person = clsPeople.Find(ApplicationInfo.ApplicantPersonID);
+                return (Person != null) ? Person.FullName : "???";
+            }
+        }
+
+        public string Status
+        {
+            get
+            {
+                switch (ApplicationInfo.ApplicationStatus)
+                {
+                    case enApplicationStatus.New:
+                        return enApplicationStatus.New.ToString();
+                    case enApplicationStatus.Cancelled:
+                        return enApplicationStatus.Cancelled.ToString();
+                    case enApplicationStatus.Completed:
+                        return enApplicationStatus.Completed.ToString();
+                    default:
+                        return "Unknown";
+                }
+
+            }
+        }
+
+        public string ApplicationType
+        {
+            get
+            {
+                clsApplicationType appType = clsApplicationType.Find(ApplicationInfo.ApplicationTypeID);
+                return (appType != null) ? appType.ApplicationTypeInfo.ApplicationTypeTitle : "Unknown";
+            }
+        }
+
+        public DateTime ApplicationDate
+        {
+            get => ApplicationInfo.ApplicationDate;
+        }
+
+        public DateTime LastStatusDate
+        {
+            get => ApplicationInfo.LastStatusDate;
+        }
+
+        public string CreatedByUser
+        {
+            get
+            {
+                clsUser user = clsUser.FindByUserID(ApplicationInfo.CreatedByUserID);
+                return (user != null) ? user.UserName : "Unknown";
+            }
+        }
         public clsApplications()
         {
             ApplicationInfo = new clsApplicationModel();
@@ -86,16 +149,13 @@ namespace DVLD_Business
         {
             return clsApplicationsData.IsApplicationExist(ApplicationID);
         }
-
-        private double _GetApplictionsFeez() 
-        {
-            clsApplicationType appType = clsApplicationType.Find(ApplicationInfo.ApplicationTypeID);
-            return (appType != null) ? Convert.ToDouble(appType.ApplicationTypeInfo.ApplicationFees) : 0;
-        }
-
        static public int  GetActiveApplicationIDForLicenseClass(int PersonID, clsApplicationTypesModel.enApplicationTypes ApplicationTypes, int LicenseClassID)
         {
             return clsApplicationsData.GetActiveApplicationIDForLicenseClass(PersonID, ApplicationTypes, LicenseClassID);
         }
+
+
+     
+
     }
 }
