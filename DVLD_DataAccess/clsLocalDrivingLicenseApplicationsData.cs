@@ -191,13 +191,13 @@ namespace DVLD_DataAccess
 
             return IsExist;
         }
-        static public DataTable GetAllLocalDrivingLicenses()
+        static public DataTable GetAllLocalDrivingLicenseApplications()
         {
             DataTable dataTable = new DataTable();
 
             using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
             {
-                string sql = "SELECT LocalDrivingLicenseApplicationID, ApplicationID, LicenseClassID FROM LocalDrivingLicenseApplications;";
+                string sql = "SELECT * FROM LocalDrivingLicenseApplications_View;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
                     try
