@@ -11,7 +11,7 @@ namespace DVLD_DataAccess
         {
             clsApplicationTypesModel ApplicationType = null;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "select * From ApplicationTypes where ApplicationTypeID = @ApplicationTypeID;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -46,7 +46,7 @@ namespace DVLD_DataAccess
         {
             int ApplicationTypeID = (int)clsApplicationTypesModel.enApplicationTypes.NotSpecified;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "INSERT INTO ApplicationTypes (ApplicationTypeTitle, ApplicationFees) OUTPUT INSERTED.ApplicationTypeID " +
                              "VALUES (@Title, @Fees);";
@@ -77,7 +77,7 @@ namespace DVLD_DataAccess
         {
             bool IsUpdated = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "UPDATE ApplicationTypes SET ApplicationTypeTitle = @Title, ApplicationFees = @Fees WHERE ApplicationTypeID = @ApplicationTypeID;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -106,7 +106,7 @@ namespace DVLD_DataAccess
         {
             DataTable dataTable = new DataTable();
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "SELECT ApplicationTypeID ,ApplicationTypeTitle  ,ApplicationFees FROM ApplicationTypes;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))

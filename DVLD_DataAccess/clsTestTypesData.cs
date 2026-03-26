@@ -11,7 +11,7 @@ namespace DVLD_DataAccess
         {
             clsTestTypesModel TestType = null;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "select * From TestTypes where TestTypeID = @TestTypeID;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -47,7 +47,7 @@ namespace DVLD_DataAccess
         {
             int TestTypeID =(int) clsTestTypesModel.enTestType.NotSpecified;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "INSERT INTO TestTypes (TestTypeTitle, TestTypeDescription, TestTypeFees) OUTPUT INSERTED.TestTypeID " +
                              "VALUES (@Title, @Description, @Fees);";
@@ -80,7 +80,7 @@ namespace DVLD_DataAccess
         {
             bool IsUpdated = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "UPDATE TestTypes SET TestTypeTitle = @Title, TestTypeDescription = @Description, TestTypeFees = @Fees WHERE TestTypeID = @TestTypeID;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -110,7 +110,7 @@ namespace DVLD_DataAccess
         {
             DataTable dataTable = new DataTable();
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "SELECT TestTypeID, TestTypeTitle, TestTypeDescription, TestTypeFees FROM TestTypes;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))

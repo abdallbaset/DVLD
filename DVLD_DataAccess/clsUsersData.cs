@@ -11,7 +11,7 @@ namespace DVLD_DataAccess
         {
             clsUsersModel User = null;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "select * From Users where UserID = @UserID;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -46,7 +46,7 @@ namespace DVLD_DataAccess
         {
             clsUsersModel User = null;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "select * From Users where PersonID = @PersonID;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -80,7 +80,7 @@ namespace DVLD_DataAccess
         {
             clsUsersModel User = null;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "SELECT * FROM Users WHERE UserName = @UserName AND Password = @Password;";
 
@@ -121,7 +121,7 @@ namespace DVLD_DataAccess
         {
             int UserID = -1;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "INSERT INTO Users (PersonID, UserName, Password, IsActive) OUTPUT INSERTED.UserID " +
                              "VALUES (@PersonID, @UserName, @Password, @IsActive);";
@@ -153,7 +153,7 @@ namespace DVLD_DataAccess
         {
             bool IsUpdated = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "UPDATE Users SET PersonID = @PersonID, UserName = @UserName, " +
                              "Password = @Password, IsActive = @IsActive WHERE UserID = @UserID;";
@@ -183,7 +183,7 @@ namespace DVLD_DataAccess
         {
             DataTable dataTable = new DataTable();
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "SELECT U.UserID, U.PersonID, (P.FirstName + ' ' + P.SecondName + ISNULL(' ' + P.ThirdName, '') + ' ' + P.LastName) AS FullName, " +
                              "U.UserName, U.IsActive FROM Users AS U INNER JOIN People AS P ON U.PersonID = P.PersonID;";
@@ -212,7 +212,7 @@ namespace DVLD_DataAccess
         {
             bool IsDeleted = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "DELETE FROM Users WHERE UserID = @UserID;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -236,7 +236,7 @@ namespace DVLD_DataAccess
         {
             bool IsExist = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "if Exists(select 1 From Users where UserID = @UserID)  select 1 else select 0 ;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -262,7 +262,7 @@ namespace DVLD_DataAccess
         {
             bool IsExist = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "if Exists(select 1 From Users where PersonID = @PersonID)  select 1 else select 0 ;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -288,7 +288,7 @@ namespace DVLD_DataAccess
         {
             bool IsExist = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "if Exists(select 1 From Users where UserName = @UserName)  select 1 else select 0 ;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))

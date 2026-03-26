@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DVLD_DataAccess
 {
-    static class DataAccessSetting
+    static class clsDataAccessSetting
     {
         static public string ConnectionString
         {

@@ -12,7 +12,7 @@ namespace DVLD_DataAccess
         {
           
             clsApplicationModel ApplicationInfo = null;
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "select * From Applications where ApplicationID = @ApplicationID;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -52,7 +52,7 @@ namespace DVLD_DataAccess
         {
             int ApplicationID = (int)clsSettingsModel.enIdentityStatus.NonExistent;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "INSERT INTO Applications (ApplicantPersonID, ApplicationDate, ApplicationTypeID, ApplicationStatus, LastStatusDate, PaidFees, CreatedByUserID) " +
                              "OUTPUT INSERTED.ApplicationID " +
@@ -91,7 +91,7 @@ namespace DVLD_DataAccess
         {
             bool IsUpdated = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = @"UPDATE Applications SET  
                              ApplicationStatus = @ApplicationStatus,
@@ -124,7 +124,7 @@ namespace DVLD_DataAccess
         {
             bool IsDeleted = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "DELETE FROM Applications WHERE ApplicationID = @ApplicationID;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -150,7 +150,7 @@ namespace DVLD_DataAccess
         {
             bool IsExist = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "if Exists(select 1 From Applications where ApplicationID = @ApplicationID)  select 1 else select 0 ;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -179,7 +179,7 @@ namespace DVLD_DataAccess
         {
             DataTable dataTable = new DataTable();
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "SELECT ApplicationID, ApplicantPersonID, ApplicationDate, ApplicationTypeID, ApplicationStatus, LastStatusDate, PaidFees, CreatedByUserID FROM Applications;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -208,7 +208,7 @@ namespace DVLD_DataAccess
         static public int GetActiveApplicationIDForLicenseClass(int PersonID , clsApplicationTypesModel.enApplicationTypes ApplicationTypes , int LicenseClassID)
         {
             int ActiveApplicationID = (int)clsSettingsModel.enIdentityStatus.NonExistent;
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = @"SELECT ApplicationID FROM LocalDrivingLicenseFullApplications_View  
                              WHERE ApplicantPersonID = @PersonID AND ApplicationTypeID = @ApplicationTypeID AND LicenseClassID = @LicenseClassID AND ApplicationStatus = @NewStatus;";

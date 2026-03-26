@@ -13,7 +13,7 @@ namespace DVLD_DataAccess
         {
             clsPeopleModel Person = null;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "select * From People where PersonID = @PersonID;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -57,7 +57,7 @@ namespace DVLD_DataAccess
         {
             clsPeopleModel Person = null;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "select * From People where NationalNo = @NationalNo;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -100,7 +100,7 @@ namespace DVLD_DataAccess
         {
             int PersonID = -1;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "INSERT INTO People (NationalNo, FirstName, SecondName, ThirdName, LastName,DateOfBirth, Gendor, Address, Phone," +
                                " Email,NationalityCountryID,ImagePath) OUTPUT INSERTED.PersonID" +
@@ -143,7 +143,7 @@ namespace DVLD_DataAccess
         {
             bool IsUpdated = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "UPDATE People SET NationalNo = @NationalNo, FirstName = @FirstName, SecondName = @SecondName, " +
                              "ThirdName = @ThirdName, LastName = @LastName, DateOfBirth = @DateOfBirth, Gendor = @Gendor, " +
@@ -184,7 +184,7 @@ namespace DVLD_DataAccess
         {
             DataTable dataTable = new DataTable();
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "select P.PersonID,P.NationalNo,P.FirstName,P.SecondName,P.ThirdName,P.LastName,P.DateOfBirth," +
                              "(Case When P.Gendor = 0 Then 'Male' else 'Female'  end) AS Gendor,P.Phone,P.Email,C.CountryName AS Nationality from People As P " +
@@ -215,7 +215,7 @@ namespace DVLD_DataAccess
         {
             bool IsDeleted = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "DELETE FROM People WHERE PersonID = @PersonID;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -239,7 +239,7 @@ namespace DVLD_DataAccess
         {
             bool IsExist = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "if Exists(select 1 From People where PersonID =@PersonID) select 1 else select 0";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -266,7 +266,7 @@ namespace DVLD_DataAccess
         {
             bool IsExist = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "if Exists(select 1 From People where NationalNo =@NationalNo) select 1 else select 0";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))

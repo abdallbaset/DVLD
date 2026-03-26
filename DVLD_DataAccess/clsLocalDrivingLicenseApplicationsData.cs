@@ -11,7 +11,7 @@ namespace DVLD_DataAccess
         {
             clsLocalDrivingLicenseApplicationsModel LocalDrivingLicenseApplicationInfo = null;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "select * From LocalDrivingLicenseApplications where LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -45,7 +45,7 @@ namespace DVLD_DataAccess
         {
             int LocalDrivingLicenseID = (int)clsSettingsModel.enIdentityStatus.NonExistent;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "INSERT INTO LocalDrivingLicenseApplications (ApplicationID, LicenseClassID) OUTPUT INSERTED.LocalDrivingLicenseApplicationID " +
                              "VALUES (@ApplicationID, @LicenseClassID);";
@@ -77,7 +77,7 @@ namespace DVLD_DataAccess
         {
             bool IsUpdated = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "UPDATE LocalDrivingLicenseApplications SET ApplicationID = @ApplicationID, LicenseClassID = @LicenseClassID " +
                              "WHERE LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID;";
@@ -107,7 +107,7 @@ namespace DVLD_DataAccess
         {
             bool IsDeleted = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "DELETE FROM LocalDrivingLicenseApplications WHERE LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -133,7 +133,7 @@ namespace DVLD_DataAccess
         {
             bool IsExist = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "if Exists(select 1 From LocalDrivingLicenseApplications where LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID)  select 1 else select 0 ;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -161,7 +161,7 @@ namespace DVLD_DataAccess
         {
             bool IsExist = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = $@"if Exists (SELECT 1 
                          FROM LocalDrivingLicenseFullApplications_View 
@@ -195,7 +195,7 @@ namespace DVLD_DataAccess
         {
             DataTable dataTable = new DataTable();
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "SELECT * FROM LocalDrivingLicenseApplications_View;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))

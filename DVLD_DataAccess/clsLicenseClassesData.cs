@@ -10,7 +10,7 @@ namespace DVLD_DataAccess
         static public clsLicenseClassesModel GetLicenseClassInfoByID(int LicenseClassID)
         {
             clsLicenseClassesModel LicenseClassInfo = null;
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "select * From LicenseClasses where LicenseClassID = @LicenseClassID;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -48,7 +48,7 @@ namespace DVLD_DataAccess
         {
             int LicenseClassID = (int)clsLicenseClassesModel.enLicenseClass.NotSpecified;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "INSERT INTO LicenseClasses (ClassName, ClassDescription, MinimumAllowedAge, DefaultValidityLength, ClassFees) " +
                              "OUTPUT INSERTED.LicenseClassID " +
@@ -84,7 +84,7 @@ namespace DVLD_DataAccess
         {
             bool IsUpdated = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "UPDATE LicenseClasses SET ClassName = @ClassName, ClassDescription = @ClassDescription, " +
                              "MinimumAllowedAge = @MinimumAllowedAge, DefaultValidityLength = @DefaultValidityLength, ClassFees = @ClassFees " +
@@ -118,7 +118,7 @@ namespace DVLD_DataAccess
         {
             bool IsDeleted = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "DELETE FROM LicenseClasses WHERE LicenseClassID = @LicenseClassID;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -144,7 +144,7 @@ namespace DVLD_DataAccess
         {
             bool IsExist = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "if Exists(select 1 From LicenseClasses where LicenseClassID = @LicenseClassID) select 1 else select 0;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -172,7 +172,7 @@ namespace DVLD_DataAccess
         {
             bool IsExist = false;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "if Exists(select 1 From LicenseClasses where ClassName = @ClassName) select 1 else select 0;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -201,7 +201,7 @@ namespace DVLD_DataAccess
         {
             DataTable dataTable = new DataTable();
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "SELECT LicenseClassID, ClassName, ClassDescription, MinimumAllowedAge, DefaultValidityLength, ClassFees FROM LicenseClasses;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))

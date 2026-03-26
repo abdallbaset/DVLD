@@ -15,7 +15,7 @@ namespace DVLD_DataAccess
         {
             string CountryName = "";
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "select C.CountryName from Countries AS C Where C.CountryID = @CountryID";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -44,7 +44,7 @@ namespace DVLD_DataAccess
         {
             int CountryID = -1;
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "select C.CountryID from Countries AS C Where C.CountryName = @CountryName";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -73,7 +73,7 @@ namespace DVLD_DataAccess
         {
             DataTable CountryTable = new DataTable();
 
-            using (SqlConnection Connection = new SqlConnection(DataAccessSetting.ConnectionString))
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = "select * from Countries";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
