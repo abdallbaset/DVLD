@@ -107,7 +107,7 @@ namespace DVLD_Business
         private bool _AddNewApplication()
         {
             ApplicationInfo.ApplicationID = clsApplicationsData.AddNewApplication(ApplicationInfo);
-            return (ApplicationInfo.ApplicationID != (int)clsApplicationModel.enIdentityStatus.NonExistent);
+            return (ApplicationInfo.ApplicationID != (int)clsSettingsModel.enIdentityStatus.NonExistent);
         }
 
         private bool _UpdateApplication()

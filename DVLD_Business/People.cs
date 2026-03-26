@@ -138,7 +138,7 @@ namespace DVLD_Business
         private bool _AddNewPerson()
         {
             PersonInfo.PersonID = clsPeopleData.AddNewPerson(PersonInfo);
-            return (PersonID != (int)clsPeopleModel.enIdentityStatus.NonExistent);
+            return (PersonID != (int)clsSettingsModel.enIdentityStatus.NonExistent);
         }
         private bool _UpdatePerson()
         {

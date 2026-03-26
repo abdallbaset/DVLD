@@ -133,7 +133,7 @@ namespace DVLD_Business
 
             int LocalDrivingLicenseApplicationID = clsLocalDrivingLicenseApplicationsData.AddNewLocalDrivingLicense(LocalDrivingLicenseApplicationInfo);
             LocalDrivingLicenseApplicationInfo.LocalDrivingLicenseApplicationID = LocalDrivingLicenseApplicationID;
-            return LocalDrivingLicenseApplicationID != (int)clsLocalDrivingLicenseApplicationsModel.enIdentityStatus.NonExistent;
+            return LocalDrivingLicenseApplicationID != (int)clsSettingsModel.enIdentityStatus.NonExistent;
         }
 
         private bool _UpdateLocalDrivingLicenseApplication()
