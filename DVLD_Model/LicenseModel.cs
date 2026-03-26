@@ -26,7 +26,7 @@ namespace DVLD_Model
         public double PaidFees { get; set; } = 0;
         public bool IsActive { get; set; } = true;
         public string Notes { get; set; } = string.Empty;
-        public int CreatedByUserID1 { get; set; } = (int)clsSettingsModel.enIdentityStatus.NonExistent;
+        public int CreatedByUserID { get; set; } = (int)clsSettingsModel.enIdentityStatus.NonExistent;
 
 
 
