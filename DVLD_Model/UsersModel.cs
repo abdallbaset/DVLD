@@ -8,8 +8,8 @@ namespace DVLD_Model
 {
     public class clsUsersModel
     {
-        public int UserID { get; set; } = -1;
-        public int PersonID { get; set; } = -1;
+        public int UserID { get; set; } = (int)clsSettingsModel.enIdentityStatus.NonExistent;
+        public int PersonID { get; set; } = (int)clsSettingsModel.enIdentityStatus.NonExistent;
         public string UserName { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public bool IsActive { get; set; } = false;

@@ -8,9 +8,9 @@ namespace DVLD_Model
 {
     public class clsPeopleModel
     {
-        public enum enIdentityStatus { NonExistent = -1 }
+       
 
-        public int PersonID { get; set; } = (int)enIdentityStatus.NonExistent;
+        public int PersonID { get; set; } = (int)clsSettingsModel.enIdentityStatus.NonExistent;
         public string NationalNo { get; set; } = string.Empty;
 
         public string FirstName { get; set; } = string.Empty;
@@ -31,7 +31,7 @@ namespace DVLD_Model
         public string Address { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public int NationalityCountryID { get; set; } = (int)enIdentityStatus.NonExistent;
+        public int NationalityCountryID { get; set; } = (int)clsSettingsModel.enIdentityStatus.NonExistent;
         public string ImagePath { get; set; } = string.Empty;
     }
 }
