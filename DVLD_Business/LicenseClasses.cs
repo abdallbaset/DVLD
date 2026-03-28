@@ -14,6 +14,7 @@ namespace DVLD_Business
         {
             get => LicenseClassInfo.ClassFees;
         }
+        public string ClassName { get => LicenseClassInfo.ClassName; }
         public clsLicenseClasses()
         {
             LicenseClassInfo = new clsLicenseClassesModel();
