@@ -108,11 +108,11 @@ namespace DVLD_Business
 
         public static clsLocalDrivingLicenseApplications FindByLocalDrivingLicenseApplicationID(int LocalDrivingLicenseApplicationID)
         {
-            clsLocalDrivingLicenseApplicationsModel info = clsLocalDrivingLicenseApplicationsData.GetLocalDrivingLicenseApplicationInfoByID(LocalDrivingLicenseApplicationID);
+            clsLocalDrivingLicenseApplicationsModel LocalDrivingLicenseApplicationInfo = clsLocalDrivingLicenseApplicationsData.GetLocalDrivingLicenseApplicationInfoByID(LocalDrivingLicenseApplicationID);
 
-            if (info != null)
+            if (LocalDrivingLicenseApplicationInfo != null)
             {
-                return new clsLocalDrivingLicenseApplications(info);
+                return new clsLocalDrivingLicenseApplications(LocalDrivingLicenseApplicationInfo);
             }
 
             return null;
@@ -146,8 +146,6 @@ namespace DVLD_Business
             {
                 return false;
             }
-
-            LocalDrivingLicenseApplicationInfo.ApplicationID = ApplicationID; 
 
             return clsLocalDrivingLicenseApplicationsData.UpdateLocalDrivingLicense(LocalDrivingLicenseApplicationInfo);
         }
