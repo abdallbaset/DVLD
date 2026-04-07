@@ -9,8 +9,8 @@ namespace DVLD_Model
     public class clsLocalDrivingLicenseApplicationsModel
     {
 
-        public int LocalDrivingLicenseApplicationID { get; set; } = (int)clsSettingsModel.enIdentityStatus.NonExistent;
-        public int ApplicationID { get; set; } = (int)clsSettingsModel.enIdentityStatus.NonExistent;
+        public int LocalDrivingLicenseApplicationID { get; set; } = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
+        public int ApplicationID { get; set; } = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
         public clsLicenseClassesModel.enLicenseClass LicenseClassID { get; set; } = clsLicenseClassesModel.enLicenseClass.NotSpecified;
     }
 }

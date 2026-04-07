@@ -8,7 +8,7 @@ namespace DVLD_Model
 {
     public class clsCountriesModel
     {
-        public int CountryID {  get; set; } = (int)clsSettingsModel.enIdentityStatus.NonExistent;
+        public int CountryID {  get; set; } = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
         public string CountryName { get; set; } = string.Empty;
     }
 }

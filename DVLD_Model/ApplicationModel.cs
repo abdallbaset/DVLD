@@ -15,14 +15,14 @@ namespace DVLD_Model
             Completed = 3,
         }
 
-        public int ApplicationID { get; set; } = (int)clsSettingsModel.enIdentityStatus.NonExistent;
-        public int ApplicantPersonID { get; set; } = (int)clsSettingsModel.enIdentityStatus.NonExistent;
+        public int ApplicationID { get; set; } = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
+        public int ApplicantPersonID { get; set; } = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
         public clsApplicationTypesModel.enApplicationTypes ApplicationTypeID { get; set; } = clsApplicationTypesModel.enApplicationTypes.NotSpecified;
         public DateTime ApplicationDate { get; set; } = DateTime.Now;
         public enApplicationStatus ApplicationStatus { get; set; } = enApplicationStatus.New;
         public DateTime LastStatusDate { get; set; } = DateTime.Now;
         public double PaidFees { get; set; } = 0;
-        public int CreatedByUserID { get; set; } = (int)clsSettingsModel.enIdentityStatus.NonExistent;
+        public int CreatedByUserID { get; set; } = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
 
     }
 }
