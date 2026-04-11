@@ -15,6 +15,8 @@ namespace DVLD_Model
             VisionTestPassed = 1,
             WrittenTestPassed = 2,
             StreetTestPassed = 3
-        };
+        }
+        public enum enTestType { VisionTest = 1, WrittenTest = 2, StreetTest = 3 };
+
     }
 }
