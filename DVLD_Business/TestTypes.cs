@@ -16,6 +16,10 @@ namespace DVLD_Business
         private enMode _Mode = enMode.AddNew;
         public clsTestTypesModel TestTypeInfo { get; set; }
 
+        public double TestTypeFees
+        {
+            get  =>  TestTypeInfo.TestTypeFees; 
+        }
         private clsTestTypes()
         {
             TestTypeInfo = new clsTestTypesModel();

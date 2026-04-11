@@ -43,7 +43,7 @@ namespace DVLD_DataAccess
 
         static public int AddNewLocalDrivingLicense(clsLocalDrivingLicenseApplicationsModel LocalDrivingLicenseApplicationInfo)
         {
-            int LocalDrivingLicenseID = (int)clsSettingsModel.enIdentityStatus.NonExistent;
+            int LocalDrivingLicenseID = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
 
             using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {

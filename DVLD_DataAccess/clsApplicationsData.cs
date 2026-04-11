@@ -50,7 +50,7 @@ namespace DVLD_DataAccess
         }
         static public int AddNewApplication(clsApplicationModel ApplicationInfo)
         {
-            int ApplicationID = (int)clsSettingsModel.enIdentityStatus.NonExistent;
+            int ApplicationID = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
 
             using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
@@ -95,7 +95,7 @@ namespace DVLD_DataAccess
             {
                 string sql = @"UPDATE Applications SET  
                              ApplicationStatus = @ApplicationStatus,
-                             LastStatusDate = @LastStatusDate,
+                             LastStatusDate = @LastStatusDate
                              WHERE ApplicationID = @ApplicationID;";
                            
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
@@ -207,7 +207,7 @@ namespace DVLD_DataAccess
 
         static public int GetActiveApplicationIDForLicenseClass(int PersonID , clsApplicationTypesModel.enApplicationTypes ApplicationTypes , int LicenseClassID)
         {
-            int ActiveApplicationID = (int)clsSettingsModel.enIdentityStatus.NonExistent;
+            int ActiveApplicationID = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
             using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = @"SELECT ApplicationID FROM LocalDrivingLicenseFullApplications_View  

@@ -34,23 +34,11 @@ namespace DVLD_Business
             }
         }
 
-        public string Status
+        public enApplicationStatus Status
         {
-            get
-            {
-                switch (ApplicationInfo.ApplicationStatus)
-                {
-                    case enApplicationStatus.New:
-                        return enApplicationStatus.New.ToString();
-                    case enApplicationStatus.Cancelled:
-                        return enApplicationStatus.Cancelled.ToString();
-                    case enApplicationStatus.Completed:
-                        return enApplicationStatus.Completed.ToString();
-                    default:
-                        return "Unknown";
-                }
+            get => ApplicationInfo.ApplicationStatus;
 
-            }
+            set => ApplicationInfo.ApplicationStatus =  value;
         }
 
         public string ApplicationType
@@ -70,6 +58,7 @@ namespace DVLD_Business
         public DateTime LastStatusDate
         {
             get => ApplicationInfo.LastStatusDate;
+            set => ApplicationInfo.LastStatusDate = value;
         }
 
         public string CreatedByUser
@@ -107,14 +96,19 @@ namespace DVLD_Business
         private bool _AddNewApplication()
         {
             ApplicationInfo.ApplicationID = clsApplicationsData.AddNewApplication(ApplicationInfo);
-            return (ApplicationInfo.ApplicationID != (int)clsSettingsModel.enIdentityStatus.NonExistent);
+            return (ApplicationInfo.ApplicationID != (int)clsEnumerationsModel.enIdentityStatus.NonExistent);
         }
 
         private bool _UpdateApplication()
         {
             return clsApplicationsData.UpdateApplication(ApplicationInfo);
         }
-
+        public bool CancelApplication( )
+        {
+            Status = enApplicationStatus.Cancelled;
+            LastStatusDate = DateTime.Now;
+            return clsApplicationsData.UpdateApplication(ApplicationInfo);
+        }
         public bool Save()
         {
             switch (_Mode)
