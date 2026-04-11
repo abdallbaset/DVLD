@@ -17,6 +17,7 @@ namespace DVLD_UI.Applications.Local_Driving_License
 
        private int _PersonID = (int)clsGlobal.enIdentityStatus.NonExistent;
        private int _ActiveApplicationID = (int)clsGlobal.enIdentityStatus.NonExistent;
+       private int _ActiveLicenseID = (int)clsGlobal.enIdentityStatus.NonExistent;
         public frmAddUpdateLocalDrivingLicesnseApplication()
         {
             InitializeComponent();
@@ -25,6 +26,7 @@ namespace DVLD_UI.Applications.Local_Driving_License
 
         public frmAddUpdateLocalDrivingLicesnseApplication(int LocalDrivingLicenseApplicationID) 
         {
+            InitializeComponent();
             _LocalDrivingLicenseApplicationID = LocalDrivingLicenseApplicationID;
             _Mode = enMode.Update;
         }
@@ -52,6 +54,7 @@ namespace DVLD_UI.Applications.Local_Driving_License
             {
                 lbl_Mode.Text = "Update Local Driving Licesnse Application";
                 this.Text = "Update Local Driving Licesnse Application";
+                _LocalDrivingLicenseApplications = clsLocalDrivingLicenseApplications.FindByLocalDrivingLicenseApplicationID(_LocalDrivingLicenseApplicationID);
                 btn_Save.Enabled = true;
                 return;
                
@@ -82,8 +85,6 @@ namespace DVLD_UI.Applications.Local_Driving_License
 
         private void _LoadData()
         {
-            _LocalDrivingLicenseApplications = clsLocalDrivingLicenseApplications.FindByLocalDrivingLicenseApplicationID(_LocalDrivingLicenseApplicationID);
-
             if (_LocalDrivingLicenseApplications == null)
             {
                 MessageBox.Show("No Local Driving License Application record with ID = " + _LocalDrivingLicenseApplicationID, "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -197,6 +198,11 @@ namespace DVLD_UI.Applications.Local_Driving_License
                               clsApplicationTypesModel.enApplicationTypes.NewLocalDrivingLicenseService, _LocalDrivingLicenseApplications.LicenseClassID);  
             return _ActiveApplicationID != (int)clsGlobal.enIdentityStatus.NonExistent;
         }
+        private bool _DoesPersonHaveActiveLicenseForClass()
+        {
+            _ActiveLicenseID = clsLicenses.GetActiveLicenseIDByPersonIDAndLicenseClassID(_PersonID, _LocalDrivingLicenseApplications.LicenseClassID);
+            return _ActiveLicenseID != (int)clsGlobal.enIdentityStatus.NonExistent;
+        }
         private void btn_Save_Click(object sender, EventArgs e)
         {
             if (_IsPersonInvalidForSaving())
@@ -215,8 +221,15 @@ namespace DVLD_UI.Applications.Local_Driving_License
                 return;
             }
 
+            if (_DoesPersonHaveActiveLicenseForClass())
+            {MessageBox.Show($"The selected person already holds an active license for this class License ID: [{_ActiveLicenseID}]. Please select a different person or license class.",
+                                "License Already Exists",
+                                 MessageBoxButtons.OK,
+                                 MessageBoxIcon.Warning);
+                return;
+            }
 
-                if (_LocalDrivingLicenseApplications.Save())
+            if (_LocalDrivingLicenseApplications.Save())
                 {
                 MessageBox.Show("Application saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     lbl_LocalDrivingLicenseApplicationID.Text = _LocalDrivingLicenseApplications.LocalDrivingLicenseApplicationID.ToString();
