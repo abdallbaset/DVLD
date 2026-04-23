@@ -32,7 +32,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmListTestAppointments));
             this.lbl_Title = new System.Windows.Forms.Label();
-            this.ctrlDrivingLicenseApplicationInfo1 = new DVLD_UI.Applications.Local_Driving_License.ctrlDrivingLicenseApplicationInfo();
             this.lbl_NumberOfRecords = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -44,6 +43,7 @@
             this.btn_AddNewAppointment = new System.Windows.Forms.Button();
             this.btn_Close = new System.Windows.Forms.Button();
             this.pb_TestTypeImage = new System.Windows.Forms.PictureBox();
+            this.ctrlDrivingLicenseApplicationInfo1 = new DVLD_UI.Applications.Local_Driving_License.ctrlDrivingLicenseApplicationInfo();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_ListTestAppointments)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_TestTypeImage)).BeginInit();
@@ -59,13 +59,6 @@
             this.lbl_Title.TabIndex = 73;
             this.lbl_Title.Text = "Titale";
             this.lbl_Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ctrlDrivingLicenseApplicationInfo1
-            // 
-            this.ctrlDrivingLicenseApplicationInfo1.Location = new System.Drawing.Point(4, 172);
-            this.ctrlDrivingLicenseApplicationInfo1.Name = "ctrlDrivingLicenseApplicationInfo1";
-            this.ctrlDrivingLicenseApplicationInfo1.Size = new System.Drawing.Size(849, 495);
-            this.ctrlDrivingLicenseApplicationInfo1.TabIndex = 74;
             // 
             // lbl_NumberOfRecords
             // 
@@ -129,13 +122,14 @@
             this.editToolStripMenuItem,
             this.takeTestToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(142, 56);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(215, 84);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Image = global::DVLD_UI.Properties.Resources.edit_32;
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(141, 26);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
@@ -143,7 +137,7 @@
             // 
             this.takeTestToolStripMenuItem.Image = global::DVLD_UI.Properties.Resources.Test_32;
             this.takeTestToolStripMenuItem.Name = "takeTestToolStripMenuItem";
-            this.takeTestToolStripMenuItem.Size = new System.Drawing.Size(141, 26);
+            this.takeTestToolStripMenuItem.Size = new System.Drawing.Size(214, 26);
             this.takeTestToolStripMenuItem.Text = "Take Test";
             this.takeTestToolStripMenuItem.Click += new System.EventHandler(this.takeTestToolStripMenuItem_Click);
             // 
@@ -189,6 +183,13 @@
             this.pb_TestTypeImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_TestTypeImage.TabIndex = 72;
             this.pb_TestTypeImage.TabStop = false;
+            // 
+            // ctrlDrivingLicenseApplicationInfo1
+            // 
+            this.ctrlDrivingLicenseApplicationInfo1.Location = new System.Drawing.Point(4, 172);
+            this.ctrlDrivingLicenseApplicationInfo1.Name = "ctrlDrivingLicenseApplicationInfo1";
+            this.ctrlDrivingLicenseApplicationInfo1.Size = new System.Drawing.Size(849, 495);
+            this.ctrlDrivingLicenseApplicationInfo1.TabIndex = 74;
             // 
             // frmListTestAppointments
             // 

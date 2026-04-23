@@ -11,9 +11,9 @@ namespace DVLD_UI.Test
     public partial class frmListTestAppointments : Form
     {
         private int _LocalDrivingLicenseApplicationID = (int)clsGlobal.enIdentityStatus.NonExistent;
-        //   private clsTestAppointments TestAppointments;
         private int _TestType = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
         private DataTable _ListTestAppointments;
+        private bool _TestResultDataReceived = false;
         public frmListTestAppointments(int LocalDrivingLicenseApplicationID)
         {
             InitializeComponent();
@@ -25,7 +25,7 @@ namespace DVLD_UI.Test
              ;
             if ((int)clsTestTypesModel.enTestType.VisionTest == ctrlDrivingLicenseApplicationInfo1.PassedTestsCount)
             {
-                _TestType = (int)clsEnumerationsModel.enTestType.VisionTest ;
+                _TestType = (int)clsEnumerationsModel.enTestType.VisionTest;
             }
             else if ((int)clsTestTypesModel.enTestType.WrittenTest == ctrlDrivingLicenseApplicationInfo1.PassedTestsCount)
             {
@@ -42,7 +42,7 @@ namespace DVLD_UI.Test
             this.Text = formText;
             lbl_Title.Text = labelText;
         }
-
+   
         private void _SetTestImage(int testType)
         {
             switch ((clsEnumerationsModel.enTestType)testType)
@@ -77,10 +77,39 @@ namespace DVLD_UI.Test
             }
 
         }
+       
+        private void _TestResultDataBack(int TestResult)
+        {
+            _TestResultDataReceived = Convert.ToBoolean( TestResult);
+        }
+
+
+        private bool IsTestPassed()
+        {
+            return _TestResultDataReceived;
+        }
+
         private void _LoadInitialData()
         {
-            _SetFormLayout();     
+            _SetFormLayout();    
         }
+
+        private void _HandleContextMenuState()
+        {
+            bool IsLocked = (dgv_ListTestAppointments.CurrentRow != null) ? Convert.ToBoolean(dgv_ListTestAppointments.CurrentRow.Cells["IsLocked"].Value) : false;
+
+            if (IsLocked)
+                {
+                editToolStripMenuItem.Enabled = false;
+                takeTestToolStripMenuItem.Enabled = false;
+            }
+            else
+            {
+                editToolStripMenuItem.Enabled = true;
+                takeTestToolStripMenuItem.Enabled = true;
+            }
+        }
+
         private void _GetNumberOfRecords()
         {
             lbl_NumberOfRecords.Text = _ListTestAppointments.Rows.Count.ToString();
@@ -122,19 +151,24 @@ namespace DVLD_UI.Test
             }
         }
    
+        private void _RefreshApplicationInfo()
+        {
+            ctrlDrivingLicenseApplicationInfo1.Load_LocalDrivingLicenseApplicationInfo(_LocalDrivingLicenseApplicationID);
 
+        }
         private void frmListTestAppointments_Load(object sender, EventArgs e)
         {
-            _RefreshListTestAppointment();
-            ctrlDrivingLicenseApplicationInfo1.Load_LocalDrivingLicenseApplicationInfo(_LocalDrivingLicenseApplicationID);
+            _RefreshApplicationInfo();
             _LoadInitialData();
+            _RefreshListTestAppointment();
         }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dgv_ListTestAppointments.Rows.Count > 0 && dgv_ListTestAppointments.CurrentRow != null)
             {
-                frmScheduleTest scheduleTestForm = new frmScheduleTest(_LocalDrivingLicenseApplicationID, _TestType);
+                int selectedTestAppointmentID = Convert.ToInt32(dgv_ListTestAppointments.CurrentRow.Cells["TestAppointmentID"].Value);
+                frmScheduleTest scheduleTestForm = new frmScheduleTest(selectedTestAppointmentID);
                 scheduleTestForm.ShowDialog();
                 _RefreshListTestAppointment();
             }
@@ -146,11 +180,34 @@ namespace DVLD_UI.Test
 
         private void takeTestToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (dgv_ListTestAppointments.Rows.Count > 0 && dgv_ListTestAppointments.CurrentRow != null)
+            {
+                int selectedTestAppointmentID = Convert.ToInt32(dgv_ListTestAppointments.CurrentRow.Cells["TestAppointmentID"].Value);
+                frmTakeTest TakeTestForm = new frmTakeTest(selectedTestAppointmentID);
+                TakeTestForm.DataBack += _TestResultDataBack;
+                TakeTestForm.ShowDialog();
+                _RefreshApplicationInfo();
+                _RefreshListTestAppointment();
+            }
+            else
+            {
+                MessageBox.Show("Please select a Appointment first!", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void btn_AddNewAppointment_Click(object sender, EventArgs e)
         {
+
+            if(IsTestPassed())
+            {
+                MessageBox.Show("This person has already passed this test. You cannot schedule another appointment.",
+                                    "Test Already Passed",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+                return;
+            }
+
+
             if (clsTestAppointments.HasActiveAppointment(_LocalDrivingLicenseApplicationID))
             {
                 MessageBox.Show("An active appointment already exists for this application. Please edit the existing appointment or" +
@@ -158,12 +215,17 @@ namespace DVLD_UI.Test
             }
             else
             {
-                            frmScheduleTest scheduleTestForm = new frmScheduleTest(_LocalDrivingLicenseApplicationID, _TestType);
-        scheduleTestForm.ShowDialog();
-        _RefreshListTestAppointment();
+               frmScheduleTest scheduleTestForm = new frmScheduleTest(_LocalDrivingLicenseApplicationID, _TestType);
+               scheduleTestForm.ShowDialog();
+              _RefreshListTestAppointment();
             }
 
     
+        }
+
+        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _HandleContextMenuState();
         }
     }
 }
