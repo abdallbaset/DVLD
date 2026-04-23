@@ -48,7 +48,7 @@ namespace DVLD_DataAccess
 
             return AppointmentInfo;
         }
-
+    
         static public int AddNewTestAppointment(clsTestAppointmentModel Appointment)
         {
             int TestAppointmentID = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
@@ -95,10 +95,12 @@ namespace DVLD_DataAccess
             using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = @"UPDATE TestAppointments SET 
-                               AppointmentDate = @AppointmentDate,
+                               IsLocked = @IsLocked,
+                               AppointmentDate =@AppointmentDate
                                WHERE TestAppointmentID = @TestAppointmentID;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
+                    cmd.Parameters.AddWithValue("@IsLocked", Appointment.IsLocked);
                     cmd.Parameters.AddWithValue("@AppointmentDate", Appointment.AppointmentDate);
                     cmd.Parameters.AddWithValue("@TestAppointmentID", Appointment.TestAppointmentID);
 
