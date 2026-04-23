@@ -33,7 +33,7 @@
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
             this.lbl_TestDate = new System.Windows.Forms.Label();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pb_TestTypeImage = new System.Windows.Forms.PictureBox();
             this.lbl_Title = new System.Windows.Forms.Label();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.lbl_FullName = new System.Windows.Forms.Label();
@@ -54,7 +54,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.gb_TestType.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_TestTypeImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -69,7 +69,7 @@
             this.gb_TestType.Controls.Add(this.pictureBox7);
             this.gb_TestType.Controls.Add(this.label4);
             this.gb_TestType.Controls.Add(this.lbl_TestDate);
-            this.gb_TestType.Controls.Add(this.pictureBox3);
+            this.gb_TestType.Controls.Add(this.pb_TestTypeImage);
             this.gb_TestType.Controls.Add(this.lbl_Title);
             this.gb_TestType.Controls.Add(this.pictureBox4);
             this.gb_TestType.Controls.Add(this.lbl_FullName);
@@ -142,15 +142,15 @@
             this.lbl_TestDate.Text = "dd/mm/yyyy";
             this.lbl_TestDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // pictureBox3
+            // pb_TestTypeImage
             // 
-            this.pictureBox3.Image = global::DVLD_UI.Properties.Resources.driving_test_512;
-            this.pictureBox3.Location = new System.Drawing.Point(6, 31);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(487, 124);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox3.TabIndex = 70;
-            this.pictureBox3.TabStop = false;
+            this.pb_TestTypeImage.Image = global::DVLD_UI.Properties.Resources.driving_test_512;
+            this.pb_TestTypeImage.Location = new System.Drawing.Point(6, 31);
+            this.pb_TestTypeImage.Name = "pb_TestTypeImage";
+            this.pb_TestTypeImage.Size = new System.Drawing.Size(487, 124);
+            this.pb_TestTypeImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_TestTypeImage.TabIndex = 70;
+            this.pb_TestTypeImage.TabStop = false;
             // 
             // lbl_Title
             // 
@@ -364,7 +364,7 @@
             this.gb_TestType.ResumeLayout(false);
             this.gb_TestType.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_TestTypeImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
@@ -382,7 +382,7 @@
         private System.Windows.Forms.PictureBox pictureBox7;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lbl_TestDate;
-        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pb_TestTypeImage;
         private System.Windows.Forms.Label lbl_Title;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Label lbl_FullName;
