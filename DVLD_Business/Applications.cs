@@ -19,10 +19,12 @@ namespace DVLD_Business
         public int ApplicantPersonID
         {
             get => ApplicationInfo.ApplicantPersonID;
+            set => ApplicationInfo.ApplicantPersonID = value;
         }
         public double PaidFees
         {
             get => ApplicationInfo.PaidFees;
+            set => ApplicationInfo.PaidFees = value;
         }
 
         public string ApplicantName
@@ -41,7 +43,7 @@ namespace DVLD_Business
             set => ApplicationInfo.ApplicationStatus =  value;
         }
 
-        public string ApplicationType
+        public string ApplicationTypeName
         {
             get
             {
@@ -49,10 +51,17 @@ namespace DVLD_Business
                 return (appType != null) ? appType.ApplicationTypeInfo.ApplicationTypeTitle : "Unknown";
             }
         }
+        public clsApplicationTypesModel.enApplicationTypes ApplicationType
+        {
+            get => ApplicationInfo.ApplicationTypeID;
+            set => ApplicationInfo.ApplicationTypeID = value;
+               
+        }
 
         public DateTime ApplicationDate
         {
             get => ApplicationInfo.ApplicationDate;
+            set => ApplicationInfo.ApplicationDate = value;
         }
 
         public DateTime LastStatusDate
@@ -68,6 +77,11 @@ namespace DVLD_Business
                 clsUser user = clsUser.FindByUserID(ApplicationInfo.CreatedByUserID);
                 return (user != null) ? user.UserName : "Unknown";
             }
+        }
+        public int CreatedByUserID
+        {
+            get => ApplicationInfo.CreatedByUserID;
+            set => ApplicationInfo.CreatedByUserID = value;
         }
         public clsApplications()
         {
