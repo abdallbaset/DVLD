@@ -58,7 +58,7 @@ namespace DVLD_UI.Applications
            lbl_ApplicantName.Text = _Application != null ? _Application.ApplicantName : "???";
            lbl_Status.Text = _Application.Status.ToString();
            lbl_Fees.Text = _Application.PaidFees.ToString();
-           lbl_Type.Text = _Application.ApplicationType;
+           lbl_Type.Text = _Application.ApplicationTypeName;
            lbl_ApplicationDate.Text = clsFormat.DateToShort(_Application.ApplicationDate);
            lbl_LastStatusDate.Text = clsFormat.DateToShort(_Application.LastStatusDate);
            lbl_CreatedBy.Text = _Application.CreatedByUser;
