@@ -51,7 +51,7 @@
             this.btn_Close.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btn_Close.ImageIndex = 0;
             this.btn_Close.ImageList = this.imageList1;
-            this.btn_Close.Location = new System.Drawing.Point(22, 715);
+            this.btn_Close.Location = new System.Drawing.Point(13, 741);
             this.btn_Close.Margin = new System.Windows.Forms.Padding(4);
             this.btn_Close.Name = "btn_Close";
             this.btn_Close.Size = new System.Drawing.Size(131, 44);
@@ -62,17 +62,17 @@
             // 
             // ctrlScheduleTest1
             // 
-            this.ctrlScheduleTest1.Location = new System.Drawing.Point(2, 2);
+            this.ctrlScheduleTest1.Location = new System.Drawing.Point(0, 12);
             this.ctrlScheduleTest1.Name = "ctrlScheduleTest1";
-            this.ctrlScheduleTest1.Size = new System.Drawing.Size(562, 774);
-            this.ctrlScheduleTest1.TabIndex = 0;
+            this.ctrlScheduleTest1.Size = new System.Drawing.Size(562, 779);
+            this.ctrlScheduleTest1.TabIndex = 19;
             // 
             // frmScheduleTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btn_Close;
-            this.ClientSize = new System.Drawing.Size(567, 786);
+            this.ClientSize = new System.Drawing.Size(574, 798);
             this.Controls.Add(this.btn_Close);
             this.Controls.Add(this.ctrlScheduleTest1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -85,9 +85,8 @@
         }
 
         #endregion
-
-        private Controls.ctrlScheduleTest ctrlScheduleTest1;
         private System.Windows.Forms.Button btn_Close;
         private System.Windows.Forms.ImageList imageList1;
+        private Controls.ctrlScheduleTest ctrlScheduleTest1;
     }
 }
