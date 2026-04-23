@@ -237,7 +237,7 @@
             this.gb_TestType.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
             this.gb_TestType.Location = new System.Drawing.Point(3, 3);
             this.gb_TestType.Name = "gb_TestType";
-            this.gb_TestType.Size = new System.Drawing.Size(555, 766);
+            this.gb_TestType.Size = new System.Drawing.Size(555, 773);
             this.gb_TestType.TabIndex = 5;
             this.gb_TestType.TabStop = false;
             this.gb_TestType.Text = "Test Type";
@@ -251,11 +251,11 @@
             this.btn_Save.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btn_Save.ImageIndex = 0;
             this.btn_Save.ImageList = this.imageList1;
-            this.btn_Save.Location = new System.Drawing.Point(413, 706);
+            this.btn_Save.Location = new System.Drawing.Point(404, 727);
             this.btn_Save.Margin = new System.Windows.Forms.Padding(4);
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(131, 46);
-            this.btn_Save.TabIndex = 74;
+            this.btn_Save.TabIndex = 76;
             this.btn_Save.Text = "Save";
             this.btn_Save.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_Save.UseVisualStyleBackColor = false;
@@ -499,7 +499,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.gb_TestType);
             this.Name = "ctrlScheduleTest";
-            this.Size = new System.Drawing.Size(562, 774);
+            this.Size = new System.Drawing.Size(562, 779);
             this.Load += new System.EventHandler(this.ctrlScheduleTest_Load);
             this.gb_TestType.ResumeLayout(false);
             this.gb_TestType.PerformLayout();
@@ -553,7 +553,7 @@
         private System.Windows.Forms.Label lbl_RetakeAppFees;
         private System.Windows.Forms.PictureBox pictureBox8;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Button btn_Save;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.Button btn_Save;
     }
 }

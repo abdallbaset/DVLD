@@ -9,6 +9,12 @@ namespace DVLD_UI.Test.Controls
 {
     public partial class ctrlScheduleTest : UserControl
     {
+        enum enMode
+        {
+            AddNew = 1,
+            Update = 2
+        }
+        private enMode _CurrentMode = enMode.AddNew;
         private int _LocalDrivingLicenseApplicationID = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
         private int _TestTypeID = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
         private int _Trial = 0;
@@ -16,7 +22,8 @@ namespace DVLD_UI.Test.Controls
         private double _RetakeAppFees = 0;
 
         private clsLocalDrivingLicenseApplications _LocalApp;
-        private clsTestAppointments _Appointment;
+        private clsTestAppointments _TestAppointment;
+        private clsApplications _Applications;
 
         public ctrlScheduleTest()
         {
@@ -37,47 +44,72 @@ namespace DVLD_UI.Test.Controls
             lbl_RetakeTestAppID.Text = "N/A";
             lbl_UserMessage.Visible = false;
             gb_RetakeTestInfo.Enabled = false;
+            dtp_TestDate.MinDate = DateTime.Today; 
             dtp_TestDate.Value = DateTime.Now;
-            dtp_TestDate.MinDate = DateTime.Now; 
             btn_Save.Enabled = false;
         }
-
+        private void _SetTestImage(int testType)
+        {
+            switch ((clsEnumerationsModel.enTestType)testType)
+            {
+                case clsEnumerationsModel.enTestType.VisionTest:
+                    pb_TestTypeImage.Image = Resources.Vision_512;
+                    break;
+                case clsEnumerationsModel.enTestType.WrittenTest:
+                    pb_TestTypeImage.Image = Resources.Written_Test_512;
+                    break;
+                case clsEnumerationsModel.enTestType.StreetTest:
+                    pb_TestTypeImage.Image = Resources.Street_Test_32;
+                    break;
+            }
+        }
+        private void _SetFormLayout()
+        {
+            _SetTestImage(_TestTypeID);
+            _UpdateGroupBoxTitle();
+        }
         private void _UpdateGroupBoxTitle()
         {
             switch ((clsEnumerationsModel.enTestType)_TestTypeID)
             {
                 case clsEnumerationsModel.enTestType.VisionTest:
                     gb_TestType.Text = "Vision Test";
-                    pb_TestTypeImage.Image = Resources.Vision_512;
                     break;
                 case clsEnumerationsModel.enTestType.WrittenTest:
                     gb_TestType.Text = "Written Test";
-                    pb_TestTypeImage.Image = Resources.Written_Test_512;
                     break;
                 case clsEnumerationsModel.enTestType.StreetTest:
                     gb_TestType.Text = "Street Test";
-                    pb_TestTypeImage.Image = Resources.Street_Test_32;
                     break;
             }
         }
 
         private void _HandleRetakeTestLogic()
         {
-            // إذا كان هناك محاولات سابقة، فهذا يعني أنه "إعادة اختبار"
+
             if (_Trial > 0)
             {
                 _RetakeAppFees = clsApplicationType.Find(clsApplicationTypesModel.enApplicationTypes.RetakeTest).ApplicationFees;
                 gb_RetakeTestInfo.Enabled = true;
                 lbl_Title.Text = "Schedule Retake Test";
-                lbl_RetakeTestAppID.Text = "N/A"; // سيتم توليده عند الحفظ
             }
             else
             {
                 _RetakeAppFees = 0;
                 gb_RetakeTestInfo.Enabled = false;
                 lbl_Title.Text = "Schedule Test";
+            }
+
+            
+            if(_TestAppointment != null && _TestAppointment.RetakeTestApplicationID != (int)clsEnumerationsModel.enIdentityStatus.NonExistent)
+            {
+                lbl_RetakeTestAppID.Text = _TestAppointment.RetakeTestApplicationID.ToString();
+            }
+            else
+            {
                 lbl_RetakeTestAppID.Text = "N/A";
             }
+
 
             lbl_RetakeAppFees.Text = _RetakeAppFees.ToString();
             lbl_TotalFees.Text = (_TestTypeFees + _RetakeAppFees).ToString();
@@ -90,33 +122,55 @@ namespace DVLD_UI.Test.Controls
             lbl_FullName.Text = _LocalApp.ApplicantFullName; 
             lbl_Trial.Text = _Trial.ToString();
             lbl_Fees.Text = _TestTypeFees.ToString();
-
-            _UpdateGroupBoxTitle();
+            lbl_RetakeAppFees.Text = _RetakeAppFees.ToString();
+            if(_CurrentMode == enMode.Update)
+            {
+                dtp_TestDate.Value = _TestAppointment.AppointmentDate;
+            }
+            else
+            {
+                dtp_TestDate.Value = DateTime.Now;
+            }
+                _UpdateGroupBoxTitle();
             _HandleRetakeTestLogic();
 
             btn_Save.Enabled = true;
         }
 
-        //private bool _ValidateAppointment()
-        //{
-        //    // التأكد من عدم وجود موعد نشط لنفس نوع الاختبار
-        //    if (clsTestAppointments.IsThereAnActiveAppointment(_LocalDrivingLicenseApplicationID, _TestTypeID))
-        //    {
-        //        lbl_UserMessage.Text = "Person already has an active appointment for this test.";
-        //        lbl_UserMessage.Visible = true;
-        //        btn_Save.Enabled = false;
-        //        return false;
-        //    }
-        //    return true;
-        //}
-
-
-
         public void LoadScheduleTestInfo(int LocalDrivingLicenseApplicationID, int TestTypeID)
         {
+            _CurrentMode = enMode.AddNew;
             _LocalDrivingLicenseApplicationID = LocalDrivingLicenseApplicationID;
             _TestTypeID = TestTypeID;
 
+            _LocalApp = clsLocalDrivingLicenseApplications.FindByLocalDrivingLicenseApplicationID(_LocalDrivingLicenseApplicationID);
+
+            _SetFormLayout();
+            if (_LocalApp == null)
+            {
+                _LoadDefaultData();
+                MessageBox.Show("No Local Application with ID [" + _LocalDrivingLicenseApplicationID + "] was found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            _TestTypeFees = clsTestTypes.Find((clsTestTypesModel.enTestType)_TestTypeID).TestTypeFees;
+            _Trial = clsTests.GetTotalTrialsPerTest(_LocalDrivingLicenseApplicationID, _TestTypeID);
+
+            _FillData();
+        }
+        public void LoadScheduleTestInfo(int AppointmentID)
+        {
+            _CurrentMode = enMode.Update;
+            _TestAppointment = clsTestAppointments.Find(AppointmentID);
+            _TestTypeID = _TestAppointment.TestTypeID;
+            _LocalDrivingLicenseApplicationID = _TestAppointment.LocalDrivingLicenseApplicationID;
+            if (_TestAppointment == null)
+            {
+                _LoadDefaultData();
+                MessageBox.Show("No Test Appointment  with ID [" + AppointmentID + "] was found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            _SetFormLayout();
             _LocalApp = clsLocalDrivingLicenseApplications.FindByLocalDrivingLicenseApplicationID(_LocalDrivingLicenseApplicationID);
 
             if (_LocalApp == null)
@@ -130,18 +184,73 @@ namespace DVLD_UI.Test.Controls
             _Trial = clsTests.GetTotalTrialsPerTest(_LocalDrivingLicenseApplicationID, _TestTypeID);
 
             _FillData();
-           // _ValidateAppointment();
         }
 
 
-        private void btn_Save_Click(object sender, EventArgs e)
+   
+
+        private void _setTestAppointmentInfo()
         {
-            // هنا ستضع منطق الحفظ (إنشاء كائن Application جديد للإعادة إذا لزم الأمر، ثم إنشاء الموعد)
+            
+            _TestAppointment = new clsTestAppointments();
+            _TestAppointment.LocalDrivingLicenseApplicationID = _LocalDrivingLicenseApplicationID;
+            _TestAppointment.TestTypeID = _TestTypeID;
+            _TestAppointment.AppointmentDate = dtp_TestDate.Value;
+            _TestAppointment.PaidFees = Convert.ToDouble(lbl_TotalFees.Text);
+            _TestAppointment.CreatedByUserID = clsGlobal.CurrentUser.UserID;
+            _TestAppointment.IsLocked = false;
+            if(_Trial == 0)
+            _TestAppointment.RetakeTestApplicationID = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
+            else
+            {
+                _setApplicationsInfo();
+                _Applications.Save();
+                _TestAppointment.RetakeTestApplicationID = _Applications.ApplicationID;
+                lbl_RetakeTestAppID.Text = _TestAppointment.RetakeTestApplicationID.ToString();
+
+            }
         }
+        private void _setApplicationsInfo()
+        {
+            _Applications = new clsApplications();
+            _Applications.ApplicantPersonID = _LocalApp.ApplicantPersonID;
+            _Applications.ApplicationDate = DateTime.Now;
+            _Applications.ApplicationType = clsApplicationTypesModel.enApplicationTypes.RetakeTest;
+            _Applications.CreatedByUserID = clsGlobal.CurrentUser.UserID;
+            _Applications.PaidFees = clsApplicationType.Find(clsApplicationTypesModel.enApplicationTypes.RetakeTest).ApplicationFees;
+            _Applications.LastStatusDate = DateTime.Now;
+            _Applications.Status = clsApplicationModel.enApplicationStatus.Completed;    
+        }
+
 
         private void ctrlScheduleTest_Load(object sender, EventArgs e)
         {
             _LoadDefaultData();
         }
+
+        private void btn_Save_Click(object sender, EventArgs e)
+        {
+            if(_CurrentMode == enMode.AddNew)
+            {
+                _setTestAppointmentInfo();
+               
+            }
+            else
+            {
+                _TestAppointment.AppointmentDate = dtp_TestDate.Value;
+            }
+
+            if (_TestAppointment.Save())
+            {
+                MessageBox.Show("Data saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                lbl_RetakeTestAppID.Text = (_TestAppointment.RetakeTestApplicationID == (int)clsEnumerationsModel.enIdentityStatus.NonExistent) ? "N/A" : _TestAppointment.RetakeTestApplicationID.ToString();
+                btn_Save.Enabled = false;
+            }
+            else
+            {
+                MessageBox.Show("Failed to save user information.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }
