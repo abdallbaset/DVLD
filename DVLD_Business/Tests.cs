@@ -19,6 +19,7 @@ namespace DVLD_Business
         public int TestAppointmentID
         {
             get => TestInfo.TestAppointmentID;
+            set => TestInfo.TestAppointmentID = value;
         }
 
         public int TestResult
@@ -52,6 +53,17 @@ namespace DVLD_Business
         static public clsTests Find(int TestID)
         {
             clsTestModel testInfo = clsTestsData.GetTestInfoByID(TestID);
+
+            if (testInfo != null)
+            {
+                return new clsTests(testInfo);
+            }
+
+            return null;
+        }
+        static public clsTests FindByTestAppointmentID(int TestAppointmentID)
+        {
+            clsTestModel testInfo = clsTestsData.GetTestInfoByTestAppointmentID(TestAppointmentID);
 
             if (testInfo != null)
             {

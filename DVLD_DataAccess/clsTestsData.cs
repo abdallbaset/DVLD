@@ -44,6 +44,42 @@ namespace DVLD_DataAccess
 
             return Test;
         }
+        static public clsTestModel GetTestInfoByTestAppointmentID(int TestAppointmentID)
+        {
+            clsTestModel Test = null;
+
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
+            {
+                string sql = "select * From Tests where TestAppointmentID = @TestAppointmentID;";
+                using (SqlCommand cmd = new SqlCommand(sql, Connection))
+                {
+                    cmd.Parameters.AddWithValue("@TestAppointmentID", TestAppointmentID);
+                    try
+                    {
+                        Connection.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                Test = new clsTestModel();
+
+                                Test.TestID = Convert.ToInt32(reader["TestID"]);
+                                Test.TestAppointmentID = Convert.ToInt32(reader["TestAppointmentID"]);
+                                Test.TestResult = (clsTestModel.enTestResult)reader["TestResult"];
+                                Test.Notes = ( reader["Notes"] == DBNull.Value) ? string.Empty : reader["Notes"].ToString();
+                                Test.CreatedByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        //Errors will be recorded in the LOG file later.
+                    }
+                }
+            }
+
+            return Test;
+        }
 
         static public int AddNewTest(clsTestModel Test)
         {
