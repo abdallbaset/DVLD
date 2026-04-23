@@ -50,7 +50,7 @@ namespace DVLD_Business
 
         private clsTestAppointments(clsTestAppointmentModel AppointmentInfo)
         {
-            _AppointmentInfo = _AppointmentInfo;
+            _AppointmentInfo = AppointmentInfo;
             _Mode = enMode.Update;
         }
 
