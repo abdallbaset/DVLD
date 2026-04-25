@@ -33,7 +33,7 @@ namespace DVLD_UI.Users
             DataTable dtUsers = clsUser.ListUsers();
             _ListUsers = new DataView(dtUsers);
             dgv_ListUsers.DataSource = _ListUsers;
-            _FormatDataGridView();
+            _FormatDataGridViewColumn();
             _GetNumberOfRecords();
         }
 
@@ -272,40 +272,17 @@ namespace DVLD_UI.Users
         {
             _ShowChangePassWord();
         }
-
-        private void _FormatDataGridView()
+        private void _FormatDataGridViewColumn()
         {
             if (dgv_ListUsers.Rows.Count > 0)
             {
-                if (dgv_ListUsers.Columns.Contains("UserID"))
-                {
-                    dgv_ListUsers.Columns["UserID"].HeaderText = "User ID";
-                    dgv_ListUsers.Columns["UserID"].Width = 120;
-                }
 
-                if (dgv_ListUsers.Columns.Contains("PersonID"))
-                {
-                    dgv_ListUsers.Columns["PersonID"].HeaderText = "Person ID";
-                    dgv_ListUsers.Columns["PersonID"].Width = 120;
-                }
-
-                if (dgv_ListUsers.Columns.Contains("FullName"))
-                {
-                    dgv_ListUsers.Columns["FullName"].HeaderText = "Full Name";
-                    dgv_ListUsers.Columns["FullName"].Width = 350;
-                }
-
-                if (dgv_ListUsers.Columns.Contains("UserName"))
-                {
-                    dgv_ListUsers.Columns["UserName"].HeaderText = "User Name";
-                    dgv_ListUsers.Columns["UserName"].Width = 150;
-                }
-
-                if (dgv_ListUsers.Columns.Contains("IsActive"))
-                {
-                    dgv_ListUsers.Columns["IsActive"].HeaderText = "Is Active";
-                    dgv_ListUsers.Columns["IsActive"].Width = 120;
-                }
+                clsUtil.ConfigureColumn(dgv_ListUsers.Columns["UserID"], "User ID", 120);
+                clsUtil.ConfigureColumn(dgv_ListUsers.Columns["PersonID"], "Person ID", 120);
+                clsUtil.ConfigureColumn(dgv_ListUsers.Columns["FullName"], "Full Name", 350);
+                clsUtil.ConfigureColumn(dgv_ListUsers.Columns["UserName"], "User Name", 150);
+                clsUtil.ConfigureColumn(dgv_ListUsers.Columns["IsActive"], "Is Active", 120);
+      
             }
         }
     }

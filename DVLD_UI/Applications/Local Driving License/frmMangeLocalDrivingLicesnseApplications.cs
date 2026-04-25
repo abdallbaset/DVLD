@@ -20,52 +20,17 @@ namespace DVLD_UI.Applications.Local_Driving_License
         {
             InitializeComponent();
         }
-
-        private void _FormatDataGridView()
+        private void _FormatDataGridViewColumn()
         {
             if (dgv_ListLocalDrivingLicenseApplications.Rows.Count > 0)
             {
-                if (dgv_ListLocalDrivingLicenseApplications.Columns.Contains("LocalDrivingLicenseApplicationID"))
-                {
-                    dgv_ListLocalDrivingLicenseApplications.Columns["LocalDrivingLicenseApplicationID"].HeaderText = "L.D.L.AppID";
-                    dgv_ListLocalDrivingLicenseApplications.Columns["LocalDrivingLicenseApplicationID"].Width = 120;
-                }
-
-                if (dgv_ListLocalDrivingLicenseApplications.Columns.Contains("ClassName"))
-                {
-                    dgv_ListLocalDrivingLicenseApplications.Columns["ClassName"].HeaderText = "Driving Class";
-                    dgv_ListLocalDrivingLicenseApplications.Columns["ClassName"].Width = 250;
-                }
-
-                if (dgv_ListLocalDrivingLicenseApplications.Columns.Contains("NationalNo"))
-                {
-                    dgv_ListLocalDrivingLicenseApplications.Columns["NationalNo"].HeaderText = "National No";
-                    dgv_ListLocalDrivingLicenseApplications.Columns["NationalNo"].Width = 150;
-                }
-
-                if (dgv_ListLocalDrivingLicenseApplications.Columns.Contains("FullName"))
-                {
-                    dgv_ListLocalDrivingLicenseApplications.Columns["FullName"].HeaderText = "Full Name";
-                    dgv_ListLocalDrivingLicenseApplications.Columns["FullName"].Width = 350;
-                }
-
-                if (dgv_ListLocalDrivingLicenseApplications.Columns.Contains("ApplicationDate"))
-                {
-                    dgv_ListLocalDrivingLicenseApplications.Columns["ApplicationDate"].HeaderText = "Application Date";
-                    dgv_ListLocalDrivingLicenseApplications.Columns["ApplicationDate"].Width = 170;
-                }
-
-                if (dgv_ListLocalDrivingLicenseApplications.Columns.Contains("PassedTestCount"))
-                {
-                    dgv_ListLocalDrivingLicenseApplications.Columns["PassedTestCount"].HeaderText = "Passed Tests";
-                    dgv_ListLocalDrivingLicenseApplications.Columns["PassedTestCount"].Width = 110;
-                }
-
-                if (dgv_ListLocalDrivingLicenseApplications.Columns.Contains("Status"))
-                {
-                    dgv_ListLocalDrivingLicenseApplications.Columns["Status"].HeaderText = "Status";
-                    dgv_ListLocalDrivingLicenseApplications.Columns["Status"].Width = 120;
-                }
+                 clsUtil.ConfigureColumn(dgv_ListLocalDrivingLicenseApplications.Columns["LocalDrivingLicenseApplicationID"], "L.D.L.AppID", 120);
+                 clsUtil.ConfigureColumn(dgv_ListLocalDrivingLicenseApplications.Columns["ClassName"], "Driving Classe", 250);
+                 clsUtil.ConfigureColumn(dgv_ListLocalDrivingLicenseApplications.Columns["NationalNo"], "National No", 150);
+                 clsUtil.ConfigureColumn(dgv_ListLocalDrivingLicenseApplications.Columns["FullName"], "Full Name", 350);
+                 clsUtil.ConfigureColumn(dgv_ListLocalDrivingLicenseApplications.Columns["ApplicationDate"], "Application Date", 170);
+                 clsUtil.ConfigureColumn(dgv_ListLocalDrivingLicenseApplications.Columns["PassedTestCount"], "Passed Test", 110);
+                clsUtil.ConfigureColumn(dgv_ListLocalDrivingLicenseApplications.Columns["Status"], "Status", 120); 
             }
         }
 
@@ -79,7 +44,7 @@ namespace DVLD_UI.Applications.Local_Driving_License
             DataTable dt = clsLocalDrivingLicenseApplications.GetAllLocalDrivingLicenseApplications();
             _ListLocalDL = new DataView(dt);
             dgv_ListLocalDrivingLicenseApplications.DataSource = _ListLocalDL;
-            _FormatDataGridView();
+            _FormatDataGridViewColumn();
             _GetNumberOfRecords();
         }
         private void _InitializeFilterComboBox()

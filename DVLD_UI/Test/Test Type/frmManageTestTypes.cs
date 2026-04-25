@@ -1,5 +1,6 @@
 ﻿using DVLD_Business;
 using DVLD_Model;
+using DVLD_UI.GlobalClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,33 +27,14 @@ namespace DVLD_UI.Test.Test_Type
             lbl_NumberOfRecords.Text = _ListTestTypes.Count.ToString();
         }
 
-        private void _FormatDataGridView()
+        private void _FormatDataGridViewColumn()
         {
             if (dgv_ListTestTypes.Rows.Count > 0)
             {
-                if (dgv_ListTestTypes.Columns.Contains("TestTypeID"))
-                {
-                    dgv_ListTestTypes.Columns["TestTypeID"].HeaderText = "ID";
-                    dgv_ListTestTypes.Columns["TestTypeID"].Width = 100;
-                }
-
-                if (dgv_ListTestTypes.Columns.Contains("TestTypeTitle"))
-                {
-                    dgv_ListTestTypes.Columns["TestTypeTitle"].HeaderText = "Title";
-                    dgv_ListTestTypes.Columns["TestTypeTitle"].Width = 180;
-                }
-
-                if (dgv_ListTestTypes.Columns.Contains("TestTypeDescription"))
-                {
-                    dgv_ListTestTypes.Columns["TestTypeDescription"].HeaderText = "Description";
-                    dgv_ListTestTypes.Columns["TestTypeDescription"].Width = 600;
-                }
-
-                if (dgv_ListTestTypes.Columns.Contains("TestTypeFees"))
-                {
-                    dgv_ListTestTypes.Columns["TestTypeFees"].HeaderText = "Fees";
-                    dgv_ListTestTypes.Columns["TestTypeFees"].Width = 100;
-                }
+                 clsUtil.ConfigureColumn(dgv_ListTestTypes.Columns["TestTypeID"], "ID", 100);
+                 clsUtil.ConfigureColumn(dgv_ListTestTypes.Columns["TestTypeTitle"], "Title", 180);
+                 clsUtil.ConfigureColumn(dgv_ListTestTypes.Columns["TestTypeDescription"], "Description", 600);
+                 clsUtil.ConfigureColumn(dgv_ListTestTypes.Columns["TestTypeFees"], "Fees", 100);
             }
         }
 
@@ -60,7 +42,7 @@ namespace DVLD_UI.Test.Test_Type
         {
             _ListTestTypes = new DataView(clsTestTypes.GetAllTestTypes());
             dgv_ListTestTypes.DataSource = _ListTestTypes;
-            _FormatDataGridView();
+            _FormatDataGridViewColumn();
             _GetNumberOfRecords();
         }
 

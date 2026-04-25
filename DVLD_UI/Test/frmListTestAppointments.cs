@@ -19,10 +19,10 @@ namespace DVLD_UI.Test
             InitializeComponent();
             _LocalDrivingLicenseApplicationID = LocalDrivingLicenseApplicationID;
         }
-     
+
         private void _LoadTestTypeSettings()
         {
-             ;
+            ;
             if ((int)clsTestTypesModel.enTestType.VisionTest == ctrlDrivingLicenseApplicationInfo1.PassedTestsCount)
             {
                 _TestType = (int)clsEnumerationsModel.enTestType.VisionTest;
@@ -42,7 +42,7 @@ namespace DVLD_UI.Test
             this.Text = formText;
             lbl_Title.Text = labelText;
         }
-   
+
         private void _SetTestImage(int testType)
         {
             switch ((clsEnumerationsModel.enTestType)testType)
@@ -77,7 +77,7 @@ namespace DVLD_UI.Test
             }
 
         }
-       
+
         private void _TestResultDataBack(int TestResult)
         {
             _TestResultDataReceived = Convert.ToBoolean( TestResult);
@@ -91,7 +91,7 @@ namespace DVLD_UI.Test
 
         private void _LoadInitialData()
         {
-            _SetFormLayout();    
+            _SetFormLayout();
         }
 
         private void _HandleContextMenuState()
@@ -99,7 +99,7 @@ namespace DVLD_UI.Test
             bool IsLocked = (dgv_ListTestAppointments.CurrentRow != null) ? Convert.ToBoolean(dgv_ListTestAppointments.CurrentRow.Cells["IsLocked"].Value) : false;
 
             if (IsLocked)
-                {
+            {
                 editToolStripMenuItem.Enabled = false;
                 takeTestToolStripMenuItem.Enabled = false;
             }
@@ -118,36 +118,18 @@ namespace DVLD_UI.Test
         {
             _ListTestAppointments = clsTestAppointments.GetApplicationTestAppointmentsPerTestType(_LocalDrivingLicenseApplicationID, _TestType);
             dgv_ListTestAppointments.DataSource = _ListTestAppointments;
-            _FormatDataGridView();
+            _FormatDataGridViewColumn();
             _GetNumberOfRecords();
         }
-        private void _FormatDataGridView()
+
+        private void _FormatDataGridViewColumn()
         {
             if (dgv_ListTestAppointments.Rows.Count > 0)
             {
-                if (dgv_ListTestAppointments.Columns.Contains("TestAppointmentID"))
-                {
-                    dgv_ListTestAppointments.Columns["TestAppointmentID"].HeaderText = "App.ID";
-                    dgv_ListTestAppointments.Columns["TestAppointmentID"].Width = 100;
-                }
-
-                if (dgv_ListTestAppointments.Columns.Contains("AppointmentDate"))
-                {
-                    dgv_ListTestAppointments.Columns["AppointmentDate"].HeaderText = "Date";
-                    dgv_ListTestAppointments.Columns["AppointmentDate"].Width = 200;
-                }
-
-                if (dgv_ListTestAppointments.Columns.Contains("PaidFees"))
-                {
-                    dgv_ListTestAppointments.Columns["PaidFees"].HeaderText = "Paid Fees";
-                    dgv_ListTestAppointments.Columns["PaidFees"].Width = 140;
-                }
-
-                if (dgv_ListTestAppointments.Columns.Contains("IsLocked"))
-                {
-                    dgv_ListTestAppointments.Columns["IsLocked"].HeaderText = "Is Locked";
-                    dgv_ListTestAppointments.Columns["IsLocked"].Width = 100;
-                }  
+               clsUtil.ConfigureColumn(dgv_ListTestAppointments.Columns["TestAppointmentID"], "App.ID",100);
+               clsUtil.ConfigureColumn(dgv_ListTestAppointments.Columns["AppointmentDate"], "Date", 200);
+               clsUtil.ConfigureColumn(dgv_ListTestAppointments.Columns["PaidFees"], "Paid Fees", 140);
+               clsUtil.ConfigureColumn(dgv_ListTestAppointments.Columns["IsLocked"], "Is Locked", 100); 
             }
         }
    

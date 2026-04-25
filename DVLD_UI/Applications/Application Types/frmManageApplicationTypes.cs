@@ -1,5 +1,6 @@
 ﻿using DVLD_Business;
 using DVLD_Model;
+using DVLD_UI.GlobalClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,29 +24,14 @@ namespace DVLD_UI.Applications.Application_Types
         {
             lbl_NumberOfRecords.Text = _ListApplication.Count.ToString();
         }
-        private void _FormatDataGridView()
+
+        private void _FormatDataGridViewColumn()
         {
             if (dgv_ListApplication.Rows.Count > 0)
             {
-                if(dgv_ListApplication.Columns.Contains("ApplicationTypeID"))
-                {
-                    dgv_ListApplication.Columns["ApplicationTypeID"].HeaderText = "ID";
-                    dgv_ListApplication.Columns["ApplicationTypeID"].Width = 110;
-                }
-
-                if(dgv_ListApplication.Columns.Contains("ApplicationTypeTitle"))
-                {
-
-                    dgv_ListApplication.Columns["ApplicationTypeTitle"].HeaderText = "Title";
-                    dgv_ListApplication.Columns["ApplicationTypeTitle"].Width = 400;
-                }
-
-                if(dgv_ListApplication.Columns.Contains("ApplicationFees"))
-                {
-
-                    dgv_ListApplication.Columns["ApplicationFees"].HeaderText = "Fees";
-                    dgv_ListApplication.Columns["ApplicationFees"].Width = 140;
-                }
+                clsUtil.ConfigureColumn(dgv_ListApplication.Columns["ApplicationTypeID"], "ID", 110);
+                clsUtil.ConfigureColumn(dgv_ListApplication.Columns["ApplicationTypeTitle"], "Title", 400);
+                clsUtil.ConfigureColumn(dgv_ListApplication.Columns["ApplicationFees"], "Fees", 140);
             }
         }
 
@@ -53,7 +39,7 @@ namespace DVLD_UI.Applications.Application_Types
         {
             _ListApplication = new DataView(clsApplicationType.GetAllApplicationTypes());
             dgv_ListApplication.DataSource = _ListApplication;
-            _FormatDataGridView();
+            _FormatDataGridViewColumn();
             _GetNumberOfRecords();
         }
 
