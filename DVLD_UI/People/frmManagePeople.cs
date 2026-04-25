@@ -42,19 +42,16 @@ namespace DVLD_UI
             }
         }
 
-        private void _GetNumberOfRecords()
-        {
-            lbl_NumberOfRecords.Text = _ListPeople.Count.ToString();
-        }
+       
         private void _RefreshPeopleList()
         {
             DataTable dtPeople = clsPeople.ListPeople();
             _ListPeople = new DataView(dtPeople);
             dgv_ListPeople.DataSource = _ListPeople;
             _FormatDataGridViewColumn();
-            _GetNumberOfRecords();
+            clsUtil.UpdateRecordCount(lbl_NumberOfRecords, _ListPeople);
         }
-      
+
         private void frmManagePeople_Load(object sender, EventArgs e)
         {
             _RefreshPeopleList();
@@ -110,7 +107,7 @@ namespace DVLD_UI
         private void mtxt_Value_TextChanged(object sender, EventArgs e)
         {
             _FilterResult();
-            _GetNumberOfRecords();
+            clsUtil.UpdateRecordCount(lbl_NumberOfRecords, _ListPeople);
         }
 
         private void cmb_AllFilter_SelectedIndexChanged(object sender, EventArgs e)

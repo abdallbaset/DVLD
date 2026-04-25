@@ -34,18 +34,13 @@ namespace DVLD_UI.Applications.Local_Driving_License
             }
         }
 
-        private void _GetNumberOfRecords()
-        {
-            lbl_NumberOfRecords.Text = (_ListLocalDL != null) ? _ListLocalDL.Count.ToString() : "0";
-        }
-
         private void _RefreshLocalDrivingLicenseApplicationsList()
         {
             DataTable dt = clsLocalDrivingLicenseApplications.GetAllLocalDrivingLicenseApplications();
             _ListLocalDL = new DataView(dt);
             dgv_ListLocalDrivingLicenseApplications.DataSource = _ListLocalDL;
             _FormatDataGridViewColumn();
-            _GetNumberOfRecords();
+            clsUtil.UpdateRecordCount(lbl_NumberOfRecords, _ListLocalDL);
         }
         private void _InitializeFilterComboBox()
         {
@@ -96,7 +91,7 @@ namespace DVLD_UI.Applications.Local_Driving_License
         private void mtxt_Value_TextChanged(object sender, EventArgs e)
         {
             _FilterResult();
-            _GetNumberOfRecords();
+            clsUtil.UpdateRecordCount(lbl_NumberOfRecords, _ListLocalDL);
         }
 
         private void cmb_AllFilter_SelectedIndexChanged(object sender, EventArgs e)

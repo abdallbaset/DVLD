@@ -22,11 +22,7 @@ namespace DVLD_UI.Test.Test_Type
 
         private DataView _ListTestTypes;
 
-        private void _GetNumberOfRecords()
-        {
-            lbl_NumberOfRecords.Text = _ListTestTypes.Count.ToString();
-        }
-
+     
         private void _FormatDataGridViewColumn()
         {
             if (dgv_ListTestTypes.Rows.Count > 0)
@@ -43,7 +39,7 @@ namespace DVLD_UI.Test.Test_Type
             _ListTestTypes = new DataView(clsTestTypes.GetAllTestTypes());
             dgv_ListTestTypes.DataSource = _ListTestTypes;
             _FormatDataGridViewColumn();
-            _GetNumberOfRecords();
+            clsUtil.UpdateRecordCount(lbl_NumberOfRecords, _ListTestTypes);
         }
 
         private void frmManageTestTypes_Load(object sender, EventArgs e)

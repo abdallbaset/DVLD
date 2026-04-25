@@ -110,16 +110,13 @@ namespace DVLD_UI.Test
             }
         }
 
-        private void _GetNumberOfRecords()
-        {
-            lbl_NumberOfRecords.Text = _ListTestAppointments.Rows.Count.ToString();
-        }
+     
         private void _RefreshListTestAppointment()
         {
             _ListTestAppointments = clsTestAppointments.GetApplicationTestAppointmentsPerTestType(_LocalDrivingLicenseApplicationID, _TestType);
             dgv_ListTestAppointments.DataSource = _ListTestAppointments;
             _FormatDataGridViewColumn();
-            _GetNumberOfRecords();
+            clsUtil.UpdateRecordCount(lbl_NumberOfRecords, new DataView(_ListTestAppointments));
         }
 
         private void _FormatDataGridViewColumn()

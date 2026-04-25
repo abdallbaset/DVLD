@@ -20,11 +20,7 @@ namespace DVLD_UI.Applications.Application_Types
             InitializeComponent();
         }
         private DataView _ListApplication;
-        private void _GetNumberOfRecords()
-        {
-            lbl_NumberOfRecords.Text = _ListApplication.Count.ToString();
-        }
-
+     
         private void _FormatDataGridViewColumn()
         {
             if (dgv_ListApplication.Rows.Count > 0)
@@ -40,7 +36,8 @@ namespace DVLD_UI.Applications.Application_Types
             _ListApplication = new DataView(clsApplicationType.GetAllApplicationTypes());
             dgv_ListApplication.DataSource = _ListApplication;
             _FormatDataGridViewColumn();
-            _GetNumberOfRecords();
+            clsUtil.UpdateRecordCount(lbl_NumberOfRecords, _ListApplication);
+
         }
 
         private void frmManageApplicationTypes_Load(object sender, EventArgs e)

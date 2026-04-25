@@ -24,17 +24,13 @@ namespace DVLD_UI.Users
 
         private DataView _ListUsers;
 
-        private void _GetNumberOfRecords()
-        {
-            lbl_NumberOfRecords.Text = _ListUsers.Count.ToString();
-        }
         private void _RefreshUsersList()
         {
             DataTable dtUsers = clsUser.ListUsers();
             _ListUsers = new DataView(dtUsers);
             dgv_ListUsers.DataSource = _ListUsers;
             _FormatDataGridViewColumn();
-            _GetNumberOfRecords();
+            clsUtil.UpdateRecordCount(lbl_NumberOfRecords, _ListUsers);
         }
 
         private void frmManageUsers_Load(object sender, EventArgs e)
@@ -94,7 +90,7 @@ namespace DVLD_UI.Users
         private void mtxt_Value_TextChanged(object sender, EventArgs e)
         {
             _FilterResult();
-            _GetNumberOfRecords();
+            clsUtil.UpdateRecordCount(lbl_NumberOfRecords, _ListUsers);
         }
 
         private void _ShowFormAddAndEditUser(int UserID = (int)clsGlobal.enIdentityStatus.NonExistent )
@@ -155,7 +151,7 @@ namespace DVLD_UI.Users
         {
 
             _FilterResult();
-            _GetNumberOfRecords();
+            clsUtil.UpdateRecordCount(lbl_NumberOfRecords, _ListUsers);
 
         }
 
