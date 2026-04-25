@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace DVLD_UI.GlobalClasses
 {
-    static public  class clsUtil
+    static public class clsUtil
     {
         public static string GenerateGUID()
         {
@@ -83,7 +83,16 @@ namespace DVLD_UI.GlobalClasses
 
             sourceFile = destinationFile;
             return true;
-        
-       }
+
+        }
+
+        static public void ConfigureColumn(DataGridViewColumn column, string headerText, int width)
+        {
+            if (column != null)
+            {
+                column.HeaderText = headerText;
+                column.Width = width;
+            }
+        }
     }
 }
