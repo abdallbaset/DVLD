@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -93,6 +94,11 @@ namespace DVLD_UI.GlobalClasses
                 column.HeaderText = headerText;
                 column.Width = width;
             }
+        }
+
+        public static void UpdateRecordCount(Label lbl, DataView dV)
+        {
+            lbl.Text = (dV != null) ? dV.Count.ToString() : "0";
         }
     }
 }
