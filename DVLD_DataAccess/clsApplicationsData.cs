@@ -10,7 +10,7 @@ namespace DVLD_DataAccess
     {
         static public clsApplicationModel GetApplicationInfoByID(int ApplicationID)
         {
-          
+
             clsApplicationModel ApplicationInfo = null;
             using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
@@ -32,9 +32,9 @@ namespace DVLD_DataAccess
                                 ApplicationInfo.ApplicationDate = Convert.ToDateTime(reader["ApplicationDate"]);
                                 ApplicationInfo.ApplicationTypeID = (clsApplicationTypesModel.enApplicationTypes)reader["ApplicationTypeID"];
                                 ApplicationInfo.ApplicationStatus = (clsApplicationModel.enApplicationStatus)(reader["ApplicationStatus"]);
-                                ApplicationInfo.LastStatusDate =Convert.ToDateTime( reader["LastStatusDate"])  ;
+                                ApplicationInfo.LastStatusDate = Convert.ToDateTime(reader["LastStatusDate"]);
                                 ApplicationInfo.PaidFees = Convert.ToDouble(reader["PaidFees"]);
-                                ApplicationInfo.CreatedByUserID = Convert.ToInt32((reader["CreatedByUserID"])); 
+                                ApplicationInfo.CreatedByUserID = Convert.ToInt32((reader["CreatedByUserID"]));
 
                             }
                         }
@@ -56,17 +56,17 @@ namespace DVLD_DataAccess
             {
                 string sql = "INSERT INTO Applications (ApplicantPersonID, ApplicationDate, ApplicationTypeID, ApplicationStatus, LastStatusDate, PaidFees, CreatedByUserID) " +
                              "OUTPUT INSERTED.ApplicationID " +
-                             "VALUES (@ApplicantPersonID, @ApplicationDate, @ApplicationTypeID, @ApplicationStatus, @LastStatusDate, @PaidFees, @CreatedByUserID);";                             ;
+                             "VALUES (@ApplicantPersonID, @ApplicationDate, @ApplicationTypeID, @ApplicationStatus, @LastStatusDate, @PaidFees, @CreatedByUserID);"; ;
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
                     cmd.Parameters.AddWithValue("@ApplicantPersonID", ApplicationInfo.ApplicantPersonID);
                     cmd.Parameters.AddWithValue("@ApplicationDate", ApplicationInfo.ApplicationDate);
                     cmd.Parameters.AddWithValue("@ApplicationTypeID", ApplicationInfo.ApplicationTypeID);
                     cmd.Parameters.AddWithValue("@ApplicationStatus", ApplicationInfo.ApplicationStatus);
-                    cmd.Parameters.AddWithValue("@LastStatusDate", ApplicationInfo.LastStatusDate);                 
+                    cmd.Parameters.AddWithValue("@LastStatusDate", ApplicationInfo.LastStatusDate);
                     cmd.Parameters.AddWithValue("@PaidFees", ApplicationInfo.PaidFees);
                     cmd.Parameters.AddWithValue("@CreatedByUserID", ApplicationInfo.CreatedByUserID);
-              
+
 
                     try
                     {
@@ -90,20 +90,21 @@ namespace DVLD_DataAccess
         static public bool UpdateApplication(clsApplicationModel ApplicationInfo)
         {
             bool IsUpdated = false;
-
             using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
-                string sql = @"UPDATE Applications SET  
-                             ApplicationStatus = @ApplicationStatus,
-                             LastStatusDate = @LastStatusDate
-                             WHERE ApplicationID = @ApplicationID;";
-                           
+                string sql = "UPDATE Applications SET ApplicantPersonID = @ApplicantPersonID, ApplicationDate = @ApplicationDate, ApplicationTypeID = @ApplicationTypeID, " +
+                             "ApplicationStatus = @ApplicationStatus, LastStatusDate = @LastStatusDate, PaidFees = @PaidFees, CreatedByUserID = @CreatedByUserID " +
+                             "WHERE ApplicationID = @ApplicationID;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
+                    cmd.Parameters.AddWithValue("@ApplicantPersonID", ApplicationInfo.ApplicantPersonID);
+                    cmd.Parameters.AddWithValue("@ApplicationDate", ApplicationInfo.ApplicationDate);
+                    cmd.Parameters.AddWithValue("@ApplicationTypeID", ApplicationInfo.ApplicationTypeID);
                     cmd.Parameters.AddWithValue("@ApplicationStatus", ApplicationInfo.ApplicationStatus);
                     cmd.Parameters.AddWithValue("@LastStatusDate", ApplicationInfo.LastStatusDate);
+                    cmd.Parameters.AddWithValue("@PaidFees", ApplicationInfo.PaidFees);
+                    cmd.Parameters.AddWithValue("@CreatedByUserID", ApplicationInfo.CreatedByUserID);
                     cmd.Parameters.AddWithValue("@ApplicationID", ApplicationInfo.ApplicationID);
-
                     try
                     {
                         Connection.Open();
@@ -116,9 +117,12 @@ namespace DVLD_DataAccess
                     }
                 }
             }
-
             return IsUpdated;
         }
+        
+         
+
+        
 
         static public bool DeleteApplication(int ApplicationID)
         {
@@ -205,7 +209,7 @@ namespace DVLD_DataAccess
             return dataTable;
         }
 
-        static public int GetActiveApplicationIDForLicenseClass(int PersonID , clsApplicationTypesModel.enApplicationTypes ApplicationTypes , int LicenseClassID)
+        static public int GetActiveApplicationIDForLicenseClass(int PersonID, clsApplicationTypesModel.enApplicationTypes ApplicationTypes, int LicenseClassID)
         {
             int ActiveApplicationID = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
             using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
@@ -235,8 +239,35 @@ namespace DVLD_DataAccess
             }
             return ActiveApplicationID;
         }
-        
 
-        
+        static public bool UpdateStatus(int ApplicationID, clsApplicationModel.enApplicationStatus NewStatus)
+        {
+            bool IsUpdated = false;
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
+            {
+                string sql = @"UPDATE Applications SET  
+                             ApplicationStatus = @ApplicationStatus,
+                             LastStatusDate = @LastStatusDate
+                             WHERE ApplicationID = @ApplicationID;";
+                using (SqlCommand cmd = new SqlCommand(sql, Connection))
+                {
+                    cmd.Parameters.AddWithValue("@ApplicationStatus", NewStatus);
+                    cmd.Parameters.AddWithValue("@LastStatusDate", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@ApplicationID", ApplicationID);
+                    try
+                    {
+                        Connection.Open();
+                        int rows = cmd.ExecuteNonQuery();
+                        IsUpdated = rows > 0;
+                    }
+                    catch (Exception)
+                    {
+                        //Errors will be recorded in the LOG file later.
+                    }
+                }
+            }
+            return IsUpdated;
+
+        }
     }
 }
