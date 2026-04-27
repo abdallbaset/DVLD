@@ -133,44 +133,61 @@ namespace DVLD_UI.Applications.Local_Driving_License
         {
             this.Close();
         }
+      
+        private void _EnableContextMenuItems(bool isShowLicense, bool isEdit, bool isDelete, bool isCancel, bool isSchedule)
+        {
+            showLicenseToolStripMenuItem.Enabled = isShowLicense;
+            EditApplicationToolStripMenuItem.Enabled = isEdit;
+            DeleteApplicationToolStripMenuItem.Enabled = isDelete;
+            CancelApplicationToolStripMenuItem.Enabled = isCancel;
+            sechduleTestsToolStripMenuItem.Enabled = isSchedule;
+        }
         private void _HandleContextMenuState()
         {
-            clsEnumerationsModel.enPassedTestCount passedTests = (clsEnumerationsModel.enPassedTestCount)Convert.ToInt32(dgv_ListLocalDrivingLicenseApplications.CurrentRow.Cells["PassedTestCount"].Value);
+            var row = dgv_ListLocalDrivingLicenseApplications.CurrentRow;
+            if (row == null) return;
 
-            string applicationStatus = Convert.ToString(dgv_ListLocalDrivingLicenseApplications.CurrentRow.Cells["Status"].Value);
+            var passedTests = (clsEnumerationsModel.enPassedTestCount)Convert.ToInt32(row.Cells["PassedTestCount"].Value);
+            var applicationStatus = Convert.ToString(row.Cells["Status"].Value);
 
-            issueDrivingLicenseFirstTimeToolStripMenuItem.Enabled = (passedTests == clsEnumerationsModel.enPassedTestCount.StreetTestPassed && applicationStatus != clsApplicationModel.enApplicationStatus.Completed.ToString());
+            _UpdateContextMenuByStatus(applicationStatus);
 
-            if (applicationStatus == clsApplicationModel.enApplicationStatus.Completed.ToString())
-            {
-                showLicenseToolStripMenuItem.Enabled = true;
-                EditApplicationToolStripMenuItem.Enabled = false;
-                DeleteApplicationToolStripMenuItem.Enabled = false;
-                CancelApplicationToolStripMenuItem.Enabled = false;
-            }
-            else if (applicationStatus == clsApplicationModel.enApplicationStatus.Cancelled.ToString())
-            {
-                showLicenseToolStripMenuItem.Enabled = false;
-                EditApplicationToolStripMenuItem.Enabled = false;
-                DeleteApplicationToolStripMenuItem.Enabled = false;
-                CancelApplicationToolStripMenuItem.Enabled = false;
-                sechduleTestsToolStripMenuItem.Enabled = false;
-                return;
-            }
-            else
-            {
-                showLicenseToolStripMenuItem.Enabled = false;
-                EditApplicationToolStripMenuItem.Enabled = true;
-                DeleteApplicationToolStripMenuItem.Enabled = true;
-                CancelApplicationToolStripMenuItem.Enabled = true;
-            }
-
-                sechduleTestsToolStripMenuItem.Enabled = (passedTests != clsEnumerationsModel.enPassedTestCount.StreetTestPassed);
-
-            scheduleVisionTestToolStripMenuItem.Enabled = (passedTests == clsEnumerationsModel.enPassedTestCount.None);
-            scheduleWrittenTestToolStripMenuItem.Enabled = (passedTests == clsEnumerationsModel.enPassedTestCount.VisionTestPassed);
-            scheduleStreetTestToolStripMenuItem.Enabled = (passedTests == clsEnumerationsModel.enPassedTestCount.WrittenTestPassed);
+            _UpdateScheduleMenuOptions(passedTests, applicationStatus);
         }
+
+        private void _UpdateContextMenuByStatus(string status)
+        {
+            if (status == clsApplicationModel.enApplicationStatus.Completed.ToString())
+            {
+                _EnableContextMenuItems(isShowLicense: true, isEdit: false, isDelete: false, isCancel: false, isSchedule: false);
+            }
+            else if (status == clsApplicationModel.enApplicationStatus.Cancelled.ToString())
+            {
+                _EnableContextMenuItems(isShowLicense: false, isEdit: false, isDelete: false, isCancel: false, isSchedule: false);
+            }
+            else 
+            {
+                _EnableContextMenuItems(isShowLicense: false, isEdit: true, isDelete: true, isCancel: true, isSchedule: true);
+            }
+        }
+
+        private void _UpdateScheduleMenuOptions(clsEnumerationsModel.enPassedTestCount passedTests, string status)
+        {
+            bool isCompleted = (status == clsApplicationModel.enApplicationStatus.Completed.ToString());
+            bool isCancelled = (status == clsApplicationModel.enApplicationStatus.Cancelled.ToString());
+
+            sechduleTestsToolStripMenuItem.Enabled = (passedTests != clsEnumerationsModel.enPassedTestCount.StreetTestPassed && !isCompleted && !isCancelled);
+            issueDrivingLicenseFirstTimeToolStripMenuItem.Enabled = (passedTests == clsEnumerationsModel.enPassedTestCount.StreetTestPassed && !isCompleted);
+
+            if (isCompleted || isCancelled)
+                return;
+            
+           
+                scheduleVisionTestToolStripMenuItem.Enabled = (passedTests == clsEnumerationsModel.enPassedTestCount.None);
+                scheduleWrittenTestToolStripMenuItem.Enabled = (passedTests == clsEnumerationsModel.enPassedTestCount.VisionTestPassed);
+                scheduleStreetTestToolStripMenuItem.Enabled = (passedTests == clsEnumerationsModel.enPassedTestCount.WrittenTestPassed);  
+        }
+
         private void ShowApplicationDetailsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dgv_ListLocalDrivingLicenseApplications.Rows.Count > 0 && dgv_ListLocalDrivingLicenseApplications.CurrentRow != null)
