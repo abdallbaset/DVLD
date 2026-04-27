@@ -215,7 +215,7 @@ namespace DVLD_UI.Test.Controls
             _Applications = new clsApplications();
             _Applications.ApplicantPersonID = _LocalApp.ApplicantPersonID;
             _Applications.ApplicationDate = DateTime.Now;
-            _Applications.ApplicationType = clsApplicationTypesModel.enApplicationTypes.RetakeTest;
+            _Applications.ApplicationTypeID = clsApplicationTypesModel.enApplicationTypes.RetakeTest;
             _Applications.CreatedByUserID = clsGlobal.CurrentUser.UserID;
             _Applications.PaidFees = clsApplicationType.Find(clsApplicationTypesModel.enApplicationTypes.RetakeTest).ApplicationFees;
             _Applications.LastStatusDate = DateTime.Now;

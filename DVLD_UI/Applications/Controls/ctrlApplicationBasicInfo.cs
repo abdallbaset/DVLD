@@ -61,7 +61,7 @@ namespace DVLD_UI.Applications
            lbl_Type.Text = _Application.ApplicationTypeName;
            lbl_ApplicationDate.Text = clsFormat.DateToShort(_Application.ApplicationDate);
            lbl_LastStatusDate.Text = clsFormat.DateToShort(_Application.LastStatusDate);
-           lbl_CreatedBy.Text = _Application.CreatedByUser;
+           lbl_CreatedBy.Text = _Application.CreatedByUserName;
 
         }
 

@@ -11,7 +11,8 @@ namespace DVLD_Business
         public enum enMode { AddNew = 0, Update = 1 }
         private enMode _Mode = enMode.AddNew;
         public clsApplicationModel ApplicationInfo { get; set; }
-
+        private clsPeople _Person;
+        private clsApplicationType _appType;
         public int ApplicationID
         {
             get => ApplicationInfo.ApplicationID;
@@ -31,8 +32,7 @@ namespace DVLD_Business
         {
             get 
             {
-                clsPeople Person = clsPeople.Find(ApplicationInfo.ApplicantPersonID);
-                return (Person != null) ? Person.FullName : "???";
+                return (_Person != null) ? _Person.FullName : "???";
             }
         }
 
@@ -47,11 +47,10 @@ namespace DVLD_Business
         {
             get
             {
-                clsApplicationType appType = clsApplicationType.Find(ApplicationInfo.ApplicationTypeID);
-                return (appType != null) ? appType.ApplicationTypeInfo.ApplicationTypeTitle : "Unknown";
+                return (_appType != null) ? _appType.ApplicationTypeInfo.ApplicationTypeTitle : "Unknown";
             }
         }
-        public clsApplicationTypesModel.enApplicationTypes ApplicationType
+        public clsApplicationTypesModel.enApplicationTypes ApplicationTypeID
         {
             get => ApplicationInfo.ApplicationTypeID;
             set => ApplicationInfo.ApplicationTypeID = value;
@@ -70,7 +69,7 @@ namespace DVLD_Business
             set => ApplicationInfo.LastStatusDate = value;
         }
 
-        public string CreatedByUser
+        public string CreatedByUserName
         {
             get
             {
@@ -83,6 +82,7 @@ namespace DVLD_Business
             get => ApplicationInfo.CreatedByUserID;
             set => ApplicationInfo.CreatedByUserID = value;
         }
+
         public clsApplications()
         {
             ApplicationInfo = new clsApplicationModel();
@@ -92,6 +92,8 @@ namespace DVLD_Business
         private clsApplications(clsApplicationModel application)
         {
             ApplicationInfo = application;
+            _Person = clsPeople.Find(ApplicationInfo.ApplicantPersonID);
+            _appType = clsApplicationType.Find(ApplicationInfo.ApplicationTypeID);
             _Mode = enMode.Update;
         }
 
@@ -119,9 +121,11 @@ namespace DVLD_Business
         }
         public bool CancelApplication( )
         {
-            Status = enApplicationStatus.Cancelled;
-            LastStatusDate = DateTime.Now;
-            return clsApplicationsData.UpdateApplication(ApplicationInfo);
+            return clsApplicationsData.UpdateStatus(ApplicationID,enApplicationStatus.Cancelled);
+        }
+        public bool SetApplicationCompleted()
+        {
+            return clsApplicationsData.UpdateStatus(ApplicationID,enApplicationStatus.Completed);
         }
         public bool Save()
         {
