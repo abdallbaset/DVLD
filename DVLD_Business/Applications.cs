@@ -13,6 +13,7 @@ namespace DVLD_Business
         public clsApplicationModel ApplicationInfo { get; set; }
         private clsPeople _Person;
         private clsApplicationType _appType;
+        private clsUser _User;
         public int ApplicationID
         {
             get => ApplicationInfo.ApplicationID;
@@ -73,8 +74,7 @@ namespace DVLD_Business
         {
             get
             {
-                clsUser user = clsUser.FindByUserID(ApplicationInfo.CreatedByUserID);
-                return (user != null) ? user.UserName : "Unknown";
+                return (_User != null) ? _User.UserName : "Unknown";
             }
         }
         public int CreatedByUserID
@@ -94,6 +94,7 @@ namespace DVLD_Business
             ApplicationInfo = application;
             _Person = clsPeople.Find(ApplicationInfo.ApplicantPersonID);
             _appType = clsApplicationType.Find(ApplicationInfo.ApplicationTypeID);
+            _User = clsUser.FindByUserID(ApplicationInfo.ApplicantPersonID);
             _Mode = enMode.Update;
         }
 
