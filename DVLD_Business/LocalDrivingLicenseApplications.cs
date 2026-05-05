@@ -77,8 +77,7 @@ namespace DVLD_Business
                 {
                     return "Unknown";
                 }
-                clsUser User = clsUser.FindByUserID(Application.ApplicationInfo.CreatedByUserID);
-                return (User != null) ? User.UserInfo.UserName : "[Unknown]";
+                return Application.CreatedByUserName ;
             }
         }
         public string ApplicantFullName
@@ -89,8 +88,7 @@ namespace DVLD_Business
                 {
                     return "Unknown";
                 }
-                clsPeople Applicant = clsPeople.Find(Application.ApplicationInfo.ApplicantPersonID);
-                return (Applicant != null) ? $"{Applicant.FullName}" : "[Unknown]";
+                return Application.ApplicantName;
             }
         }
         private double _GetApplictionsFeez()
@@ -132,15 +130,7 @@ namespace DVLD_Business
 
         private bool _AddNewLocalDrivingLicenseApplication()
         {
-            if (Application == null || Application.ApplicationInfo == null)
-            {
-                return false;
-            }
-            if (!Application.Save())
-            {
-                return false;
-            }
-
+          
             LocalDrivingLicenseApplicationInfo.ApplicationID = ApplicationID;
 
             int LocalDrivingLicenseApplicationID = clsLocalDrivingLicenseApplicationsData.AddNewLocalDrivingLicense(LocalDrivingLicenseApplicationInfo);
@@ -150,7 +140,15 @@ namespace DVLD_Business
 
         private bool _UpdateLocalDrivingLicenseApplication()
         {
-            if(Application == null || Application.ApplicationInfo == null)
+        
+
+            return clsLocalDrivingLicenseApplicationsData.UpdateLocalDrivingLicense(LocalDrivingLicenseApplicationInfo);
+        }
+
+        public bool Save()
+        {
+
+            if (Application == null || Application.ApplicationInfo == null)
             {
                 return false;
             }
@@ -159,11 +157,6 @@ namespace DVLD_Business
                 return false;
             }
 
-            return clsLocalDrivingLicenseApplicationsData.UpdateLocalDrivingLicense(LocalDrivingLicenseApplicationInfo);
-        }
-
-        public bool Save()
-        {
             switch (_Mode)
             {
                 case enMode.AddNew:
