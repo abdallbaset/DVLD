@@ -234,8 +234,9 @@ namespace DVLD_UI.Applications.Local_Driving_License
                 MessageBox.Show("Application saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     lbl_LocalDrivingLicenseApplicationID.Text = _LocalDrivingLicenseApplications.LocalDrivingLicenseApplicationID.ToString();
                     _Mode = enMode.Update;
+                    _LocalDrivingLicenseApplicationID = _LocalDrivingLicenseApplications.LocalDrivingLicenseApplicationID;
                     _ApplicationModeSetup();
-                    ctrlPersonCardWithFilter1.DisableFilter();
+                ctrlPersonCardWithFilter1.DisableFilter();
                 }
                else
                {
