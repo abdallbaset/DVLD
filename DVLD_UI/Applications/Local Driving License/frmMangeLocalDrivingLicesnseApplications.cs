@@ -124,7 +124,7 @@ namespace DVLD_UI.Applications.Local_Driving_License
 
         private void btn_AddNewApplication_Click(object sender, EventArgs e)
         {
-            frmAddUpdateLocalDrivingLicesnseApplication frm = new frmAddUpdateLocalDrivingLicesnseApplication();
+            frmAddUpdateLocalDrivingLicenseApplication frm = new frmAddUpdateLocalDrivingLicenseApplication();
             frm.ShowDialog();
             _RefreshLocalDrivingLicenseApplicationsList();
         }
@@ -208,7 +208,7 @@ namespace DVLD_UI.Applications.Local_Driving_License
             if (dgv_ListLocalDrivingLicenseApplications.Rows.Count > 0 && dgv_ListLocalDrivingLicenseApplications.CurrentRow != null)
             {
                 int LocalDrivingLicenseApplicationID = Convert.ToInt32(dgv_ListLocalDrivingLicenseApplications.CurrentRow.Cells["LocalDrivingLicenseApplicationID"].Value);
-                frmAddUpdateLocalDrivingLicesnseApplication frmAddUpdateLocalDrivingLicesnseApplication = new frmAddUpdateLocalDrivingLicesnseApplication(LocalDrivingLicenseApplicationID);
+                frmAddUpdateLocalDrivingLicenseApplication frmAddUpdateLocalDrivingLicesnseApplication = new frmAddUpdateLocalDrivingLicenseApplication(LocalDrivingLicenseApplicationID);
                 frmAddUpdateLocalDrivingLicesnseApplication.ShowDialog();
                 _RefreshLocalDrivingLicenseApplicationsList();
             }

@@ -1,6 +1,6 @@
 ﻿namespace DVLD_UI.Applications.Local_Driving_License
 {
-    partial class frmAddUpdateLocalDrivingLicesnseApplication
+    partial class frmAddUpdateLocalDrivingLicenseApplication
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAddUpdateLocalDrivingLicesnseApplication));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAddUpdateLocalDrivingLicenseApplication));
             this.btn_Close = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -383,7 +383,7 @@
             this.ctrlPersonCardWithFilter1.Size = new System.Drawing.Size(1129, 504);
             this.ctrlPersonCardWithFilter1.TabIndex = 0;
             // 
-            // frmAddUpdateLocalDrivingLicesnseApplication
+            // frmAddUpdateLocalDrivingLicenseApplication
             // 
             this.AcceptButton = this.btn_Save;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -395,10 +395,9 @@
             this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.lbl_Mode);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "frmAddUpdateLocalDrivingLicesnseApplication";
+            this.Name = "frmAddUpdateLocalDrivingLicenseApplication";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AddUpdateLocalDrivingLicesnseApplication";
-            this.Activated += new System.EventHandler(this.frmAddUpdateLocalDrivingLicesnseApplication_Activated);
             this.Load += new System.EventHandler(this.frmAddAndUpdateApplication_Load);
             this.tabControl1.ResumeLayout(false);
             this.tp_PersonInfo.ResumeLayout(false);
