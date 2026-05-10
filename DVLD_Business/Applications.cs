@@ -94,7 +94,7 @@ namespace DVLD_Business
             ApplicationInfo = application;
             _Person = clsPeople.Find(ApplicationInfo.ApplicantPersonID);
             _appType = clsApplicationType.Find(ApplicationInfo.ApplicationTypeID);
-            _User = clsUser.FindByUserID(ApplicationInfo.ApplicantPersonID);
+            _User = clsUser.FindByUserID(ApplicationInfo.CreatedByUserID);
             _Mode = enMode.Update;
         }
 
