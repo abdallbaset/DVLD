@@ -66,6 +66,7 @@
             this.ctrlScheduleTest1.Name = "ctrlScheduleTest1";
             this.ctrlScheduleTest1.Size = new System.Drawing.Size(562, 779);
             this.ctrlScheduleTest1.TabIndex = 19;
+            this.ctrlScheduleTest1.TestTypeID = DVLD_Model.clsEnumerationsModel.enTestType.NotSpecified;
             // 
             // frmScheduleTest
             // 
