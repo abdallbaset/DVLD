@@ -16,7 +16,8 @@ namespace DVLD_Model
             WrittenTestPassed = 2,
             StreetTestPassed = 3
         }
-        public enum enTestType { VisionTest = 1, WrittenTest = 2, StreetTest = 3 };
+        public enum enTestType { NotSpecified = -1,VisionTest = 1, WrittenTest = 2, StreetTest = 3 };
+        public enum enCreationMode { FirstTimeSchedule = 0, RetakeTestSchedule = 1 };
 
     }
 }
