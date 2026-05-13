@@ -6,35 +6,20 @@ using System;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using static DVLD_Model.clsEnumerationsModel;
 namespace DVLD_UI.Test
 {
     public partial class frmListTestAppointments : Form
     {
         private int _LocalDrivingLicenseApplicationID = (int)clsGlobal.enIdentityStatus.NonExistent;
-        private int _TestType = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
+        private clsEnumerationsModel.enTestType _TestType = clsEnumerationsModel.enTestType.NotSpecified;
         private DataTable _ListTestAppointments;
-        private bool _TestResultDataReceived = false;
-        public frmListTestAppointments(int LocalDrivingLicenseApplicationID)
+        private clsTests _LastTest;
+        public frmListTestAppointments(int LocalDrivingLicenseApplicationID, clsEnumerationsModel.enTestType TestType)
         {
             InitializeComponent();
             _LocalDrivingLicenseApplicationID = LocalDrivingLicenseApplicationID;
-        }
-
-        private void _LoadTestTypeSettings()
-        {
-            ;
-            if ((int)clsTestTypesModel.enTestType.VisionTest == ctrlDrivingLicenseApplicationInfo1.PassedTestsCount)
-            {
-                _TestType = (int)clsEnumerationsModel.enTestType.VisionTest;
-            }
-            else if ((int)clsTestTypesModel.enTestType.WrittenTest == ctrlDrivingLicenseApplicationInfo1.PassedTestsCount)
-            {
-                _TestType = (int)clsEnumerationsModel.enTestType.WrittenTest;
-            }
-            else
-            {
-                _TestType = (int)clsEnumerationsModel.enTestType.StreetTest;
-            }
+            _TestType = TestType;
         }
 
         private void _SetTitles(string formText, string labelText)
@@ -43,9 +28,9 @@ namespace DVLD_UI.Test
             lbl_Title.Text = labelText;
         }
 
-        private void _SetTestImage(int testType)
+        private void _SetTestImage()
         {
-            switch ((clsEnumerationsModel.enTestType)testType)
+            switch (_TestType)
             {
                 case clsEnumerationsModel.enTestType.VisionTest:
                     pb_TestTypeImage.Image = Resources.Vision_512;
@@ -60,14 +45,13 @@ namespace DVLD_UI.Test
         }
         private void _SetFormLayout()
         {
-            _LoadTestTypeSettings();
-            _SetTestImage(_TestType);
+            _SetTestImage();
 
-            if ((int)clsEnumerationsModel.enTestType.VisionTest == _TestType)
+            if (clsEnumerationsModel.enTestType.VisionTest == _TestType)
             {
                 _SetTitles("Vision Test Appointment", "Vision Test");
             }
-            else if ((int)clsEnumerationsModel.enTestType.WrittenTest == _TestType)
+            else if (clsEnumerationsModel.enTestType.WrittenTest == _TestType)
             {
                 _SetTitles("Written Test Appointment", "Written Test");
             }
@@ -78,15 +62,15 @@ namespace DVLD_UI.Test
 
         }
 
-        private void _TestResultDataBack(int TestResult)
+        private void _Frm_OnTestSaved(object sender,clsTests LastTest)
         {
-            _TestResultDataReceived = Convert.ToBoolean( TestResult);
+            _LastTest = LastTest;
         }
 
 
         private bool IsTestPassed()
         {
-            return _TestResultDataReceived;
+            return (_LastTest != null &&  Convert.ToBoolean( _LastTest.TestResult));
         }
 
         private void _LoadInitialData()
@@ -113,7 +97,7 @@ namespace DVLD_UI.Test
      
         private void _RefreshListTestAppointment()
         {
-            _ListTestAppointments = clsTestAppointments.GetApplicationTestAppointmentsPerTestType(_LocalDrivingLicenseApplicationID, _TestType);
+            _ListTestAppointments = clsTestAppointments.GetApplicationTestAppointmentsPerTestType(_LocalDrivingLicenseApplicationID, (int)_TestType);
             dgv_ListTestAppointments.DataSource = _ListTestAppointments;
             _FormatDataGridViewColumn();
             clsUtil.UpdateRecordCount(lbl_NumberOfRecords, new DataView(_ListTestAppointments));
@@ -147,7 +131,7 @@ namespace DVLD_UI.Test
             if (dgv_ListTestAppointments.Rows.Count > 0 && dgv_ListTestAppointments.CurrentRow != null)
             {
                 int selectedTestAppointmentID = Convert.ToInt32(dgv_ListTestAppointments.CurrentRow.Cells["TestAppointmentID"].Value);
-                frmScheduleTest scheduleTestForm = new frmScheduleTest(selectedTestAppointmentID);
+                frmScheduleTest scheduleTestForm = new frmScheduleTest(_LocalDrivingLicenseApplicationID, _TestType,selectedTestAppointmentID);
                 scheduleTestForm.ShowDialog();
                 _RefreshListTestAppointment();
             }
@@ -163,7 +147,7 @@ namespace DVLD_UI.Test
             {
                 int selectedTestAppointmentID = Convert.ToInt32(dgv_ListTestAppointments.CurrentRow.Cells["TestAppointmentID"].Value);
                 frmTakeTest TakeTestForm = new frmTakeTest(selectedTestAppointmentID);
-                TakeTestForm.DataBack += _TestResultDataBack;
+                TakeTestForm.DataBack += _Frm_OnTestSaved;
                 TakeTestForm.ShowDialog();
                 _RefreshApplicationInfo();
                 _RefreshListTestAppointment();
