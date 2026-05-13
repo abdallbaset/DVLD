@@ -56,7 +56,7 @@ namespace DVLD_UI.Test.Test_Type
         {
             if (dgv_ListTestTypes.Rows.Count > 0 && dgv_ListTestTypes.CurrentRow != null)
             {
-                clsTestTypesModel.enTestType TestTypeID = (clsTestTypesModel.enTestType)(dgv_ListTestTypes.CurrentRow.Cells["TestTypeID"].Value);
+                clsEnumerationsModel.enTestType TestTypeID = (clsEnumerationsModel.enTestType)(dgv_ListTestTypes.CurrentRow.Cells["TestTypeID"].Value);
                 frmEditTestType editForm = new frmEditTestType(TestTypeID);
                 editForm.ShowDialog();
                 _RefreshTestTypesList();

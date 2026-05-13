@@ -9,10 +9,10 @@ namespace DVLD_UI.Test.Test_Type
 {
     public partial class frmEditTestType : Form
     {
-        private clsTestTypesModel.enTestType _TestTypeID = clsTestTypesModel.enTestType.NotSpecified;
+        private clsEnumerationsModel.enTestType _TestTypeID = clsEnumerationsModel.enTestType.NotSpecified;
         private clsTestTypes _testTypeDetails = null;
 
-        public frmEditTestType(clsTestTypesModel.enTestType TestTypeID)
+        public frmEditTestType(clsEnumerationsModel.enTestType TestTypeID)
         {
             InitializeComponent();
             _TestTypeID = TestTypeID;
