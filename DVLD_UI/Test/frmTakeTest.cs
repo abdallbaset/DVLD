@@ -9,7 +9,7 @@ namespace DVLD_UI.Test
     public partial class frmTakeTest : Form
     {
 
-        public delegate void DataBackEventHandler(int TestResult);
+        public delegate void DataBackEventHandler(object seneder , clsTests Test);
         public event DataBackEventHandler DataBack;
 
         private int _TestAppointmentID = (int)clsGlobal.enIdentityStatus.NonExistent;
@@ -29,7 +29,6 @@ namespace DVLD_UI.Test
             if (_IsTestLocked())
             {
                 btn_Save.Enabled = false;
-                lbl_UserMessage.Visible = true;
                 rb_Pass.Enabled = false;
                 rb_Fail.Enabled = false;
                 txt_Notes.Enabled = false;
@@ -41,7 +40,6 @@ namespace DVLD_UI.Test
         }
         private void _ResetDefaultValues()
         {
-            lbl_UserMessage.Visible = false;
             rb_Pass.Checked = true;
             txt_Notes.Text = string.Empty;
         }
@@ -76,7 +74,7 @@ namespace DVLD_UI.Test
                     LockedAppointment();
                     MessageBox.Show("Test result saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ctrlSecheduledTest1.LoadScheduledTestInfo(_TestAppointmentID);
-                    DataBack?.Invoke(_Test.TestResult);
+                    DataBack?.Invoke(this,_Test);
                     btn_Save.Enabled = false;
                 }
                else

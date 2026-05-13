@@ -35,7 +35,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txt_Notes = new System.Windows.Forms.TextBox();
-            this.lbl_UserMessage = new System.Windows.Forms.Label();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.btn_Save = new System.Windows.Forms.Button();
             this.btn_Close = new System.Windows.Forms.Button();
@@ -99,17 +98,6 @@
             this.txt_Notes.Name = "txt_Notes";
             this.txt_Notes.Size = new System.Drawing.Size(360, 106);
             this.txt_Notes.TabIndex = 206;
-            // 
-            // lbl_UserMessage
-            // 
-            this.lbl_UserMessage.AutoSize = true;
-            this.lbl_UserMessage.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_UserMessage.ForeColor = System.Drawing.Color.Red;
-            this.lbl_UserMessage.Location = new System.Drawing.Point(121, 773);
-            this.lbl_UserMessage.Name = "lbl_UserMessage";
-            this.lbl_UserMessage.Size = new System.Drawing.Size(270, 21);
-            this.lbl_UserMessage.TabIndex = 207;
-            this.lbl_UserMessage.Text = "You cannot change the results";
             // 
             // imageList1
             // 
@@ -194,7 +182,6 @@
             this.ClientSize = new System.Drawing.Size(538, 822);
             this.Controls.Add(this.btn_Close);
             this.Controls.Add(this.btn_Save);
-            this.Controls.Add(this.lbl_UserMessage);
             this.Controls.Add(this.txt_Notes);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.pictureBox4);
@@ -225,7 +212,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txt_Notes;
-        private System.Windows.Forms.Label lbl_UserMessage;
         private System.Windows.Forms.Button btn_Close;
         private System.Windows.Forms.Button btn_Save;
         private System.Windows.Forms.ImageList imageList1;
