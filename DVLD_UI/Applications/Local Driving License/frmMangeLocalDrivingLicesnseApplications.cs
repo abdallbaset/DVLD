@@ -6,6 +6,7 @@ using DVLD_UI.Test;
 using System;
 using System.Data;
 using System.Windows.Forms;
+using static DVLD_Model.clsEnumerationsModel;
 
 namespace DVLD_UI.Applications.Local_Driving_License
 {
@@ -15,7 +16,7 @@ namespace DVLD_UI.Applications.Local_Driving_License
         enFilterMode _FilterMode;
    
         private DataView _ListLocalDL;
-
+        private clsEnumerationsModel.enTestType _TestType = clsEnumerationsModel.enTestType.NotSpecified;
         public frmMangeLocalDrivingLicesnseApplications()
         {
             InitializeComponent();
@@ -290,10 +291,12 @@ namespace DVLD_UI.Applications.Local_Driving_License
 
         private void scheduleVisionTestToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            
             if (dgv_ListLocalDrivingLicenseApplications.Rows.Count > 0 && dgv_ListLocalDrivingLicenseApplications.CurrentRow != null)
             {
                 int LocalDrivingLicenseApplicationID = Convert.ToInt32(dgv_ListLocalDrivingLicenseApplications.CurrentRow.Cells["LocalDrivingLicenseApplicationID"].Value);
-                frmListTestAppointments ListTestAppointments = new frmListTestAppointments(LocalDrivingLicenseApplicationID);
+                _TestType = clsEnumerationsModel.enTestType.VisionTest;
+                frmListTestAppointments ListTestAppointments = new frmListTestAppointments(LocalDrivingLicenseApplicationID, _TestType);
                 ListTestAppointments.ShowDialog();
                 _RefreshLocalDrivingLicenseApplicationsList();
             }
@@ -308,7 +311,8 @@ namespace DVLD_UI.Applications.Local_Driving_License
             if (dgv_ListLocalDrivingLicenseApplications.Rows.Count > 0 && dgv_ListLocalDrivingLicenseApplications.CurrentRow != null)
             {
                 int LocalDrivingLicenseApplicationID = Convert.ToInt32(dgv_ListLocalDrivingLicenseApplications.CurrentRow.Cells["LocalDrivingLicenseApplicationID"].Value);
-                frmListTestAppointments ListTestAppointments = new frmListTestAppointments(LocalDrivingLicenseApplicationID);
+                _TestType = clsEnumerationsModel.enTestType.WrittenTest;
+                frmListTestAppointments ListTestAppointments = new frmListTestAppointments(LocalDrivingLicenseApplicationID, _TestType);
                 ListTestAppointments.ShowDialog();
                 _RefreshLocalDrivingLicenseApplicationsList();
             }
@@ -323,7 +327,8 @@ namespace DVLD_UI.Applications.Local_Driving_License
             if (dgv_ListLocalDrivingLicenseApplications.Rows.Count > 0 && dgv_ListLocalDrivingLicenseApplications.CurrentRow != null)
             {
                 int LocalDrivingLicenseApplicationID = Convert.ToInt32(dgv_ListLocalDrivingLicenseApplications.CurrentRow.Cells["LocalDrivingLicenseApplicationID"].Value);
-                frmListTestAppointments ListTestAppointments = new frmListTestAppointments(LocalDrivingLicenseApplicationID);
+                _TestType = clsEnumerationsModel.enTestType.StreetTest;
+                frmListTestAppointments ListTestAppointments = new frmListTestAppointments(LocalDrivingLicenseApplicationID, _TestType);
                 ListTestAppointments.ShowDialog();
                 _RefreshLocalDrivingLicenseApplicationsList();
             }
