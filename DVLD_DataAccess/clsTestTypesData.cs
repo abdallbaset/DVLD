@@ -7,7 +7,7 @@ namespace DVLD_DataAccess
 {
     public class clsTestTypesData
     {
-        static public clsTestTypesModel GetTestTypeInfoByID(clsTestTypesModel.enTestType TestTypeID)
+        static public clsTestTypesModel GetTestTypeInfoByID(clsEnumerationsModel.enTestType TestTypeID)
         {
             clsTestTypesModel TestType = null;
 
@@ -45,7 +45,7 @@ namespace DVLD_DataAccess
         }
         static public int AddNewTestType(clsTestTypesModel TestType)
         {
-            int TestTypeID =(int) clsTestTypesModel.enTestType.NotSpecified;
+            int TestTypeID =(int)clsEnumerationsModel.enTestType.NotSpecified;
 
             using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {

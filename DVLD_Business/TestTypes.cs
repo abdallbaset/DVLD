@@ -32,7 +32,7 @@ namespace DVLD_Business
             _Mode = enMode.Update;
         }
 
-        public static clsTestTypes Find(clsTestTypesModel.enTestType TestTypeID)
+        public static clsTestTypes Find(clsEnumerationsModel.enTestType TestTypeID)
         {
             clsTestTypesModel TestTypeInfo = clsTestTypesData.GetTestTypeInfoByID(TestTypeID);
 
@@ -45,8 +45,8 @@ namespace DVLD_Business
         }
         private bool _AddNewTestType()
         {
-            TestTypeInfo.ID = (clsTestTypesModel.enTestType)clsTestTypesData.AddNewTestType(TestTypeInfo);
-            return (TestTypeInfo.ID != clsTestTypesModel.enTestType.NotSpecified);
+            TestTypeInfo.ID = (clsEnumerationsModel.enTestType)clsTestTypesData.AddNewTestType(TestTypeInfo);
+            return (TestTypeInfo.ID != clsEnumerationsModel.enTestType.NotSpecified);
         }
         static public DataTable GetAllTestTypes()
         {
