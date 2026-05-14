@@ -82,16 +82,7 @@ namespace DVLD_UI.Test
         {
             bool IsLocked = (dgv_ListTestAppointments.CurrentRow != null) ? Convert.ToBoolean(dgv_ListTestAppointments.CurrentRow.Cells["IsLocked"].Value) : false;
 
-            if (IsLocked)
-            {
-                editToolStripMenuItem.Enabled = false;
-                takeTestToolStripMenuItem.Enabled = false;
-            }
-            else
-            {
-                editToolStripMenuItem.Enabled = true;
-                takeTestToolStripMenuItem.Enabled = true;
-            }
+            editToolStripMenuItem.Enabled = (IsLocked) ? false : true;
         }
 
      
@@ -146,7 +137,7 @@ namespace DVLD_UI.Test
             if (dgv_ListTestAppointments.Rows.Count > 0 && dgv_ListTestAppointments.CurrentRow != null)
             {
                 int selectedTestAppointmentID = Convert.ToInt32(dgv_ListTestAppointments.CurrentRow.Cells["TestAppointmentID"].Value);
-                frmTakeTest TakeTestForm = new frmTakeTest(selectedTestAppointmentID);
+                frmTakeTest TakeTestForm = new frmTakeTest(selectedTestAppointmentID , _TestType);
                 TakeTestForm.DataBack += _Frm_OnTestSaved;
                 TakeTestForm.ShowDialog();
                 _RefreshApplicationInfo();
