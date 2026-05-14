@@ -18,6 +18,7 @@ namespace DVLD_Model
         }
         public enum enTestType { NotSpecified = -1,VisionTest = 1, WrittenTest = 2, StreetTest = 3 };
         public enum enCreationMode { FirstTimeSchedule = 0, RetakeTestSchedule = 1 };
+        public enum enAppointmentStatus {NotCompleted = 0, Completed = 1 };
 
     }
 }
