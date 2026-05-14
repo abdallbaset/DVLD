@@ -11,6 +11,7 @@ namespace DVLD_Business
         private enMode _Mode = enMode.AddNew;
 
         private clsTestAppointmentModel _AppointmentInfo { get; set; }
+        private clsLocalDrivingLicenseApplications _LocalApp { get; set; }
         public int TestAppointmentID { get => _AppointmentInfo.TestAppointmentID; }
         public int LocalDrivingLicenseApplicationID {
             get => _AppointmentInfo.LocalDrivingLicenseApplicationID;
@@ -40,7 +41,8 @@ namespace DVLD_Business
             get => _AppointmentInfo.RetakeTestApplicationID;
             set => _AppointmentInfo.RetakeTestApplicationID = value;
         }
-
+        public string className { get => _LocalApp.ClassName; }
+        public string ApplicantFullName { get => _LocalApp.ApplicantFullName; }
 
         public clsTestAppointments()
         {
@@ -51,6 +53,7 @@ namespace DVLD_Business
         private clsTestAppointments(clsTestAppointmentModel AppointmentInfo)
         {
             _AppointmentInfo = AppointmentInfo;
+            _LocalApp = clsLocalDrivingLicenseApplications.FindByLocalDrivingLicenseApplicationID(_AppointmentInfo.LocalDrivingLicenseApplicationID);
             _Mode = enMode.Update;
         }
 
