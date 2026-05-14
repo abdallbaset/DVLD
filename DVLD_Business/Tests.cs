@@ -22,10 +22,10 @@ namespace DVLD_Business
             set => TestInfo.TestAppointmentID = value;
         }
 
-        public int TestResult
+        public bool TestResult
         {
-            get => (int)TestInfo.TestResult;
-            set => TestInfo.TestResult =(clsTestModel.enTestResult)value;
+            get => TestInfo.TestResult;
+            set => TestInfo.TestResult =value;
         }
         public string Notes
         {
@@ -77,7 +77,7 @@ namespace DVLD_Business
         {
             return clsTestsData.GetTestPassedCount(LocalDrivingLicenseApplicationID);
         }
-        static public int GetTotalTrialsPerTest(int LocalDrivingLicenseApplicationID , int TestTypeID)
+        static public int GetTotalTrialsPerTest(int LocalDrivingLicenseApplicationID , clsEnumerationsModel.enTestType TestTypeID)
         {
             return clsTestsData.GetTotalTrialsPerTest(LocalDrivingLicenseApplicationID, TestTypeID);
         }
