@@ -12,7 +12,7 @@ namespace DVLD_Model
 
         public int TestID { get; set; } = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
         public int TestAppointmentID { get; set; } = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
-        public enTestResult TestResult { get; set; } = enTestResult.Failed;
+        public bool TestResult { get; set; } = false;
         public string Notes { get; set; } = string.Empty;
         public int CreatedByUserID { get; set; } = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
 

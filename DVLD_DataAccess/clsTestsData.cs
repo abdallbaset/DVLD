@@ -29,7 +29,7 @@ namespace DVLD_DataAccess
 
                                 Test.TestID = Convert.ToInt32(reader["TestID"]);
                                 Test.TestAppointmentID = Convert.ToInt32(reader["TestAppointmentID"]);
-                                Test.TestResult = (clsTestModel.enTestResult)reader["TestResult"];
+                                Test.TestResult = Convert.ToBoolean(reader["TestResult"]);
                                 Test.Notes = ( reader["Notes"] == DBNull.Value) ? string.Empty : reader["Notes"].ToString();
                                 Test.CreatedByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
                             }
@@ -65,7 +65,7 @@ namespace DVLD_DataAccess
 
                                 Test.TestID = Convert.ToInt32(reader["TestID"]);
                                 Test.TestAppointmentID = Convert.ToInt32(reader["TestAppointmentID"]);
-                                Test.TestResult = (clsTestModel.enTestResult)reader["TestResult"];
+                                Test.TestResult = Convert.ToBoolean( reader["TestResult"]);
                                 Test.Notes = ( reader["Notes"] == DBNull.Value) ? string.Empty : reader["Notes"].ToString();
                                 Test.CreatedByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
                             }
@@ -89,13 +89,17 @@ namespace DVLD_DataAccess
             {
                 string sql = "INSERT INTO Tests (TestAppointmentID, TestResult, Notes, CreatedByUserID) " +
                              "OUTPUT INSERTED.TestID " +
-                             "VALUES (@TestAppointmentID, @TestResult, @Notes, @CreatedByUserID);";
+                             "VALUES (@TestAppointmentID, @TestResult, @Notes, @CreatedByUserID);" +
+                             "UPDATE TestAppointments SET  IsLocked = @IsLocked "
+                                + "WHERE TestAppointmentID = @TestAppointmentID;";
+
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
                     cmd.Parameters.AddWithValue("@TestAppointmentID", Test.TestAppointmentID);
                     cmd.Parameters.AddWithValue("@TestResult", Test.TestResult);
                     cmd.Parameters.AddWithValue("@Notes", string.IsNullOrEmpty(Test.Notes) ? (object)DBNull.Value : Test.Notes);
                     cmd.Parameters.AddWithValue("@CreatedByUserID", Test.CreatedByUserID);
+                    cmd.Parameters.AddWithValue("@IsLocked", clsEnumerationsModel.enAppointmentStatus.Completed);
 
                     try
                     {
@@ -211,7 +215,7 @@ namespace DVLD_DataAccess
 
             return PassedTestCount;
         }
-        static public byte GetTotalTrialsPerTest(int LocalDrivingLicenseApplicationID ,int TestTypeID)
+        static public byte GetTotalTrialsPerTest(int LocalDrivingLicenseApplicationID, clsEnumerationsModel.enTestType TestTypeID)
         {
             byte TotalTrials = 0;
 
