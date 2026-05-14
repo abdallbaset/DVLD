@@ -202,7 +202,7 @@ namespace DVLD_UI.Test.Controls
             }
 
             _TestTypeFees = clsTestTypes.Find(_TestTypeID).TestTypeFees;
-            _Trial = clsTests.GetTotalTrialsPerTest(_LocalDrivingLicenseApplicationID,(int)_TestTypeID);
+            _Trial = clsTests.GetTotalTrialsPerTest(_LocalDrivingLicenseApplicationID,_TestTypeID);
 
             _FillData();
         }

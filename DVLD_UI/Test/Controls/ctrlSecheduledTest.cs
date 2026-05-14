@@ -10,17 +10,27 @@ namespace DVLD_UI.Licenses.Local_Licenses.Controls
     {
 
         private clsTestAppointments _TestAppointment;
-        private clsLocalDrivingLicenseApplications _LocalApp;
         private clsTests _Test;
+
+        private clsEnumerationsModel.enTestType _TestTypeID;
+        public clsEnumerationsModel.enTestType TestTypeID
+        {
+            get => _TestTypeID;
+            set
+            {
+                _TestTypeID = value;
+                _SetFormLayout();
+            }
+        }
         public ctrlSecheduledTest()
         {
             InitializeComponent();
         }
 
 
-        private void _SetTestImage(int testType)
+        private void _SetTestImage()
         {
-            switch ((clsEnumerationsModel.enTestType)testType)
+            switch (_TestTypeID)
             {
                 case clsEnumerationsModel.enTestType.VisionTest:
                     pb_TestTypeImage.Image = Resources.Vision_512;
@@ -35,12 +45,12 @@ namespace DVLD_UI.Licenses.Local_Licenses.Controls
         }
         private void _SetFormLayout()
         {
-            _SetTestImage(_TestAppointment.TestTypeID);
+            _SetTestImage();
             _UpdateGroupBoxTitle();
         }
         private void _UpdateGroupBoxTitle()
         {
-            switch ((clsEnumerationsModel.enTestType)_TestAppointment.TestTypeID)
+            switch (TestTypeID)
             {
                 case clsEnumerationsModel.enTestType.VisionTest:
                     gb_TestType.Text = "Vision Test";
@@ -56,14 +66,13 @@ namespace DVLD_UI.Licenses.Local_Licenses.Controls
 
         private void _FillData()
         {
-            lbl_LocalDrivingLicenseAppID.Text = _LocalApp.LocalDrivingLicenseApplicationID.ToString();
-            lbl_DrivingClass.Text = _LocalApp.ClassName;
-            lbl_FullName.Text = _LocalApp.ApplicantFullName;
-            lbl_Trial.Text = clsTests.GetTotalTrialsPerTest(_TestAppointment.LocalDrivingLicenseApplicationID, _TestAppointment.TestTypeID).ToString();
+            lbl_LocalDrivingLicenseAppID.Text = _TestAppointment.LocalDrivingLicenseApplicationID.ToString();
+            lbl_DrivingClass.Text = _TestAppointment.className;
+            lbl_FullName.Text = _TestAppointment.ApplicantFullName;
+            lbl_Trial.Text = clsTests.GetTotalTrialsPerTest(_TestAppointment.LocalDrivingLicenseApplicationID, TestTypeID).ToString();
             lbl_Fees.Text = _TestAppointment.PaidFees.ToString();
             lbl_TestDate.Text = clsFormat.DateToShort(_TestAppointment.AppointmentDate);
             lbl_TestID.Text = (_Test == null)? "Not Taken Yet" : _Test.TestID.ToString();
-            _UpdateGroupBoxTitle();
 
         }
 
@@ -80,11 +89,13 @@ namespace DVLD_UI.Licenses.Local_Licenses.Controls
         }
         public void LoadScheduledTestInfo(int TestAppointmentID)
         {
+            if (_TestAppointment == null)
+            {
+                _TestAppointment = clsTestAppointments.Find(TestAppointmentID);
 
-            _TestAppointment = clsTestAppointments.Find(TestAppointmentID);
-            _LocalApp = clsLocalDrivingLicenseApplications.FindByLocalDrivingLicenseApplicationID(_TestAppointment.LocalDrivingLicenseApplicationID);
+            }
             _Test = clsTests.FindByTestAppointmentID(TestAppointmentID);
-            _SetFormLayout();
+           
             if (_TestAppointment == null)
             {
                 _LoadDefaultData();
