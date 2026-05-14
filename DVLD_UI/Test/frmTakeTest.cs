@@ -1,6 +1,8 @@
 ﻿
 using DVLD_Business;
+using DVLD_Model;
 using DVLD_UI.GlobalClasses;
+using DVLD_UI.Licenses.Local_Licenses.Controls;
 using System;
 using System.Windows.Forms;
 
@@ -15,44 +17,71 @@ namespace DVLD_UI.Test
         private int _TestAppointmentID = (int)clsGlobal.enIdentityStatus.NonExistent;
         private clsTests _Test;
         clsTestAppointments _TestAppointment;
-        public frmTakeTest(int TestAppointmentID)
+        private clsEnumerationsModel.enTestType _TestType;
+        public frmTakeTest(int TestAppointmentID, clsEnumerationsModel.enTestType TestType)
         {
             InitializeComponent();
             _TestAppointmentID = TestAppointmentID;
+            _TestType = TestType;
         }
-
-        private void frmTakeTest_Load(object sender, System.EventArgs e)
+       private void _HandleLockedAppointmentState()
         {
-            ctrlSecheduledTest1.LoadScheduledTestInfo(_TestAppointmentID);
-            _ResetDefaultValues();
-            InitializeTestAppointments();
             if (_IsTestLocked())
             {
+                _Test = clsTests.FindByTestAppointmentID(_TestAppointmentID);
+
+                if (_Test != null)
+                {
+                    if (Convert.ToBoolean(_Test.TestResult))
+                    {
+                        rb_Pass.Checked = true;
+                    }
+                    else
+                    {
+                        rb_Fail.Checked = true;
+
+
+                    }
+                    txt_Notes.Text = _Test.Notes;
+                }
+                
+                lbl_Message.Visible = true;
                 btn_Save.Enabled = false;
                 rb_Pass.Enabled = false;
                 rb_Fail.Enabled = false;
                 txt_Notes.Enabled = false;
             }
         }
-        private void InitializeTestAppointments()
+        private void frmTakeTest_Load(object sender, System.EventArgs e)
+        {
+            ctrlSecheduledTest1.TestTypeID = _TestType;
+            ctrlSecheduledTest1.LoadScheduledTestInfo(_TestAppointmentID);
+            _ResetDefaultValues();
+            if(!InitializeTestAppointments())
+            {
+                btn_Save.Enabled = false;
+                rb_Pass.Enabled = false;
+                rb_Fail.Enabled = false;
+            }
+            _HandleLockedAppointmentState();
+
+        }
+        private bool InitializeTestAppointments()
         {
             _TestAppointment = clsTestAppointments.Find(_TestAppointmentID);
+            return _TestAppointment != null;
         }
         private void _ResetDefaultValues()
         {
             rb_Pass.Checked = true;
             txt_Notes.Text = string.Empty;
-        }
-        private void LockedAppointment()
-        {
-            _TestAppointment.IsLocked = true;
-            _TestAppointment.Save();
+            lbl_Message.Visible = false;
         }
         private void _setTestInfo()
         {
             _Test = new clsTests();
             _Test.TestAppointmentID = _TestAppointmentID;
-            _Test.TestResult = Convert.ToInt32(rb_Pass.Checked ? true : false);
+            _Test.TestResult = rb_Pass.Checked ? true : false;
             _Test.Notes = txt_Notes.Text.Trim();
             _Test.CreatedByUserID = clsGlobal.CurrentUser.UserID;
         }
@@ -71,7 +100,6 @@ namespace DVLD_UI.Test
             {
                if (_Test.Save())
                 {
-                    LockedAppointment();
                     MessageBox.Show("Test result saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ctrlSecheduledTest1.LoadScheduledTestInfo(_TestAppointmentID);
                     DataBack?.Invoke(this,_Test);

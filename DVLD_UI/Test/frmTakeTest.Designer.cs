@@ -41,6 +41,7 @@
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.ctrlSecheduledTest1 = new DVLD_UI.Licenses.Local_Licenses.Controls.ctrlSecheduledTest();
+            this.lbl_Message = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -173,6 +174,17 @@
             this.ctrlSecheduledTest1.Size = new System.Drawing.Size(507, 514);
             this.ctrlSecheduledTest1.TabIndex = 0;
             // 
+            // lbl_Message
+            // 
+            this.lbl_Message.AutoSize = true;
+            this.lbl_Message.Font = new System.Drawing.Font("Tahoma", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Message.ForeColor = System.Drawing.Color.Red;
+            this.lbl_Message.Location = new System.Drawing.Point(99, 776);
+            this.lbl_Message.Name = "lbl_Message";
+            this.lbl_Message.Size = new System.Drawing.Size(303, 22);
+            this.lbl_Message.TabIndex = 210;
+            this.lbl_Message.Text = "You CanNot Change The Resulte";
+            // 
             // frmTakeTest
             // 
             this.AcceptButton = this.btn_Save;
@@ -180,6 +192,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btn_Close;
             this.ClientSize = new System.Drawing.Size(538, 822);
+            this.Controls.Add(this.lbl_Message);
             this.Controls.Add(this.btn_Close);
             this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.txt_Notes);
@@ -215,5 +228,6 @@
         private System.Windows.Forms.Button btn_Close;
         private System.Windows.Forms.Button btn_Save;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.Label lbl_Message;
     }
 }
