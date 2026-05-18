@@ -66,7 +66,7 @@ namespace DVLD_Business
         }
         public string ClassName
         {
-            get => LicenseClasses.LicenseClassInfo.ClassName;
+            get => LicenseClasses._LicenseClassInfo.ClassName;
         }
 
         public string CreatedByUserName
