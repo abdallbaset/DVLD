@@ -54,12 +54,12 @@ namespace DVLD_UI.Licenses.Local_Licenses.Controls
             lbl_ExpirationDate.Text = clsFormat.DateToShort(_Licenses.ExpirationDate);
             lbl_IssueDate.Text = clsFormat.DateToShort( _Licenses.IssueDate);
             lbl_FullName.Text = _Licenses.PersonName;
-            lbl_IsActive.Text = _Licenses.IsActived ? "Yes" : "No";
+            lbl_IsActive.Text = _Licenses.IsActive ? "Yes" : "No";
             lbl_IsDetained.Text =(_Licenses.IsDitained) ? "Yes" : "No";
-            lbl_Notes.Text = _Licenses.Notes;
+            lbl_Notes.Text = (_Licenses.Notes == string.Empty)? "No Notes" : _Licenses.Notes;
             lbl_NationalNo.Text = _Licenses.NationalNo;
             lbl_LicenseID.Text = _Licenses.LicenseID.ToString();
-            lbl_IssueReason.Text = _Licenses.IssueReason;
+            lbl_IssueReason.Text = _Licenses.IssueReasonTitle;
             lbl_Gendor.Text = (_Licenses.Gendor == (byte)enGendor.Male) ? enGendor.Male.ToString(): enGendor.Female.ToString();
             ptb_PersonalPhoto.ImageLocation = _Licenses.PersonalPhoto;
         }
