@@ -1,7 +1,9 @@
-﻿using System;
-using System.Data;
-using DVLD_DataAccess;
+﻿using DVLD_DataAccess;
 using DVLD_Model;
+using System;
+using System.Data;
+using System.IO;
+using static DVLD_Model.clsLicenseModel;
 
 namespace DVLD_Business
 {
@@ -10,87 +12,146 @@ namespace DVLD_Business
         public enum enMode { AddNew = 1, Update = 2 }
         private enMode _Mode = enMode.AddNew;
 
-        public clsLicenseModel LicenseInfo { get; set; }
-       // private clsDrivers _DriverInfo; لاحقا
+        private clsLicenseModel _LicenseInfo { get; set; }
         private clsPeople _PersonInfo = null;
+        private clsLicenseClasses _LicenseClasses = null;
 
-        public clsPeople PersonInfo
+        public int LicenseID
+        {
+            get => _LicenseInfo.LicenseID;
+            set => _LicenseInfo.LicenseID = value;
+        }
+
+        public int LicenseClassID
+        {
+            get => _LicenseInfo.LicenseClassID;
+            set => _LicenseInfo.LicenseClassID = value;
+        }
+
+        public int ApplicationID
+        {
+            get => _LicenseInfo.ApplicationID;
+            set => _LicenseInfo.ApplicationID = value;
+        }
+
+        public int DriverID
+        {
+            get => _LicenseInfo.DriverID;
+            set => _LicenseInfo.DriverID = value;
+        }
+
+        public DateTime IssueDate
+        {
+            get => _LicenseInfo.IssueDate;
+            set => _LicenseInfo.IssueDate = value;
+        }
+
+        public DateTime ExpirationDate
+        {
+            get => _LicenseInfo.ExpirationDate;
+            set => _LicenseInfo.ExpirationDate = value;
+        }
+
+        public enIssueReason IssueReason
+        {
+            get => _LicenseInfo.IssueReason;
+            set => _LicenseInfo.IssueReason = value;
+        }
+
+        public double PaidFees
+        {
+            get => _LicenseInfo.PaidFees;
+            set => _LicenseInfo.PaidFees = value;
+        }
+
+        public bool IsActive
+        {
+            get => _LicenseInfo.IsActive;
+            set => _LicenseInfo.IsActive = value;
+        }
+
+        public string Notes
+        {
+            get => _LicenseInfo.Notes;
+            set => _LicenseInfo.Notes = value;
+        }
+
+        public int CreatedByUserID
+        {
+            get => _LicenseInfo.CreatedByUserID;
+            set => _LicenseInfo.CreatedByUserID = value;
+        }
+ 
+        private clsPeople PersonInfo
         {
             get
             {
-                if (_PersonInfo == null) 
+                if (_PersonInfo == null && _LicenseInfo != null) 
                 {
-                    int personID = clsApplications.Find(LicenseInfo.ApplicationID)?.ApplicantPersonID
+                    int personID = clsApplications.Find(_LicenseInfo.ApplicationID)?.ApplicantPersonID
                                    ?? (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
                     _PersonInfo = clsPeople.Find(personID);
                 }
                 return _PersonInfo;
             }
         }
+
         public string ClassName
         {
-            get => clsLicenseClasses.Find(LicenseInfo.LicenseClassID)?.ClassName ?? "???" ;
-        }
+            get
+            {
+                if (_LicenseClasses == null && _LicenseInfo != null)
+                {
+                    _LicenseClasses = clsLicenseClasses.Find(_LicenseInfo.LicenseClassID);
+                }
 
-        public int LicenseID
-        {
-            get => LicenseInfo.LicenseID;
+                return _LicenseClasses?.ClassName ?? "???";
+            }
+        
         }
+   
+      
+     
+        public int PersonID
+        {
+            get => PersonInfo.PersonID;
+        }
+    
 
         public string NationalNo
         {
             get => PersonInfo?.NationalNo ?? "???";
 
         }
-        public DateTime IssueDate
-        {
-            get => LicenseInfo?.IssueDate ?? DateTime.MinValue;
-        }
-        public DateTime ExpirationDate
-        {
-            get => LicenseInfo?.ExpirationDate ?? DateTime.MinValue; 
-        }
-        public string Notes
-        { 
-            get => (LicenseInfo.Notes == string.Empty)? "No Notes" : LicenseInfo.Notes;
-        }
-        public bool IsActived
-        {
-            get => (LicenseInfo.IsActive);
-        }
-
+   
         public DateTime DateOfBirth
         {
             get => PersonInfo?.DateOfBirth ?? DateTime.MinValue;
         }
 
-        public string IssueReason
+        public string IssueReasonTitle
         {
             get
             {
-                    switch (LicenseInfo.IssueReason)
-                    {
-                        case clsLicenseModel.enIssueReason.FirstTime:
-                            return "First Time";
-                        case clsLicenseModel.enIssueReason.Renew:
-                            return "Renew";
-                        case clsLicenseModel.enIssueReason.ReplacementForLost:
-                            return "Replacement For Lost";
-                        case clsLicenseModel.enIssueReason.ReplacementForDamaged:
-                            return "Replacement For Damaged";
-                        default:
-                            return "Unknown";
-                    }
-                
+                switch (_LicenseInfo.IssueReason)
+                {
+                    case clsLicenseModel.enIssueReason.FirstTime:
+                        return "First Time";
+                    case clsLicenseModel.enIssueReason.Renew:
+                        return "Renew";
+                    case clsLicenseModel.enIssueReason.ReplacementForLost:
+                        return "Replacement For Lost";
+                    case clsLicenseModel.enIssueReason.ReplacementForDamaged:
+                        return "Replacement For Damaged";
+                    default:
+                        return "Unknown";
+                }
+
             }
-      }
+        }
         public byte Gendor
         {
           get => PersonInfo?.Gendor ?? 0;
-        }
-        public int DriverID
-        {
-            get => LicenseInfo.DriverID;
         }
 
         public string PersonName
@@ -108,13 +169,14 @@ namespace DVLD_Business
 
         public clsLicenses()
         {
-             LicenseInfo = new clsLicenseModel();
-            _Mode = enMode.AddNew; 
+            _LicenseInfo = new clsLicenseModel();
+            _Mode = enMode.AddNew;
         }
-
         private clsLicenses(clsLicenseModel model)
         {
-             LicenseInfo = model;
+             _LicenseInfo = model;
+            _PersonInfo = clsPeople.Find(PersonID);
+            _LicenseClasses = clsLicenseClasses.Find(_LicenseInfo.LicenseClassID);
             _Mode = enMode.Update;
         }
 
@@ -148,16 +210,14 @@ namespace DVLD_Business
 
         private bool _AddNewLicense()
         {
-            int id = clsLicensesData.AddNewLicense(LicenseInfo);
-            LicenseInfo.LicenseID = id;
-            // مزال هنا مفروض نتأكد من هدا الشخص هل أول مرة يتم إصدار له رخصة او لا في حال كان لديه رخصه من قبل فإن لا نضيف في جدول السائقين 
-            //وإذا كان أول مرة يتم إصدار له رخصة فإن نضيف في جدول السائقين
+            int id = clsLicensesData.AddNewLicense(_LicenseInfo,PersonID);
+            _LicenseInfo.LicenseID = id;
             return id != (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
         }
 
         private bool _UpdateLicense()
         {
-            return clsLicensesData.UpdateLicense(LicenseInfo);
+            return clsLicensesData.UpdateLicense(_LicenseInfo);
         }
 
         public bool Save()
