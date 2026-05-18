@@ -1,7 +1,8 @@
-﻿using System;
-using System.Data;
-using DVLD_DataAccess;
+﻿using DVLD_DataAccess;
 using DVLD_Model;
+using System;
+using System.Data;
+using static DVLD_Model.clsLicenseClassesModel;
 
 namespace DVLD_Business
 {
@@ -9,25 +10,79 @@ namespace DVLD_Business
     {
         public enum enMode { AddNew = 0, Update = 1 }
         private enMode _Mode = enMode.AddNew;
-        public clsLicenseClassesModel LicenseClassInfo { get; set; }
-        public double ClassFees
-        {
-            get => LicenseClassInfo.ClassFees;
-        }
-        public string ClassName { get => LicenseClassInfo.ClassName; }
+        public clsLicenseClassesModel _LicenseClassInfo { get; set; }
+
         public clsLicenseClasses()
         {
-            LicenseClassInfo = new clsLicenseClassesModel();
+            _LicenseClassInfo = new clsLicenseClassesModel();
             _Mode = enMode.AddNew;
         }
 
         private clsLicenseClasses(clsLicenseClassesModel LicenseClassInfo)
         {
-           this.LicenseClassInfo = LicenseClassInfo;
+           this._LicenseClassInfo = LicenseClassInfo;
             _Mode = enMode.Update;
         }
 
-     
+        public enLicenseClass LicenseClassID
+        {
+            get => _LicenseClassInfo != null ? _LicenseClassInfo.LicenseClassID : enLicenseClass.NotSpecified;
+            set
+            {
+                if (_LicenseClassInfo != null)
+                    _LicenseClassInfo.LicenseClassID = value;
+            }
+        }
+
+        public string ClassName
+        {
+            get => _LicenseClassInfo?.ClassName ?? string.Empty;
+            set
+            {
+                if (_LicenseClassInfo != null)
+                    _LicenseClassInfo.ClassName = value;
+            }
+        }
+
+        public string ClassDescription
+        {
+            get => _LicenseClassInfo?.ClassDescription ?? string.Empty;
+            set
+            {
+                if (_LicenseClassInfo != null)
+                    _LicenseClassInfo.ClassDescription = value;
+            }
+        }
+
+        public byte MinimumAllowedAge
+        {
+            get => _LicenseClassInfo != null ? _LicenseClassInfo.MinimumAllowedAge : (byte)18;
+            set
+            {
+                if (_LicenseClassInfo != null)
+                    _LicenseClassInfo.MinimumAllowedAge = value;
+            }
+        }
+
+        public byte DefaultValidityLength
+        {
+            get => _LicenseClassInfo != null ? _LicenseClassInfo.DefaultValidityLength : (byte)10;
+            set
+            {
+                if (_LicenseClassInfo != null)
+                    _LicenseClassInfo.DefaultValidityLength = value;
+            }
+        }
+
+        public double ClassFees
+        {
+            get => _LicenseClassInfo != null ? _LicenseClassInfo.ClassFees : 10.0;
+            set
+            {
+                if (_LicenseClassInfo != null)
+                    _LicenseClassInfo.ClassFees = value;
+            }
+        }
 
         public static clsLicenseClasses Find(int LicenseClassID)
         {
@@ -42,14 +97,14 @@ namespace DVLD_Business
 
         private bool _AddNewLicenseClass()
         {
-            LicenseClassInfo.LicenseClassID = (clsLicenseClassesModel.enLicenseClass)clsLicenseClassesData.AddNewLicenseClass(LicenseClassInfo);
+            _LicenseClassInfo.LicenseClassID = (clsLicenseClassesModel.enLicenseClass)clsLicenseClassesData.AddNewLicenseClass(_LicenseClassInfo);
            
-            return LicenseClassInfo.LicenseClassID != clsLicenseClassesModel.enLicenseClass.NotSpecified;
+            return _LicenseClassInfo.LicenseClassID != clsLicenseClassesModel.enLicenseClass.NotSpecified;
         }
 
         private bool _UpdateLicenseClass()
         {
-            return clsLicenseClassesData.UpdateLicenseClass(LicenseClassInfo);
+            return clsLicenseClassesData.UpdateLicenseClass(_LicenseClassInfo);
         }
 
         public bool Save()
