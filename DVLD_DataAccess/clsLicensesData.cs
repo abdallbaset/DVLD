@@ -53,20 +53,44 @@ namespace DVLD_DataAccess
             return License;
         }
        
-        static public int AddNewLicense(clsLicenseModel License)
+        static public int AddNewLicense(clsLicenseModel License, int PersonID)
         {
             int LicenseID = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
 
             using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
-                string sql = "INSERT INTO Licenses (LicenseClassID, ApplicationID, DriverID, IssueDate, ExpirationDate, IssueReason, PaidFees, IsActive, Notes, CreatedByUserID) " +
-                             "OUTPUT INSERTED.LicenseID " +
-                             "VALUES (@LicenseClassID, @ApplicationID, @DriverID, @IssueDate, @ExpirationDate, @IssueReason, @PaidFees, @IsActive, @Notes, @CreatedByUserID);";
+                string sql = @"
+                            DECLARE @ActualDriverID INT;
+
+                            IF NOT EXISTS (SELECT 1 FROM Drivers WHERE PersonID = @PersonID)
+                            BEGIN
+                                INSERT INTO Drivers (PersonID, CreatedByUserID, CreatedDate)
+                                VALUES (@PersonID, @CreatedByUserID, GETDATE());
+                                
+                                SELECT @ActualDriverID = SCOPE_IDENTITY();
+                            END
+                            ELSE
+                            BEGIN
+                                SELECT @ActualDriverID = DriverID FROM Drivers WHERE PersonID = @PersonID;
+                            END
+                            
+                            INSERT INTO Licenses (LicenseClassID, ApplicationID, DriverID, IssueDate, 
+                                                 ExpirationDate, IssueReason, PaidFees, IsActive, 
+                                                 Notes, CreatedByUserID)
+                            OUTPUT INSERTED.LicenseID
+                            VALUES (@LicenseClassID, @ApplicationID, @ActualDriverID, @IssueDate, 
+                                    @ExpirationDate, @IssueReason, @PaidFees, @IsActive, 
+                                    @Notes, @CreatedByUserID);
+
+                            UPDATE Applications 
+                            SET ApplicationStatus = @ApplicationStatus 
+                            WHERE ApplicationID = @ApplicationID;";
+
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
+                    cmd.Parameters.AddWithValue("@PersonID", PersonID);
                     cmd.Parameters.AddWithValue("@LicenseClassID", License.LicenseClassID);
                     cmd.Parameters.AddWithValue("@ApplicationID", License.ApplicationID);
-                    cmd.Parameters.AddWithValue("@DriverID", License.DriverID);
                     cmd.Parameters.AddWithValue("@IssueDate", License.IssueDate);
                     cmd.Parameters.AddWithValue("@ExpirationDate", License.ExpirationDate);
                     cmd.Parameters.AddWithValue("@IssueReason", (byte)License.IssueReason);
@@ -74,6 +98,7 @@ namespace DVLD_DataAccess
                     cmd.Parameters.AddWithValue("@IsActive", License.IsActive);
                     cmd.Parameters.AddWithValue("@Notes", string.IsNullOrEmpty(License.Notes) ? (object)DBNull.Value : License.Notes);
                     cmd.Parameters.AddWithValue("@CreatedByUserID", License.CreatedByUserID);
+                    cmd.Parameters.AddWithValue("@ApplicationStatus", clsApplicationModel.enApplicationStatus.Completed);
 
                     try
                     {
