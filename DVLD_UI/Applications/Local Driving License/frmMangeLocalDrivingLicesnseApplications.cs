@@ -340,7 +340,17 @@ namespace DVLD_UI.Applications.Local_Driving_License
 
         private void issueDrivingLicenseFirstTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("To  Issue Driving License for an application.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (dgv_ListLocalDrivingLicenseApplications.Rows.Count > 0 && dgv_ListLocalDrivingLicenseApplications.CurrentRow != null)
+            {
+                int LocalDrivingLicenseApplicationID = Convert.ToInt32(dgv_ListLocalDrivingLicenseApplications.CurrentRow.Cells["LocalDrivingLicenseApplicationID"].Value);
+                frmIssueDriverLicenseFirstTime IssueDriverLicenseFirstTime = new frmIssueDriverLicenseFirstTime(LocalDrivingLicenseApplicationID);
+                IssueDriverLicenseFirstTime.ShowDialog();
+                _RefreshLocalDrivingLicenseApplicationsList();
+            }
+            else
+            {
+                MessageBox.Show("Please select an application first!", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void showLicenseToolStripMenuItem_Click(object sender, EventArgs e)
