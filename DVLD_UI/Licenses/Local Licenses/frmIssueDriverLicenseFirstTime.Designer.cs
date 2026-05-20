@@ -30,15 +30,67 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmIssueDriverLicenseFirstTime));
-            this.btn_Close = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.btn_Save = new System.Windows.Forms.Button();
             this.txt_Notes = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.ctrlDrivingLicenseApplicationInfo1 = new DVLD_UI.Applications.Local_Driving_License.ctrlDrivingLicenseApplicationInfo();
+            this.btn_Save = new System.Windows.Forms.Button();
+            this.btn_Close = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "save.png");
+            this.imageList1.Images.SetKeyName(1, "close_2.png");
+            // 
+            // txt_Notes
+            // 
+            this.txt_Notes.Location = new System.Drawing.Point(156, 508);
+            this.txt_Notes.Multiline = true;
+            this.txt_Notes.Name = "txt_Notes";
+            this.txt_Notes.Size = new System.Drawing.Size(692, 169);
+            this.txt_Notes.TabIndex = 212;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(23, 508);
+            this.label4.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(86, 24);
+            this.label4.TabIndex = 211;
+            this.label4.Text = "Notes : ";
+            // 
+            // ctrlDrivingLicenseApplicationInfo1
+            // 
+            this.ctrlDrivingLicenseApplicationInfo1.Location = new System.Drawing.Point(10, 21);
+            this.ctrlDrivingLicenseApplicationInfo1.Name = "ctrlDrivingLicenseApplicationInfo1";
+            this.ctrlDrivingLicenseApplicationInfo1.Size = new System.Drawing.Size(849, 481);
+            this.ctrlDrivingLicenseApplicationInfo1.TabIndex = 0;
+            // 
+            // btn_Save
+            // 
+            this.btn_Save.BackColor = System.Drawing.Color.Green;
+            this.btn_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Save.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.btn_Save.ForeColor = System.Drawing.Color.White;
+            this.btn_Save.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_Save.ImageIndex = 0;
+            this.btn_Save.ImageList = this.imageList1;
+            this.btn_Save.Location = new System.Drawing.Point(746, 684);
+            this.btn_Save.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_Save.Name = "btn_Save";
+            this.btn_Save.Size = new System.Drawing.Size(102, 46);
+            this.btn_Save.TabIndex = 1;
+            this.btn_Save.Text = "Issue";
+            this.btn_Save.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btn_Save.UseVisualStyleBackColor = false;
+            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
             // 
             // btn_Close
             // 
@@ -60,51 +112,6 @@
             this.btn_Close.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btn_Close.UseVisualStyleBackColor = false;
             // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "save.png");
-            this.imageList1.Images.SetKeyName(1, "close_2.png");
-            // 
-            // btn_Save
-            // 
-            this.btn_Save.BackColor = System.Drawing.Color.Green;
-            this.btn_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Save.Font = new System.Drawing.Font("Tahoma", 12F);
-            this.btn_Save.ForeColor = System.Drawing.Color.White;
-            this.btn_Save.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btn_Save.ImageIndex = 0;
-            this.btn_Save.ImageList = this.imageList1;
-            this.btn_Save.Location = new System.Drawing.Point(746, 684);
-            this.btn_Save.Margin = new System.Windows.Forms.Padding(4);
-            this.btn_Save.Name = "btn_Save";
-            this.btn_Save.Size = new System.Drawing.Size(102, 46);
-            this.btn_Save.TabIndex = 1;
-            this.btn_Save.Text = "Save";
-            this.btn_Save.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btn_Save.UseVisualStyleBackColor = false;
-            this.btn_Save.Click += new System.EventHandler(this.btn_Save_Click);
-            // 
-            // txt_Notes
-            // 
-            this.txt_Notes.Location = new System.Drawing.Point(156, 508);
-            this.txt_Notes.Multiline = true;
-            this.txt_Notes.Name = "txt_Notes";
-            this.txt_Notes.Size = new System.Drawing.Size(692, 169);
-            this.txt_Notes.TabIndex = 212;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(23, 508);
-            this.label4.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(86, 24);
-            this.label4.TabIndex = 211;
-            this.label4.Text = "Notes : ";
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::DVLD_UI.Properties.Resources.Notes_32;
@@ -114,13 +121,6 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 210;
             this.pictureBox1.TabStop = false;
-            // 
-            // ctrlDrivingLicenseApplicationInfo1
-            // 
-            this.ctrlDrivingLicenseApplicationInfo1.Location = new System.Drawing.Point(10, 21);
-            this.ctrlDrivingLicenseApplicationInfo1.Name = "ctrlDrivingLicenseApplicationInfo1";
-            this.ctrlDrivingLicenseApplicationInfo1.Size = new System.Drawing.Size(849, 481);
-            this.ctrlDrivingLicenseApplicationInfo1.TabIndex = 0;
             // 
             // frmIssueDriverLicenseFirstTime
             // 
@@ -138,7 +138,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "frmIssueDriverLicenseFirstTime";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frmIssueDriverLicenseFirstTime";
+            this.Text = "Issue Driver License FirstTime";
             this.Load += new System.EventHandler(this.frmIssueDriverLicenseFirstTime_Load);
             this.Shown += new System.EventHandler(this.frmIssueDriverLicenseFirstTime_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
