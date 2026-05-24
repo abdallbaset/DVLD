@@ -100,5 +100,11 @@ namespace DVLD_UI.GlobalClasses
         {
             lbl.Text = (dV != null) ? dV.Count.ToString() : "0";
         }
+
+        public static void ConfigureDateTimePicker(DateTimePicker dtp)
+        {
+            dtp.Format = DateTimePickerFormat.Custom;
+            dtp.CustomFormat = "dd - MM - yyyy";
+        }
     }
 }
