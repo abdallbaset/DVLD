@@ -89,6 +89,7 @@ namespace DVLD_UI
 
             btn_RemoveImage.Visible = (ptb_PersonImage.ImageLocation != null);
 
+            clsUtil.ConfigureDateTimePicker(dtp_DateOfBirth);
             dtp_DateOfBirth.MaxDate = DateTime.Now.AddYears(-18);
             dtp_DateOfBirth.Value = dtp_DateOfBirth.MaxDate;
 

@@ -80,6 +80,7 @@ namespace DVLD_UI.Test.Controls
         {
             _SetTestImage();
             _UpdateGroupBoxTitle();
+            clsUtil.ConfigureDateTimePicker(dtp_TestDate);
         }
         private void _UpdateGroupBoxTitle()
         {
