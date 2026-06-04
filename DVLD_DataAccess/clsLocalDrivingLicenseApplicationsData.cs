@@ -1,7 +1,8 @@
-﻿using System;
+﻿using DVLD_Model;
+using System;
 using System.Data;
 using System.Data.SqlClient;
-using DVLD_Model;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DVLD_DataAccess
 {
@@ -17,6 +18,39 @@ namespace DVLD_DataAccess
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
                     cmd.Parameters.AddWithValue("@LocalDrivingLicenseApplicationID", LocalDrivingLicenseApplicationID);
+                    try
+                    {
+                        Connection.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                LocalDrivingLicenseApplicationInfo = new clsLocalDrivingLicenseApplicationsModel();
+                                LocalDrivingLicenseApplicationInfo.LocalDrivingLicenseApplicationID = Convert.ToInt32(reader["LocalDrivingLicenseApplicationID"]);
+                                LocalDrivingLicenseApplicationInfo.ApplicationID = Convert.ToInt32(reader["ApplicationID"]);
+                                LocalDrivingLicenseApplicationInfo.LicenseClassID = (clsLicenseClassesModel.enLicenseClass)reader["LicenseClassID"];
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        //Errors will be recorded in the LOG file later.
+                    }
+                }
+            }
+
+            return LocalDrivingLicenseApplicationInfo;
+        }
+        static public clsLocalDrivingLicenseApplicationsModel GetLocalDrivingLicenseApplicationInfoByApplicationID(int ApplicationID)
+        {
+            clsLocalDrivingLicenseApplicationsModel LocalDrivingLicenseApplicationInfo = null;
+
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
+            {
+                string sql = "select * From LocalDrivingLicenseApplications where ApplicationID = @ApplicationID;";
+                using (SqlCommand cmd = new SqlCommand(sql, Connection))
+                {
+                    cmd.Parameters.AddWithValue("@ApplicationID", ApplicationID);
                     try
                     {
                         Connection.Open();
