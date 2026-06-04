@@ -17,7 +17,6 @@ namespace DVLD_UI.Licenses.Local_Licenses
     {
         private int _LocalDrivingLicenseApplicationID = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
         private clsLocalDrivingLicenseApplications _localDrivingLicenseApplications = null;
-        private clsLicenses _Licenses = null;
         public frmIssueDriverLicenseFirstTime(int LocalDrivingLicenseApplicationID)
         {
             InitializeComponent();
@@ -27,20 +26,7 @@ namespace DVLD_UI.Licenses.Local_Licenses
         {
             _localDrivingLicenseApplications = clsLocalDrivingLicenseApplications.FindByLocalDrivingLicenseApplicationID(_LocalDrivingLicenseApplicationID);
         }
-        private void SetLicenseInfo()
-        {
-            _Licenses = new clsLicenses();
-            _Licenses.LicenseClassID = _localDrivingLicenseApplications.LicenseClassID;
-            _Licenses.ApplicationID = _localDrivingLicenseApplications.ApplicationID;
-            _Licenses.IssueDate = DateTime.Now;
-            clsLicenseClasses clsLicenseClasses = clsLicenseClasses.Find(_localDrivingLicenseApplications.LicenseClassID);
-            _Licenses.ExpirationDate = DateTime.Now.AddYears(clsLicenseClasses.DefaultValidityLength);
-            _Licenses.IssueReason = clsLicenseModel.enIssueReason.FirstTime;
-            _Licenses.Notes = txt_Notes.Text.Trim();
-            _Licenses.PaidFees = clsLicenseClasses.ClassFees;
-            _Licenses.IsActive = true;
-            _Licenses.CreatedByUserID = clsGlobal.CurrentUser.UserID;  
-        }
+
 
         private bool _IsLicenseExist()
         {
@@ -84,11 +70,11 @@ namespace DVLD_UI.Licenses.Local_Licenses
         private void btn_Save_Click(object sender, EventArgs e)
         {
 
-            SetLicenseInfo();
+            int newLicenseID = _localDrivingLicenseApplications.IssueLicenseForTheFirstTime(txt_Notes.Text.Trim(),clsGlobal.CurrentUser.UserID);
 
-            if (_Licenses.Save())
+            if (newLicenseID != (int)clsEnumerationsModel.enIdentityStatus.NonExistent)
             {
-                MessageBox.Show("License Issued Successfully with License ID = " + _Licenses.LicenseID,
+                MessageBox.Show("License Issued Successfully with License ID = " + newLicenseID,
                                    "Succeeded", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
                 return;
