@@ -20,7 +20,7 @@ namespace DVLD_UI
 {
     public partial class ctrlPersonCard : UserControl
     {
-        enum enGendor :byte {Male = 0 , Female =1 };
+      
         public ctrlPersonCard()
         {
             InitializeComponent();
@@ -101,7 +101,7 @@ namespace DVLD_UI
 
         private void _LoadPersonImage()
         {
-            ptb_Gendor.Image = (_Person.Gendor == (byte)enGendor.Male) ? Properties.Resources.male_svgrepo_com : Properties.Resources.female_svgrepo_com;
+            ptb_Gendor.Image = (_Person.Gendor == (byte)clsEnumerationsModel.enGendor.Male) ? Properties.Resources.male_svgrepo_com : Properties.Resources.female_svgrepo_com;
 
 
             string ImagePath = _Person.ImagePath;
@@ -115,7 +115,7 @@ namespace DVLD_UI
                 }
             }
             else
-                ptb_PersonalPhoto.Image = (_Person.Gendor == (byte)enGendor.Male) ? Properties.Resources.male_Man_face : Properties.Resources.female_girl_face;
+                ptb_PersonalPhoto.Image = (_Person.Gendor == (byte)clsEnumerationsModel.enGendor.Male) ? Properties.Resources.male_Man_face : Properties.Resources.female_girl_face;
 
 
         }
@@ -129,7 +129,7 @@ namespace DVLD_UI
             lbl_Phone.Text = _Person.Phone;
             lbl_Address.Text = _Person.Address;
             lbl_Email.Text = _Person.Email;
-            lbl_Gendor.Text = (_Person.Gendor == (byte)enGendor.Male) ? "Male" : "Female";
+            lbl_Gendor.Text = (_Person.Gendor == (byte)clsEnumerationsModel.enGendor.Male) ? "Male" : "Female";
             lbl_Country.Text = clsCountries.GetCountryNameByCountryID(_Person.NationalityCountryID);
             lbl_DateOfBirth.Text = clsFormat.DateToShort( _Person.DateOfBirth);
             _LoadPersonImage();
