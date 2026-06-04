@@ -85,9 +85,13 @@ namespace DVLD_Business
             return clsDriversData.GetAllDrivers();
         }
 
-        static public bool IsExist(int PersonID)
+        static public bool IsExistByPersonID(int PersonID)
         {
             return clsDriversData.IsDriverExistByPersonID(PersonID);
+        }
+        static public bool IsExistByDriverID(int DriverID)
+        {
+            return clsDriversData.IsDriverExistByDriverID(DriverID);
         }
     }
 }

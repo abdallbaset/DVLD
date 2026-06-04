@@ -206,5 +206,35 @@ namespace DVLD_DataAccess
 
             return IsExist;
         }
+        static public bool IsDriverExistByDriverID(int DriverID)
+        {
+            bool IsExist = false;
+
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
+            {
+                string sql = @"if Exists(select 1 From Drivers AS D
+                               where DriverID = @DriverID) 
+                               select 1 else select 0";
+                using (SqlCommand cmd = new SqlCommand(sql, Connection))
+                {
+                    cmd.Parameters.AddWithValue("@DriverID", DriverID);
+                    try
+                    {
+                        Connection.Open();
+                        object Result = cmd.ExecuteScalar();
+                        if (Result != null)
+                        {
+                            IsExist = Convert.ToBoolean(Result);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        //Errors will be recorded in the LOG file later.
+                    }
+                }
+            }
+
+            return IsExist;
+        }
     }
 }
