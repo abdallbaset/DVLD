@@ -1,6 +1,7 @@
 ﻿using DVLD_DataAccess;
 using DVLD_Model;
 using System;
+using System.ComponentModel;
 using System.Data;
 namespace DVLD_Business
 {
@@ -8,9 +9,9 @@ namespace DVLD_Business
     {
         public enum enMode { AddNew = 0, Update = 1 }
         private enMode _Mode = enMode.AddNew;
-        public clsLocalDrivingLicenseApplicationsModel LocalDrivingLicenseApplicationInfo { get; set; }
-        public clsApplications Application { get; set; }
-        public clsLicenseClasses LicenseClasses { get; set; }
+        private clsLocalDrivingLicenseApplicationsModel LocalDrivingLicenseApplicationInfo { get; set; }
+        private clsApplications Application { get; set; }
+        private clsLicenseClasses LicenseClasses { get; set; }
         public int ApplicantPersonID
         {
             get => Application.ApplicationInfo.ApplicantPersonID;
@@ -66,7 +67,7 @@ namespace DVLD_Business
         }
         public string ClassName
         {
-            get => LicenseClasses._LicenseClassInfo.ClassName;
+            get => LicenseClasses.ClassName;
         }
 
         public string CreatedByUserName
@@ -91,7 +92,7 @@ namespace DVLD_Business
                 return Application.ApplicantName;
             }
         }
-        private double _GetApplictionsFeez()
+        private double _GetApplictionsFeez() 
         {
             if (Application == null || Application.ApplicationInfo == null)
             {
@@ -128,6 +129,18 @@ namespace DVLD_Business
             return null;
         }
 
+        public static clsLocalDrivingLicenseApplications FindByApplicationID(int ApplicationID)
+        {
+            clsLocalDrivingLicenseApplicationsModel LocalDrivingLicenseApplicationInfo = clsLocalDrivingLicenseApplicationsData.GetLocalDrivingLicenseApplicationInfoByApplicationID(ApplicationID);
+
+            if (LocalDrivingLicenseApplicationInfo != null)
+            {
+                return new clsLocalDrivingLicenseApplications(LocalDrivingLicenseApplicationInfo);
+            }
+
+            return null;
+        }
+
         private bool _AddNewLocalDrivingLicenseApplication()
         {
           
@@ -143,6 +156,29 @@ namespace DVLD_Business
         
 
             return clsLocalDrivingLicenseApplicationsData.UpdateLocalDrivingLicense(LocalDrivingLicenseApplicationInfo);
+        }
+
+       public int IssueLicenseForTheFirstTime(string Notes ,int UserID)
+        {
+            clsLicenses License = new clsLicenses();
+            License.ApplicationID = ApplicationID;
+            License.LicenseClassID = LicenseClassID;
+            License.CreatedByUserID = UserID;
+            License.IssueDate = DateTime.Now;
+            License.ExpirationDate = DateTime.Now.AddYears(LicenseClasses.DefaultValidityLength);
+            License.Notes = Notes;
+            License.IsActive = true;
+            License.PaidFees = PaidFees;
+            License.IssueReason = clsLicenseModel.enIssueReason.FirstTime;
+
+            if (License.Save())
+            {
+               return License.LicenseID;
+            }
+            else
+                            {
+                return (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
+            }
         }
 
         public bool Save()
