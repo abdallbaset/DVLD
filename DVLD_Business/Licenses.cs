@@ -207,6 +207,10 @@ namespace DVLD_Business
         {
             return clsLicensesData.GetAllLicenses();
         }
+        static public DataTable GetAllLicensesByDriverID(int DriverID)
+        {
+            return clsLicensesData.GetAllLicensesByDriverID(DriverID);
+        }
 
         private bool _AddNewLicense()
         {
