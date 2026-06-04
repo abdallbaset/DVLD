@@ -1,6 +1,7 @@
 ﻿using DVLD_Business;
 using DVLD_Model;
 using DVLD_UI.GlobalClasses;
+using DVLD_UI.Licenses;
 using DVLD_UI.Licenses.Local_Licenses;
 using DVLD_UI.Test;
 using System;
@@ -382,7 +383,19 @@ namespace DVLD_UI.Applications.Local_Driving_License
 
         private void showPersonLicenseHistoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("To  Show Person License History for an application.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (dgv_ListLocalDrivingLicenseApplications.Rows.Count > 0 && dgv_ListLocalDrivingLicenseApplications.CurrentRow != null)
+            {
+                int LocalDrivingLicenseApplicationID = Convert.ToInt32(dgv_ListLocalDrivingLicenseApplications.CurrentRow.Cells["LocalDrivingLicenseApplicationID"].Value);
+                 clsLocalDrivingLicenseApplications LocalDrivingLicenseApplications = clsLocalDrivingLicenseApplications.FindByLocalDrivingLicenseApplicationID(LocalDrivingLicenseApplicationID);
+
+                frmShowPersonLicenseHistory ShowPersonLicenseHistory = new frmShowPersonLicenseHistory(LocalDrivingLicenseApplications.ApplicantPersonID);
+                ShowPersonLicenseHistory.ShowDialog();
+                _RefreshLocalDrivingLicenseApplicationsList();
+            }
+            else
+            {
+                MessageBox.Show("Please select an application first!", "No Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void cmsApplications_Opening(object sender, System.ComponentModel.CancelEventArgs e)
