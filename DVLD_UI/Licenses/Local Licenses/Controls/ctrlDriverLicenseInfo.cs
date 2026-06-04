@@ -1,27 +1,21 @@
 ﻿using DVLD_Business;
+using DVLD_Model;
 using DVLD_UI.Applications;
 using DVLD_UI.GlobalClasses;
+using DVLD_UI.Properties;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace DVLD_UI.Licenses.Local_Licenses.Controls
 {
     public partial class ctrlDriverLicenseInfo : UserControl
     {
-        enum enGendor : byte { Male = 0, Female = 1 };
-
         public ctrlDriverLicenseInfo()
         {
             InitializeComponent();
         }
-        private clsLicenses _Licenses;
+        public clsLicenses Licenses { get; set; }
         private int _LicensesID = (int)clsGlobal.enIdentityStatus.NonExistent;
         public int LicensesID
         {
@@ -45,30 +39,48 @@ namespace DVLD_UI.Licenses.Local_Licenses.Controls
             ptb_PersonalPhoto.Image = Properties.Resources.Male_512;
 
         }
+        private void _LoadPerosnalPhoto()
+        {
+            if (Licenses.Gendor == (byte)clsEnumerationsModel.enGendor.Male)
+            {
+                ptb_PersonalPhoto.Image = Resources.male_Man_face;
+            } 
+            else
+                ptb_PersonalPhoto.Image = Resources.female_girl_face;
+
+            string ImagePath = Licenses.PersonalPhoto;
+
+            if (ImagePath != "")
+                if (File.Exists(ImagePath))
+                    ptb_PersonalPhoto.Load(ImagePath);
+                else
+                    MessageBox.Show("Could not find this image: = " + ImagePath, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+        }
         private void _FillDriverLicenseInfo()
         {
 
-            lbl_class.Text = _Licenses.ClassName;
-            lbl_DateOfBirth.Text = clsFormat.DateToShort(_Licenses.DateOfBirth);
-            lbl_DriverID.Text = _Licenses.DriverID.ToString();
-            lbl_ExpirationDate.Text = clsFormat.DateToShort(_Licenses.ExpirationDate);
-            lbl_IssueDate.Text = clsFormat.DateToShort( _Licenses.IssueDate);
-            lbl_FullName.Text = _Licenses.PersonName;
-            lbl_IsActive.Text = _Licenses.IsActive ? "Yes" : "No";
-            lbl_IsDetained.Text =(_Licenses.IsDitained) ? "Yes" : "No";
-            lbl_Notes.Text = (_Licenses.Notes == string.Empty)? "No Notes" : _Licenses.Notes;
-            lbl_NationalNo.Text = _Licenses.NationalNo;
-            lbl_LicenseID.Text = _Licenses.LicenseID.ToString();
-            lbl_IssueReason.Text = _Licenses.IssueReasonTitle;
-            lbl_Gendor.Text = (_Licenses.Gendor == (byte)enGendor.Male) ? enGendor.Male.ToString(): enGendor.Female.ToString();
-            ptb_PersonalPhoto.ImageLocation = _Licenses.PersonalPhoto;
+            lbl_class.Text = Licenses.ClassName;
+            lbl_DateOfBirth.Text = clsFormat.DateToShort(Licenses.DateOfBirth);
+            lbl_DriverID.Text = Licenses.DriverID.ToString();
+            lbl_ExpirationDate.Text = clsFormat.DateToShort(Licenses.ExpirationDate);
+            lbl_IssueDate.Text = clsFormat.DateToShort( Licenses.IssueDate);
+            lbl_FullName.Text = Licenses.PersonName;
+            lbl_IsActive.Text = Licenses.IsActive ? "Yes" : "No";
+            lbl_IsDetained.Text =(Licenses.IsDitained) ? "Yes" : "No";
+            lbl_Notes.Text = (Licenses.Notes == string.Empty)? "No Notes" : Licenses.Notes;
+            lbl_NationalNo.Text = Licenses.NationalNo;
+            lbl_LicenseID.Text = Licenses.LicenseID.ToString();
+            lbl_IssueReason.Text = Licenses.IssueReasonTitle;
+            lbl_Gendor.Text = (Licenses.Gendor == (byte)clsEnumerationsModel.enGendor.Male) ? clsEnumerationsModel.enGendor.Male.ToString(): clsEnumerationsModel.enGendor.Female.ToString();
+            _LoadPerosnalPhoto();
         }
         public void Load_DriverLicenseInfoInfo(int LicenseID)
         {
             _LicensesID = LicenseID;
-            _Licenses = clsLicenses.Find(LicenseID);
+             Licenses = clsLicenses.Find(LicenseID);
 
-            if (_Licenses == null)
+            if (Licenses == null)
             {
                 _LoadDefaultData();
                 MessageBox.Show($"No License with ID [{_LicensesID}] was found in the system.",
