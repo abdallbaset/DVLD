@@ -286,7 +286,44 @@ namespace DVLD_Business
                 CreatedByUserID = UserID
             };
 
-            int newLicenseID = clsLicensesData.RenewLicense(newLicense, this.PersonID);
+            int newLicenseID = clsLicensesData.RenewOrReplacementLicense(newLicense, this.PersonID,clsApplicationTypesModel.enApplicationTypes.RenewDrivingLicenseService);
+
+            if (newLicenseID != (int)clsEnumerationsModel.enIdentityStatus.NonExistent)
+            {
+                return Find(newLicenseID);
+            }
+            else
+                return null;
+        }
+        public clsLicenses Replacement(clsLicenseModel.enIssueReason IssueReason, int UserID)
+        {
+            clsLicenseModel newLicense = new clsLicenseModel
+            {
+                LicenseID = this.LicenseID,
+                DriverID = this.DriverID,
+                LicenseClassID = this.LicenseClassID,
+                IssueDate = this.IssueDate,
+                ExpirationDate = this.ExpirationDate,
+                IssueReason = IssueReason,
+                PaidFees = this.LicenseFees,
+                IsActive = true,
+                Notes =this.Notes,
+                CreatedByUserID = UserID
+            };
+
+            clsApplicationTypesModel.enApplicationTypes ApplicationTypeID = clsApplicationTypesModel.enApplicationTypes.NotSpecified;
+
+            if(IssueReason == enIssueReason.ReplacementForDamaged)
+            {
+                ApplicationTypeID = clsApplicationTypesModel.enApplicationTypes.ReplacementForDamagedDrivingLicense;
+            }
+            else 
+            {
+                ApplicationTypeID = clsApplicationTypesModel.enApplicationTypes.ReplacementForLostDrivingLicense;
+            }
+  
+
+            int newLicenseID = clsLicensesData.RenewOrReplacementLicense(newLicense, this.PersonID, ApplicationTypeID);
 
             if (newLicenseID != (int)clsEnumerationsModel.enIdentityStatus.NonExistent)
             {
