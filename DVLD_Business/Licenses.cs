@@ -81,12 +81,12 @@ namespace DVLD_Business
             get => _LicenseInfo.CreatedByUserID;
             set => _LicenseInfo.CreatedByUserID = value;
         }
- 
+
         private clsPeople PersonInfo
         {
             get
             {
-                if (_PersonInfo == null && _LicenseInfo != null) 
+                if (_PersonInfo == null && _LicenseInfo != null)
                 {
                     int personID = clsApplications.Find(_LicenseInfo.ApplicationID)?.ApplicantPersonID
                                    ?? (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
@@ -107,7 +107,7 @@ namespace DVLD_Business
 
                 return _LicenseClasses?.ClassName ?? "???";
             }
-        
+
         }
         public double LicenseFees
         {
@@ -120,23 +120,36 @@ namespace DVLD_Business
 
                 return _LicenseClasses?.ClassFees ?? 0;
             }
-        
+
         }
-   
-      
-     
+        public byte DefaultValidityLength
+        {
+            get
+            {
+                if (_LicenseClasses == null && _LicenseInfo != null)
+                {
+                    _LicenseClasses = clsLicenseClasses.Find(_LicenseInfo.LicenseClassID);
+                }
+
+                return _LicenseClasses?.DefaultValidityLength ?? 0;
+            }
+
+        }
+
+
+
         public int PersonID
         {
             get => PersonInfo.PersonID;
         }
-    
+
 
         public string NationalNo
         {
             get => PersonInfo?.NationalNo ?? "???";
 
         }
-   
+
         public DateTime DateOfBirth
         {
             get => PersonInfo?.DateOfBirth ?? DateTime.MinValue;
@@ -164,7 +177,7 @@ namespace DVLD_Business
         }
         public byte Gendor
         {
-          get => PersonInfo?.Gendor ?? 0;
+            get => PersonInfo?.Gendor ?? 0;
         }
 
         public string PersonName
@@ -173,9 +186,9 @@ namespace DVLD_Business
         }
         public string PersonalPhoto
         {
-           get => PersonInfo?.ImagePath ?? "Non";
+            get => PersonInfo?.ImagePath ?? "Non";
         }
-        public bool IsDitained 
+        public bool IsDitained
         {
             get => clsDetainedLicense.IsLicenseDetained(LicenseID);
         }
@@ -187,7 +200,7 @@ namespace DVLD_Business
         }
         private clsLicenses(clsLicenseModel model)
         {
-             _LicenseInfo = model;
+            _LicenseInfo = model;
             _PersonInfo = clsPeople.Find(PersonID);
             _LicenseClasses = clsLicenseClasses.Find(_LicenseInfo.LicenseClassID);
             _Mode = enMode.Update;
@@ -196,7 +209,7 @@ namespace DVLD_Business
         public static clsLicenses Find(int LicenseID)
         {
             clsLicenseModel LicenseInfo = clsLicensesData.GetLicenseInfoByLicenseID(LicenseID);
-          
+
             if (LicenseInfo != null)
             {
                 return new clsLicenses(LicenseInfo);
@@ -214,7 +227,7 @@ namespace DVLD_Business
         {
             return clsLicensesData.GetActiveLicenseIDByPersonIDAndLicenseClassID(PersonID, LicenseClassID);
         }
-      
+
 
         static public DataTable GetAllLicenses()
         {
@@ -227,7 +240,7 @@ namespace DVLD_Business
 
         private bool _AddNewLicense()
         {
-            int id = clsLicensesData.AddNewLicense(_LicenseInfo,PersonID);
+            int id = clsLicensesData.AddNewLicense(_LicenseInfo, PersonID);
             _LicenseInfo.LicenseID = id;
             return id != (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
         }
@@ -255,6 +268,37 @@ namespace DVLD_Business
                 default:
                     return false;
             }
+        }
+
+        public clsLicenses RenewLicense(string Notes, int UserID)
+        {
+            clsLicenseModel newLicense = new clsLicenseModel
+            {
+                LicenseID = this.LicenseID,
+                DriverID = this.DriverID,
+                LicenseClassID = this.LicenseClassID,
+                IssueDate = DateTime.Now,
+                ExpirationDate = DateTime.Now.AddYears(DefaultValidityLength),
+                IssueReason = enIssueReason.Renew,
+                PaidFees = this.LicenseFees,
+                IsActive = true,
+                Notes = Notes,
+                CreatedByUserID = UserID
+            };
+
+            int newLicenseID = clsLicensesData.RenewLicense(newLicense, this.PersonID);
+
+            if (newLicenseID != (int)clsEnumerationsModel.enIdentityStatus.NonExistent)
+            {
+                return Find(newLicenseID);
+            }
+            else
+                return null;
+        }
+
+        public bool IsLicenseExpired()
+        {
+            return ExpirationDate < DateTime.Now ;
         }
     }
 }
