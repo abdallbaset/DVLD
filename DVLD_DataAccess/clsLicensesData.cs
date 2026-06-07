@@ -52,7 +52,7 @@ namespace DVLD_DataAccess
 
             return License;
         }
-       
+
         static public int AddNewLicense(clsLicenseModel License, int PersonID)
         {
             int LicenseID = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
@@ -281,7 +281,7 @@ namespace DVLD_DataAccess
                             LicenseID = insertedID;
                         }
                     }
-                    catch (Exception )
+                    catch (Exception)
                     {
                         //Errors will be recorded in the LOG file later.
                     }
@@ -289,6 +289,67 @@ namespace DVLD_DataAccess
             }
             return LicenseID;
         }
-    }
+
+        public static int RenewLicense(clsLicenseModel License, int PersonID)
+        {
+            int NewLicenseID = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
+            {
+                string sql = @"
+                                Declare @ApplicationID int;
+
+                               insert into Applications (ApplicantPersonID, ApplicationTypeID, ApplicationDate, CreatedByUserID, ApplicationStatus,LastStatusDate, PaidFees)
+                               values (@PersonID, @ApplicationTypeID, GETDATE(), @CreatedByUserID, @ApplicationStatus, GETDATE(),
+                               (select A.ApplicationFees from ApplicationTypes AS A
+                                where ApplicationTypeID = @ApplicationTypeID ));
+
+                                    SELECT @ApplicationID = SCOPE_IDENTITY();
+ 
+                               INSERT INTO Licenses (LicenseClassID, ApplicationID, DriverID, IssueDate, 
+                                                    ExpirationDate, IssueReason, PaidFees, IsActive, 
+                                                    Notes, CreatedByUserID)
+                               OUTPUT INSERTED.LicenseID
+                               VALUES (@LicenseClassID, @ApplicationID, @DriverID, @IssueDate, 
+                                    @ExpirationDate, @IssueReason, @PaidFees, @IsActive, 
+                                    @Notes, @CreatedByUserID);
+
+                              Update Licenses SET IsActive = 0 
+                              WHERE LicenseID = @OldLicenseID";
+
+                using (SqlCommand cmd = new SqlCommand(sql, Connection))
+                {
+                    cmd.Parameters.AddWithValue("@PersonID", PersonID);
+                    cmd.Parameters.AddWithValue("@ApplicationTypeID", clsApplicationTypesModel.enApplicationTypes.RenewDrivingLicenseService);
+                    cmd.Parameters.AddWithValue("@ApplicationStatus", clsApplicationModel.enApplicationStatus.Completed);
+                    cmd.Parameters.AddWithValue("@LicenseClassID", License.LicenseClassID);
+                    cmd.Parameters.AddWithValue("@DriverID", License.DriverID);
+                    cmd.Parameters.AddWithValue("@IssueDate", License.IssueDate);
+                    cmd.Parameters.AddWithValue("@ExpirationDate", License.ExpirationDate);
+                    cmd.Parameters.AddWithValue("@IssueReason", License.IssueReason);
+                    cmd.Parameters.AddWithValue("@PaidFees", License.PaidFees);
+                    cmd.Parameters.AddWithValue("@IsActive", License.IsActive);
+                    cmd.Parameters.AddWithValue("@Notes", string.IsNullOrEmpty(License.Notes) ? (object)DBNull.Value : License.Notes);
+                    cmd.Parameters.AddWithValue("@CreatedByUserID", License.CreatedByUserID);
+                    cmd.Parameters.AddWithValue("@OldLicenseID", License.LicenseID);
+                    try
+                    {
+                        Connection.Open();
+                        object Result = cmd.ExecuteScalar();
+                        if (Result != null)
+                        {
+                            NewLicenseID = Convert.ToInt32(Result);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        //Errors will be recorded in the LOG file later.
+                    }
+                }
+                return NewLicenseID;
+            }
+        }
+    
+
+        }
 }
         
