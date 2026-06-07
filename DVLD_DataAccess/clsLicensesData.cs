@@ -290,7 +290,7 @@ namespace DVLD_DataAccess
             return LicenseID;
         }
 
-        public static int RenewLicense(clsLicenseModel License, int PersonID)
+        public static int RenewOrReplacementLicense(clsLicenseModel License, int PersonID, clsApplicationTypesModel.enApplicationTypes ApplicationTypes)
         {
             int NewLicenseID = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
             using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
@@ -319,7 +319,7 @@ namespace DVLD_DataAccess
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
                     cmd.Parameters.AddWithValue("@PersonID", PersonID);
-                    cmd.Parameters.AddWithValue("@ApplicationTypeID", clsApplicationTypesModel.enApplicationTypes.RenewDrivingLicenseService);
+                    cmd.Parameters.AddWithValue("@ApplicationTypeID", ApplicationTypes);
                     cmd.Parameters.AddWithValue("@ApplicationStatus", clsApplicationModel.enApplicationStatus.Completed);
                     cmd.Parameters.AddWithValue("@LicenseClassID", License.LicenseClassID);
                     cmd.Parameters.AddWithValue("@DriverID", License.DriverID);
@@ -348,6 +348,7 @@ namespace DVLD_DataAccess
                 return NewLicenseID;
             }
         }
+    
     
 
         }
