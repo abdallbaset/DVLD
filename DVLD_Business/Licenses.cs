@@ -109,6 +109,19 @@ namespace DVLD_Business
             }
         
         }
+        public double LicenseFees
+        {
+            get
+            {
+                if (_LicenseClasses == null && _LicenseInfo != null)
+                {
+                    _LicenseClasses = clsLicenseClasses.Find(_LicenseInfo.LicenseClassID);
+                }
+
+                return _LicenseClasses?.ClassFees ?? 0;
+            }
+        
+        }
    
       
      
