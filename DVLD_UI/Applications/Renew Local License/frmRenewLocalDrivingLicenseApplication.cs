@@ -67,6 +67,7 @@ namespace DVLD_UI.Applications.Renew_Local_License
                 _DisableShowLicenseHistoryLink();
                 _DisableShowLicenseInfoLink();
                 lbl_OldLicenseID.Text = "???";
+                btn_RenewLicense.Enabled = false;
                 return;
             }
           
