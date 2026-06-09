@@ -48,6 +48,48 @@ namespace DVLD_DataAccess
 
             return DetainedLicense;
         }
+        static public clsDetainedLicenseModel GetDetainedLicenseInfoByLicenseID(int LicenseID)
+        {
+            clsDetainedLicenseModel DetainedLicense = null;
+
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
+            {
+                string sql = @"select top 1 * From DetainedLicenses where LicenseID = @licenseID
+                               order by DetainID  DESC";
+                using (SqlCommand cmd = new SqlCommand(sql, Connection))
+                {
+                    cmd.Parameters.AddWithValue("@LicenseID", LicenseID);
+                    try
+                    {
+                        Connection.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                DetainedLicense = new clsDetainedLicenseModel();
+
+                                DetainedLicense.DetainID = Convert.ToInt32(reader["DetainID"]);
+                                DetainedLicense.LicenseID = Convert.ToInt32(reader["LicenseID"]);
+                                DetainedLicense.DetainDate = Convert.ToDateTime(reader["DetainDate"]);
+                                DetainedLicense.FineFees = Convert.ToDouble(reader["FineFees"]);
+                                DetainedLicense.CreatedByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
+                                DetainedLicense.IsReleased = Convert.ToBoolean(reader["IsReleased"]);
+                                DetainedLicense.ReleaseDate = (reader["ReleaseDate"] == DBNull.Value) ? DateTime.MinValue : Convert.ToDateTime(reader["ReleaseDate"]);
+                                DetainedLicense.ReleasedByUserID = (reader["ReleasedByUserID"] == DBNull.Value) ? (int)clsEnumerationsModel.enIdentityStatus.NonExistent : Convert.ToInt32(reader["ReleasedByUserID"]);
+                                DetainedLicense.ReleaseApplicationID = (reader["ReleaseApplicationID"] == DBNull.Value) ? (int)clsEnumerationsModel.enIdentityStatus.NonExistent : Convert.ToInt32(reader["ReleaseApplicationID"]);
+
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        //Errors will be recorded in the LOG file later.
+                    }
+                }
+            }
+
+            return DetainedLicense;
+        }
 
         static public int AddNewDetainedLicense(clsDetainedLicenseModel DetainedLicense)
         {
@@ -94,9 +136,11 @@ namespace DVLD_DataAccess
 
             using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
-                string sql = "UPDATE DetainedLicenses SET LicenseID = @LicenseID, DetainDate = @DetainDate, FineFees = @FineFees, " +
-                             "CreatedByUserID = @CreatedByUserID, IsReleased = @IsReleased, ReleaseDate = @ReleaseDate, ReleasedByUserID = @ReleasedByUserID, " +
-                             "ReleaseApplicationID = @ReleaseApplicationID WHERE DetainID = @DetainID;";
+                string sql = @"
+                              UPDATE DetainedLicenses SET LicenseID = @LicenseID, DetainDate = @DetainDate, FineFees = @FineFees, 
+                              CreatedByUserID = @CreatedByUserID, IsReleased = @IsReleased, ReleaseDate = @ReleaseDate, ReleasedByUserID = @ReleasedByUserID, 
+                              ReleaseApplicationID = @ReleaseApplicationID WHERE DetainID = @DetainID;";
+                        
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
                     cmd.Parameters.AddWithValue("@LicenseID", DetainedLicense.LicenseID);
@@ -106,8 +150,11 @@ namespace DVLD_DataAccess
                     cmd.Parameters.AddWithValue("@IsReleased", DetainedLicense.IsReleased);
                     cmd.Parameters.AddWithValue("@ReleaseDate", DetainedLicense.ReleaseDate == DateTime.MinValue ? (object)DBNull.Value : DetainedLicense.ReleaseDate);
                     cmd.Parameters.AddWithValue("@ReleasedByUserID", DetainedLicense.ReleasedByUserID);
-                    cmd.Parameters.AddWithValue("@ReleaseApplicationID", DetainedLicense.ReleaseApplicationID);
                     cmd.Parameters.AddWithValue("@DetainID", DetainedLicense.DetainID);
+                    cmd.Parameters.AddWithValue("@ReleaseApplicationID", DetainedLicense.ReleaseApplicationID);
+
+
+
 
                     try
                     {
@@ -123,6 +170,50 @@ namespace DVLD_DataAccess
             }
 
             return IsUpdated;
+        }
+
+        static public bool ReleaseDetainedLicense(int DetainID,int ReleasedByUserID, int PersonID)
+        {
+            bool IsReleased = false;
+
+            using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
+            {
+                string sql = @"
+                                DECLARE @ApplicationID INT ;
+
+                               insert into Applications (ApplicantPersonID, ApplicationTypeID, ApplicationDate, CreatedByUserID, ApplicationStatus,LastStatusDate, PaidFees)
+                               values (@PersonID, @ApplicationTypeID, GETDATE(), @ReleasedByUserID, @ApplicationStatus, GETDATE(),
+                               (select A.ApplicationFees from ApplicationTypes AS A
+                                where ApplicationTypeID = @ApplicationTypeID ));
+
+                                SELECT @ApplicationID = SCOPE_IDENTITY()
+
+                                Update DetainedLicenses SET IsReleased = 1, ReleaseDate = GETDATE(), ReleasedByUserID = @ReleasedByUserID, ReleaseApplicationID = @ApplicationID
+                                WHERE DetainID = @DetainID;
+                             ";
+
+                using (SqlCommand cmd = new SqlCommand(sql, Connection))
+                {
+                    cmd.Parameters.AddWithValue("@ReleasedByUserID", ReleasedByUserID);
+                    cmd.Parameters.AddWithValue("@DetainID", DetainID);
+                    cmd.Parameters.AddWithValue("@PersonID", PersonID);
+                    cmd.Parameters.AddWithValue("@ApplicationTypeID", clsApplicationTypesModel.enApplicationTypes.ReleaseDetainedDrivingLicense);
+                    cmd.Parameters.AddWithValue("@ApplicationStatus", clsApplicationModel.enApplicationStatus.Completed);
+
+                    try
+                    {
+                        Connection.Open();
+                        int rows = cmd.ExecuteNonQuery();
+                        IsReleased = rows > 0;
+                    }
+                    catch (Exception)
+                    {
+                        //Errors will be recorded in the LOG file later.
+                    }
+                }
+            }
+
+            return IsReleased;
         }
 
         static public bool IsLicenseDetained(int LicenseID)
@@ -160,7 +251,7 @@ namespace DVLD_DataAccess
 
             using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
-                string sql = "SELECT DetainID, LicenseID, DetainDate, FineFees, CreatedByUserID, IsReleased, ReleaseDate, ReleasedByUserID, ReleaseApplicationID FROM DetainedLicenses;";
+                string sql = "select * From DetainedLicenses_View order by IsReleased;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
                     try
