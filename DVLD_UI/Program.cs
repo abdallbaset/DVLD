@@ -1,4 +1,18 @@
-﻿using DVLD_UI.Users;
+﻿using DVLD_UI.Applications.Application_Types;
+using DVLD_UI.Applications.International_License;
+using DVLD_UI.Applications.Local_Driving_License;
+using DVLD_UI.Applications.Renew_Local_License;
+using DVLD_UI.Applications.Rlease_Detained_License;
+using DVLD_UI.Drivers;
+using DVLD_UI.GlobalClasses;
+using DVLD_UI.Licenses;
+using DVLD_UI.Licenses.Detain_License;
+using DVLD_UI.Licenses.International_Licenses;
+using DVLD_UI.Licenses.Local_Licenses;
+using DVLD_UI.Login;
+using DVLD_UI.Test;
+using DVLD_UI.Test.Test_Type;
+using DVLD_UI.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +31,28 @@ namespace DVLD_UI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-           Application.Run(new frmMain());
-            //Application.Run(new frmManageUsers());
-            //Application.Run(new frmTest());
-        //    Application.Run(new frmAddNewAndEditUser());
+          
+            while (true)
+            {
+                frmLogin loginForm = new frmLogin();
+
+                if (loginForm.ShowDialog() == DialogResult.OK)
+                {
+
+                    Application.Run(new frmMain());
+
+                    if (clsGlobal.CurrentUser != null)
+                    {
+                        break;
+                    }
+
+                }
+                else
+                {
+                    break;
+                }
+            }
+
 
         }
     }
