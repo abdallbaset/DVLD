@@ -1,6 +1,7 @@
 ﻿using DVLD_DataAccess;
 using DVLD_Model;
 using System;
+using System.ComponentModel;
 using System.Data;
 using System.IO;
 using static DVLD_Model.clsLicenseModel;
@@ -15,7 +16,7 @@ namespace DVLD_Business
         private clsLicenseModel _LicenseInfo { get; set; }
         private clsPeople _PersonInfo = null;
         private clsLicenseClasses _LicenseClasses = null;
-
+        public clsDetainedLicense DetainedInfo { get; set; }
         public int LicenseID
         {
             get => _LicenseInfo.LicenseID;
@@ -135,15 +136,10 @@ namespace DVLD_Business
             }
 
         }
-
-
-
         public int PersonID
         {
             get => PersonInfo.PersonID;
         }
-
-
         public string NationalNo
         {
             get => PersonInfo?.NationalNo ?? "???";
@@ -154,7 +150,6 @@ namespace DVLD_Business
         {
             get => PersonInfo?.DateOfBirth ?? DateTime.MinValue;
         }
-
         public string IssueReasonTitle
         {
             get
@@ -193,6 +188,7 @@ namespace DVLD_Business
             get => clsDetainedLicense.IsLicenseDetained(LicenseID);
         }
 
+
         public clsLicenses()
         {
             _LicenseInfo = new clsLicenseModel();
@@ -203,6 +199,7 @@ namespace DVLD_Business
             _LicenseInfo = model;
             _PersonInfo = clsPeople.Find(PersonID);
             _LicenseClasses = clsLicenseClasses.Find(_LicenseInfo.LicenseClassID);
+             DetainedInfo = clsDetainedLicense.FindByLicenseID(LicenseID);
             _Mode = enMode.Update;
         }
 
@@ -286,7 +283,7 @@ namespace DVLD_Business
                 CreatedByUserID = UserID
             };
 
-            int newLicenseID = clsLicensesData.RenewOrReplacementLicense(newLicense, this.PersonID,clsApplicationTypesModel.enApplicationTypes.RenewDrivingLicenseService);
+            int newLicenseID = clsLicensesData.RenewOrReplacementLicense(newLicense, this.PersonID, clsApplicationTypesModel.enApplicationTypes.RenewDrivingLicenseService);
 
             if (newLicenseID != (int)clsEnumerationsModel.enIdentityStatus.NonExistent)
             {
@@ -307,21 +304,21 @@ namespace DVLD_Business
                 IssueReason = IssueReason,
                 PaidFees = this.LicenseFees,
                 IsActive = true,
-                Notes =this.Notes,
+                Notes = this.Notes,
                 CreatedByUserID = UserID
             };
 
             clsApplicationTypesModel.enApplicationTypes ApplicationTypeID = clsApplicationTypesModel.enApplicationTypes.NotSpecified;
 
-            if(IssueReason == enIssueReason.ReplacementForDamaged)
+            if (IssueReason == enIssueReason.ReplacementForDamaged)
             {
                 ApplicationTypeID = clsApplicationTypesModel.enApplicationTypes.ReplacementForDamagedDrivingLicense;
             }
-            else 
+            else
             {
                 ApplicationTypeID = clsApplicationTypesModel.enApplicationTypes.ReplacementForLostDrivingLicense;
             }
-  
+
 
             int newLicenseID = clsLicensesData.RenewOrReplacementLicense(newLicense, this.PersonID, ApplicationTypeID);
 
@@ -335,7 +332,32 @@ namespace DVLD_Business
 
         public bool IsLicenseExpired()
         {
-            return ExpirationDate < DateTime.Now ;
+            return ExpirationDate < DateTime.Now;
+        }
+        public int Detain(double FineFees, int UserID)
+        {
+            clsDetainedLicense DetainedInfo = new clsDetainedLicense();
+            DetainedInfo.LicenseID = this.LicenseID;
+            DetainedInfo.FineFees = FineFees;
+            DetainedInfo.DetainDate = DateTime.Now;
+            DetainedInfo.CreatedByUserID = UserID;
+            DetainedInfo.IsReleased = false;
+
+            if (!DetainedInfo.Save())
+            {
+                return (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
+            }
+
+            return DetainedInfo.DetainID;
+        }
+
+        public bool ReleaseDetainedLicense(int UserID)
+        {
+
+            DetainedInfo.ReleasedByUserID = UserID;
+            DetainedInfo.PersonID = this.PersonID;
+
+            return DetainedInfo.ReleaseDetainedLicense();
         }
     }
 }
