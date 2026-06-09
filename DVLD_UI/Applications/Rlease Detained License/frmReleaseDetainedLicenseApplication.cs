@@ -18,9 +18,15 @@ namespace DVLD_UI.Applications.Rlease_Detained_License
     public partial class frmReleaseDetainedLicenseApplication : Form
     {
         private clsLicenses _license = null;
+        private int _LicenseID = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
         public frmReleaseDetainedLicenseApplication()
         {
             InitializeComponent();
+        }
+        public frmReleaseDetainedLicenseApplication(int LicenseID)
+        {
+            InitializeComponent();
+            _LicenseID = LicenseID;
         }
         public void LoadDefaultData()
         {
@@ -69,6 +75,7 @@ namespace DVLD_UI.Applications.Rlease_Detained_License
             _license = license;
             if (_license == null)
             {
+                MessageBox.Show("Failed to retrieve the license information, please try again!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 _DisableShowLicenseHistoryLink();
                 _DisableShowLicenseInfoLink();
                 LoadDefaultData();
@@ -104,7 +111,14 @@ namespace DVLD_UI.Applications.Rlease_Detained_License
              LoadDefaultData();
             _DisableShowLicenseHistoryLink();
             _DisableShowLicenseInfoLink();
-            btn_Release.Enabled = false;
+             btn_Release.Enabled = false;
+            if (_LicenseID != (int)clsEnumerationsModel.enIdentityStatus.NonExistent)
+            {
+               ctrlDriverLicenseInfoWithFilter1.LoadLicenseInfo(_LicenseID);
+               btn_Release.Enabled = true;
+               ctrlDriverLicenseInfoWithFilter1.FilterEnabled = false;
+
+            }
         }
 
         private void btn_Close_Click(object sender, EventArgs e)
