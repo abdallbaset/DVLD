@@ -41,8 +41,8 @@
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.ptcb_Close = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.label5 = new System.Windows.Forms.Label();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.ptcb_Close)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
@@ -107,6 +107,7 @@
             this.txt_PassWord.Location = new System.Drawing.Point(486, 266);
             this.txt_PassWord.Multiline = true;
             this.txt_PassWord.Name = "txt_PassWord";
+            this.txt_PassWord.PasswordChar = '*';
             this.txt_PassWord.Size = new System.Drawing.Size(452, 39);
             this.txt_PassWord.TabIndex = 12;
             this.txt_PassWord.Tag = "PassWord";
@@ -172,10 +173,6 @@
             this.panel1.Size = new System.Drawing.Size(393, 562);
             this.panel1.TabIndex = 0;
             // 
-            // errorProvider1
-            // 
-            this.errorProvider1.ContainerControl = this;
-            // 
             // label5
             // 
             this.label5.BackColor = System.Drawing.Color.Transparent;
@@ -188,8 +185,13 @@
             this.label5.TabIndex = 16;
             this.label5.Text = "version 1.0";
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // frmLogin
             // 
+            this.AcceptButton = this.btn_Login;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
