@@ -1,6 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.ComponentModel;
+using System.IO;
+using System.Text;
 
 namespace Infrastructure.Logging
 {
@@ -17,13 +18,18 @@ namespace Infrastructure.Logging
         {
             try
             {
-                string logEntry = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] | [EventViewer Failed: {eventViewerException?.Message}] | Original Message: {message}";
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("========================================");
+                sb.AppendLine($"[FALLBACK LOG] Timestamp: {DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+                sb.AppendLine($"[Error] EventViewer Failed: {eventViewerException?.Message}");
+                sb.AppendLine("--- Original Message Content ---");
+                sb.AppendLine(message); 
 
-                File.AppendAllText(_fallbackPath, logEntry + Environment.NewLine);
+                File.AppendAllText(_fallbackPath, sb.ToString() + Environment.NewLine);
             }
             catch
             {
-               
+                // Additional protection to ensure the code does not collapse if a file write error occurs
             }
         }
     }

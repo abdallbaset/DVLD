@@ -66,6 +66,10 @@
       <Project>{e529c318-753e-49b7-a7a5-39b8bb38e217}</Project>
       <Name>DVLD_Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
+      <Project>{7c7f5a1b-a276-4902-857c-210f59acacde}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
