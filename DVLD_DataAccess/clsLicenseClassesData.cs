@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using DVLD_Model;
+using Infrastructure.Logging;
 
 namespace DVLD_DataAccess
 {
@@ -30,13 +31,12 @@ namespace DVLD_DataAccess
                                 LicenseClassInfo.MinimumAllowedAge = Convert.ToByte(reader["MinimumAllowedAge"]);
                                 LicenseClassInfo.DefaultValidityLength = Convert.ToByte(reader["DefaultValidityLength"]);
                                 LicenseClassInfo.ClassFees = Convert.ToDouble(reader["ClassFees"]);
-
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetLicenseClassInfoByID for LicenseClassID: {LicenseClassID}", ex);
                     }
                 }
             }
@@ -56,7 +56,7 @@ namespace DVLD_DataAccess
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
                     cmd.Parameters.AddWithValue("@ClassName", LicenseClassInfo.ClassName);
-                    cmd.Parameters.AddWithValue("@ClassDescription", LicenseClassInfo.ClassDescription);                 
+                    cmd.Parameters.AddWithValue("@ClassDescription", LicenseClassInfo.ClassDescription);
                     cmd.Parameters.AddWithValue("@MinimumAllowedAge", LicenseClassInfo.MinimumAllowedAge);
                     cmd.Parameters.AddWithValue("@DefaultValidityLength", LicenseClassInfo.DefaultValidityLength);
                     cmd.Parameters.AddWithValue("@ClassFees", LicenseClassInfo.ClassFees);
@@ -70,9 +70,9 @@ namespace DVLD_DataAccess
                             LicenseClassID = Convert.ToInt32(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in AddNewLicenseClass", ex);
                     }
                 }
             }
@@ -96,7 +96,7 @@ namespace DVLD_DataAccess
                     cmd.Parameters.AddWithValue("@MinimumAllowedAge", LicenseClassInfo.MinimumAllowedAge);
                     cmd.Parameters.AddWithValue("@DefaultValidityLength", LicenseClassInfo.DefaultValidityLength);
                     cmd.Parameters.AddWithValue("@ClassFees", LicenseClassInfo.ClassFees);
-                    cmd.Parameters.AddWithValue("@LicenseClassID",LicenseClassInfo.LicenseClassID);
+                    cmd.Parameters.AddWithValue("@LicenseClassID", LicenseClassInfo.LicenseClassID);
 
                     try
                     {
@@ -104,9 +104,9 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsUpdated = rows > 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in UpdateLicenseClass for LicenseClassID: {LicenseClassInfo.LicenseClassID}", ex);
                     }
                 }
             }
@@ -130,9 +130,9 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsDeleted = rows > 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in DeleteLicenseClass for LicenseClassID: {LicenseClassID}", ex);
                     }
                 }
             }
@@ -159,15 +159,16 @@ namespace DVLD_DataAccess
                             IsExist = Convert.ToBoolean(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in IsLicenseClassExist for LicenseClassID: {LicenseClassID}", ex);
                     }
                 }
             }
 
             return IsExist;
         }
+
         static public bool IsLicenseClassExist(string ClassName)
         {
             bool IsExist = false;
@@ -187,9 +188,9 @@ namespace DVLD_DataAccess
                             IsExist = Convert.ToBoolean(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in IsLicenseClassExist for ClassName: {ClassName}", ex);
                     }
                 }
             }
@@ -217,9 +218,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in GetAllLicenseClasses", ex);
                     }
                 }
             }
