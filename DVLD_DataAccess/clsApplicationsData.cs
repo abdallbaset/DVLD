@@ -1,4 +1,5 @@
 ﻿using DVLD_Model;
+using Infrastructure.Logging;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -39,15 +40,16 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetApplicationInfoByID for ApplicationID: {ApplicationID}", ex);
                     }
                 }
             }
 
             return ApplicationInfo;
         }
+
         static public int AddNewApplication(clsApplicationModel ApplicationInfo)
         {
             int ApplicationID = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
@@ -77,9 +79,9 @@ namespace DVLD_DataAccess
                             ApplicationID = Convert.ToInt32(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in AddNewApplication", ex);
                     }
                 }
             }
@@ -111,18 +113,14 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsUpdated = rows > 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in UpdateApplication for ApplicationID: {ApplicationInfo.ApplicationID}", ex);
                     }
                 }
             }
             return IsUpdated;
         }
-        
-         
-
-        
 
         static public bool DeleteApplication(int ApplicationID)
         {
@@ -140,9 +138,9 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsDeleted = rows > 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in DeleteApplication for ApplicationID: {ApplicationID}", ex);
                     }
                 }
             }
@@ -169,9 +167,9 @@ namespace DVLD_DataAccess
                             IsExist = Convert.ToBoolean(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in IsApplicationExist for ApplicationID: {ApplicationID}", ex);
                     }
                 }
             }
@@ -199,9 +197,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in GetAllApplications", ex);
                     }
                 }
             }
@@ -231,9 +229,9 @@ namespace DVLD_DataAccess
                             ActiveApplicationID = Convert.ToInt32(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetActiveApplicationIDForLicenseClass for PersonID: {PersonID}", ex);
                     }
                 }
             }
@@ -260,9 +258,9 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsUpdated = rows > 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in UpdateStatus for ApplicationID: {ApplicationID}", ex);
                     }
                 }
             }
