@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using DVLD_Model;
+using Infrastructure.Logging;
 
 namespace DVLD_DataAccess
 {
@@ -30,22 +31,22 @@ namespace DVLD_DataAccess
                                 TestType.TestTypeTitle = reader["TestTypeTitle"].ToString();
                                 TestType.TestTypeDescription = reader["TestTypeDescription"].ToString();
                                 TestType.TestTypeFees = Convert.ToDouble(reader["TestTypeFees"]);
-
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetTestTypeInfoByID for TestTypeID: {TestTypeID}", ex);
                     }
                 }
             }
 
             return TestType;
         }
+
         static public int AddNewTestType(clsTestTypesModel TestType)
         {
-            int TestTypeID =(int)clsEnumerationsModel.enTestType.NotSpecified;
+            int TestTypeID = (int)clsEnumerationsModel.enTestType.NotSpecified;
 
             using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
@@ -66,9 +67,9 @@ namespace DVLD_DataAccess
                             TestTypeID = Convert.ToInt32(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in AddNewTestType", ex);
                     }
                 }
             }
@@ -96,9 +97,9 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsUpdated = rows > 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in UpdateTestType for TestTypeID: {TestType.ID}", ex);
                     }
                 }
             }
@@ -126,9 +127,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in GetAllTestTypes", ex);
                     }
                 }
             }
