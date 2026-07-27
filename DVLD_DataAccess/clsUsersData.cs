@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using DVLD_Model;
+using Infrastructure.Logging;
 
 namespace DVLD_DataAccess
 {
@@ -33,9 +34,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetUserInfoByUserID for UserID: {UserID}", ex);
                     }
                 }
             }
@@ -68,14 +69,15 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetUserInfoByPersonID for PersonID: {PersonID}", ex);
                     }
                 }
             }
             return User;
         }
+
         static public clsUsersModel GetUserInfoByUsernameAndPassword(string UserName, string Password)
         {
             clsUsersModel User = null;
@@ -109,7 +111,7 @@ namespace DVLD_DataAccess
                     }
                     catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetUserInfoByUsernameAndPassword for UserName: {UserName}", ex);
                     }
                 }
             }
@@ -141,8 +143,9 @@ namespace DVLD_DataAccess
                             UserID = Convert.ToInt32(Result);
                         }
                     }
-                    catch (Exception)
-                    {                //Errors will be recorded in the LOG file later.
+                    catch (Exception ex)
+                    {
+                        EventViewerLogger.LogError("Database Error in AddNewUser", ex);
                     }
                 }
             }
@@ -171,8 +174,9 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsUpdated = rows > 0;
                     }
-                    catch (Exception)
-                    {                 //Errors will be recorded in the LOG file later.
+                    catch (Exception ex)
+                    {
+                        EventViewerLogger.LogError($"Database Error in UpdateUser for UserID: {User.UserID}", ex);
                     }
                 }
             }
@@ -200,8 +204,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
-                    {                 //Errors will be recorded in the LOG file later.
+                    catch (Exception ex)
+                    {
+                        EventViewerLogger.LogError("Database Error in GetAllUsers", ex);
                     }
                 }
             }
@@ -224,8 +229,9 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsDeleted = rows > 0;
                     }
-                    catch (Exception)
-                    {                //Errors will be recorded in the LOG file later.
+                    catch (Exception ex)
+                    {
+                        EventViewerLogger.LogError($"Database Error in DeleteUser for UserID: {UserID}", ex);
                     }
                 }
             }
@@ -251,13 +257,15 @@ namespace DVLD_DataAccess
                             IsExist = Convert.ToBoolean(Result);
                         }
                     }
-                    catch (Exception)
-                    {                //Errors will be recorded in the LOG file later.
+                    catch (Exception ex)
+                    {
+                        EventViewerLogger.LogError($"Database Error in IsUserExist for UserID: {UserID}", ex);
                     }
                 }
             }
             return IsExist;
         }
+
         static public bool isUserExistForPersonID(int PersonID)
         {
             bool IsExist = false;
@@ -277,13 +285,15 @@ namespace DVLD_DataAccess
                             IsExist = Convert.ToBoolean(Result);
                         }
                     }
-                    catch (Exception)
-                    {                //Errors will be recorded in the LOG file later.
+                    catch (Exception ex)
+                    {
+                        EventViewerLogger.LogError($"Database Error in isUserExistForPersonID for PersonID: {PersonID}", ex);
                     }
                 }
             }
             return IsExist;
         }
+
         static public bool IsUserExist(string UserName)
         {
             bool IsExist = false;
@@ -303,13 +313,13 @@ namespace DVLD_DataAccess
                             IsExist = Convert.ToBoolean(Result);
                         }
                     }
-                    catch (Exception)
-                    {                //Errors will be recorded in the LOG file later.
+                    catch (Exception ex)
+                    {
+                        EventViewerLogger.LogError($"Database Error in IsUserExist for UserName: {UserName}", ex);
                     }
                 }
             }
             return IsExist;
         }
-
     }
 }
