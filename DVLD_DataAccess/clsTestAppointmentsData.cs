@@ -1,8 +1,8 @@
-﻿using DVLD_Model;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using static System.Net.Mime.MediaTypeNames;
+using DVLD_Model;
+using Infrastructure.Logging;
 
 namespace DVLD_DataAccess
 {
@@ -35,20 +35,19 @@ namespace DVLD_DataAccess
                                 AppointmentInfo.CreatedByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
                                 AppointmentInfo.IsLocked = Convert.ToBoolean(reader["IsLocked"]);
                                 AppointmentInfo.RetakeTestApplicationID = (reader["RetakeTestApplicationID"] == DBNull.Value) ? (int)clsEnumerationsModel.enIdentityStatus.NonExistent : Convert.ToInt32(reader["RetakeTestApplicationID"]);
-
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetTestAppointmentInfoByID for TestAppointmentID: {TestAppointmentID}", ex);
                     }
                 }
             }
 
             return AppointmentInfo;
         }
-    
+
         static public int AddNewTestAppointment(clsTestAppointmentModel Appointment)
         {
             int TestAppointmentID = (int)clsEnumerationsModel.enIdentityStatus.NonExistent;
@@ -78,9 +77,9 @@ namespace DVLD_DataAccess
                             TestAppointmentID = Convert.ToInt32(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in AddNewTestAppointment", ex);
                     }
                 }
             }
@@ -110,9 +109,9 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsUpdated = rows > 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in UpdateTestAppointment for TestAppointmentID: {Appointment.TestAppointmentID}", ex);
                     }
                 }
             }
@@ -140,9 +139,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in GetAllTestAppointments", ex);
                     }
                 }
             }
@@ -174,9 +173,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetApplicationTestAppointmentsPerTestType for LocalDrivingLicenseApplicationID: {LocalDrivingLicenseApplicationID}, TestTypeID: {TestTypeID}", ex);
                     }
                 }
             }
@@ -204,13 +203,13 @@ namespace DVLD_DataAccess
                             IsExist = Convert.ToBoolean(Result);
                         }
                     }
-                    catch (Exception)
-                    {                        //Errors will be recorded in the LOG file later
+                    catch (Exception ex)
+                    {
+                        EventViewerLogger.LogError($"Database Error in HasActiveAppointment for LocalDrivingLicenseApplicationID: {LocalDrivingLicenseApplicationID}", ex);
                     }
                 }
             }
             return IsExist;
         }
     }
-
 }
