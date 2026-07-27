@@ -1,8 +1,8 @@
-﻿using DVLD_Model;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using static System.Net.Mime.MediaTypeNames;
+using DVLD_Model;
+using Infrastructure.Logging;
 
 namespace DVLD_DataAccess
 {
@@ -38,14 +38,12 @@ namespace DVLD_DataAccess
                                 License.IsActive = Convert.ToBoolean(reader["IsActive"]);
                                 License.Notes = (reader["Notes"] == DBNull.Value) ? string.Empty : reader["Notes"].ToString();
                                 License.CreatedByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
-
-
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetLicenseInfoByLicenseID for LicenseID: {LicenseID}", ex);
                     }
                 }
             }
@@ -75,8 +73,8 @@ namespace DVLD_DataAccess
                             END
                             
                             INSERT INTO Licenses (LicenseClassID, ApplicationID, DriverID, IssueDate, 
-                                                 ExpirationDate, IssueReason, PaidFees, IsActive, 
-                                                 Notes, CreatedByUserID)
+                                                  ExpirationDate, IssueReason, PaidFees, IsActive, 
+                                                  Notes, CreatedByUserID)
                             OUTPUT INSERTED.LicenseID
                             VALUES (@LicenseClassID, @ApplicationID, @ActualDriverID, @IssueDate, 
                                     @ExpirationDate, @IssueReason, @PaidFees, @IsActive, 
@@ -109,9 +107,9 @@ namespace DVLD_DataAccess
                             LicenseID = Convert.ToInt32(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in AddNewLicense", ex);
                     }
                 }
             }
@@ -139,7 +137,7 @@ namespace DVLD_DataAccess
                     cmd.Parameters.AddWithValue("@PaidFees", License.PaidFees);
                     cmd.Parameters.AddWithValue("@IsActive", License.IsActive);
                     cmd.Parameters.AddWithValue("@Notes", string.IsNullOrEmpty(License.Notes) ? (object)DBNull.Value : License.Notes);
-                    cmd.Parameters.AddWithValue("@CreatedByUserID1", License.CreatedByUserID);
+                    cmd.Parameters.AddWithValue("@CreatedByUserID", License.CreatedByUserID);
                     cmd.Parameters.AddWithValue("@LicenseID", License.LicenseID);
 
                     try
@@ -148,9 +146,9 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsUpdated = rows > 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in UpdateLicense for LicenseID: {License.LicenseID}", ex);
                     }
                 }
             }
@@ -178,9 +176,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in GetAllLicenses", ex);
                     }
                 }
             }
@@ -213,9 +211,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetAllLicensesByDriverID for DriverID: {DriverID}", ex);
                     }
                 }
             }
@@ -244,16 +242,15 @@ namespace DVLD_DataAccess
                             IsExist = Convert.ToBoolean(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in IsLicenseExist for ApplicationID: {ApplicationID}, LicenseClassID: {LicenseClassID}", ex);
                     }
                 }
             }
 
             return IsExist;
         }
-
 
         public static int GetActiveLicenseIDByPersonIDAndLicenseClassID(int PersonID, int LicenseClassID)
         {
@@ -263,7 +260,7 @@ namespace DVLD_DataAccess
             {
                 string sql = @"SELECT LicenseID 
                          FROM Licenses AS L
-						 inner Join Applications AS A ON A.ApplicationID = L.ApplicationID
+                         inner Join Applications AS A ON A.ApplicationID = L.ApplicationID
                          WHERE A.ApplicantPersonID = @PersonID And L.LicenseClassID = @LicenseClassID And L.IsActive = 1";
 
                 using (SqlCommand Command = new SqlCommand(sql, Connection))
@@ -281,9 +278,9 @@ namespace DVLD_DataAccess
                             LicenseID = insertedID;
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetActiveLicenseIDByPersonIDAndLicenseClassID for PersonID: {PersonID}, LicenseClassID: {LicenseClassID}", ex);
                     }
                 }
             }
@@ -340,17 +337,13 @@ namespace DVLD_DataAccess
                             NewLicenseID = Convert.ToInt32(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in RenewOrReplacementLicense for OldLicenseID: {License.LicenseID}", ex);
                     }
                 }
                 return NewLicenseID;
             }
         }
-    
-    
-
-        }
+    }
 }
-        
