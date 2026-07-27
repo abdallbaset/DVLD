@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using DVLD_Model;
+using Infrastructure.Logging;
 
 namespace DVLD_DataAccess
 {
@@ -39,15 +40,16 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetDetainedLicenseInfoByID for DetainID: {DetainID}", ex);
                     }
                 }
             }
 
             return DetainedLicense;
         }
+
         static public clsDetainedLicenseModel GetDetainedLicenseInfoByLicenseID(int LicenseID)
         {
             clsDetainedLicenseModel DetainedLicense = null;
@@ -55,7 +57,7 @@ namespace DVLD_DataAccess
             using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
                 string sql = @"select top 1 * From DetainedLicenses where LicenseID = @licenseID
-                               order by DetainID  DESC";
+                               order by DetainID DESC";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
                     cmd.Parameters.AddWithValue("@LicenseID", LicenseID);
@@ -81,9 +83,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetDetainedLicenseInfoByLicenseID for LicenseID: {LicenseID}", ex);
                     }
                 }
             }
@@ -109,7 +111,7 @@ namespace DVLD_DataAccess
                     cmd.Parameters.AddWithValue("@IsReleased", DetainedLicense.IsReleased);
                     cmd.Parameters.AddWithValue("@ReleaseDate", DBNull.Value);
                     cmd.Parameters.AddWithValue("@ReleasedByUserID", DBNull.Value);
-                    cmd.Parameters.AddWithValue("@ReleaseApplicationID",  DBNull.Value);
+                    cmd.Parameters.AddWithValue("@ReleaseApplicationID", DBNull.Value);
 
                     try
                     {
@@ -120,9 +122,9 @@ namespace DVLD_DataAccess
                             DetainID = Convert.ToInt32(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in AddNewDetainedLicense", ex);
                     }
                 }
             }
@@ -140,7 +142,7 @@ namespace DVLD_DataAccess
                               UPDATE DetainedLicenses SET LicenseID = @LicenseID, DetainDate = @DetainDate, FineFees = @FineFees, 
                               CreatedByUserID = @CreatedByUserID, IsReleased = @IsReleased, ReleaseDate = @ReleaseDate, ReleasedByUserID = @ReleasedByUserID, 
                               ReleaseApplicationID = @ReleaseApplicationID WHERE DetainID = @DetainID;";
-                        
+
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
                     cmd.Parameters.AddWithValue("@LicenseID", DetainedLicense.LicenseID);
@@ -153,18 +155,15 @@ namespace DVLD_DataAccess
                     cmd.Parameters.AddWithValue("@DetainID", DetainedLicense.DetainID);
                     cmd.Parameters.AddWithValue("@ReleaseApplicationID", DetainedLicense.ReleaseApplicationID);
 
-
-
-
                     try
                     {
                         Connection.Open();
                         int rows = cmd.ExecuteNonQuery();
                         IsUpdated = rows > 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in UpdateDetainedLicense for DetainID: {DetainedLicense.DetainID}", ex);
                     }
                 }
             }
@@ -172,7 +171,7 @@ namespace DVLD_DataAccess
             return IsUpdated;
         }
 
-        static public bool ReleaseDetainedLicense(int DetainID,int ReleasedByUserID, int PersonID)
+        static public bool ReleaseDetainedLicense(int DetainID, int ReleasedByUserID, int PersonID)
         {
             bool IsReleased = false;
 
@@ -206,9 +205,9 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsReleased = rows > 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in ReleaseDetainedLicense for DetainID: {DetainID}", ex);
                     }
                 }
             }
@@ -235,9 +234,9 @@ namespace DVLD_DataAccess
                             IsDetained = Convert.ToBoolean(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in IsLicenseDetained for LicenseID: {LicenseID}", ex);
                     }
                 }
             }
@@ -265,9 +264,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in GetAllDetainedLicenses", ex);
                     }
                 }
             }
