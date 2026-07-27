@@ -1,8 +1,8 @@
-﻿using DVLD_Model;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using static System.Net.Mime.MediaTypeNames;
+using DVLD_Model;
+using Infrastructure.Logging;
 
 namespace DVLD_DataAccess
 {
@@ -32,15 +32,16 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetLocalDrivingLicenseApplicationInfoByID for LocalDrivingLicenseApplicationID: {LocalDrivingLicenseApplicationID}", ex);
                     }
                 }
             }
 
             return LocalDrivingLicenseApplicationInfo;
         }
+
         static public clsLocalDrivingLicenseApplicationsModel GetLocalDrivingLicenseApplicationInfoByApplicationID(int ApplicationID)
         {
             clsLocalDrivingLicenseApplicationsModel LocalDrivingLicenseApplicationInfo = null;
@@ -65,9 +66,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetLocalDrivingLicenseApplicationInfoByApplicationID for ApplicationID: {ApplicationID}", ex);
                     }
                 }
             }
@@ -86,7 +87,7 @@ namespace DVLD_DataAccess
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
                     cmd.Parameters.AddWithValue("@ApplicationID", LocalDrivingLicenseApplicationInfo.ApplicationID);
-                    cmd.Parameters.AddWithValue("@LicenseClassID",LocalDrivingLicenseApplicationInfo.LicenseClassID);
+                    cmd.Parameters.AddWithValue("@LicenseClassID", LocalDrivingLicenseApplicationInfo.LicenseClassID);
 
                     try
                     {
@@ -97,9 +98,9 @@ namespace DVLD_DataAccess
                             LocalDrivingLicenseID = Convert.ToInt32(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in AddNewLocalDrivingLicense", ex);
                     }
                 }
             }
@@ -118,7 +119,7 @@ namespace DVLD_DataAccess
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
                     cmd.Parameters.AddWithValue("@ApplicationID", LocalDrivingLicenseApplicationInfo.ApplicationID);
-                    cmd.Parameters.AddWithValue("@LicenseClassID",LocalDrivingLicenseApplicationInfo.LicenseClassID);
+                    cmd.Parameters.AddWithValue("@LicenseClassID", LocalDrivingLicenseApplicationInfo.LicenseClassID);
                     cmd.Parameters.AddWithValue("@LocalDrivingLicenseApplicationID", LocalDrivingLicenseApplicationInfo.LocalDrivingLicenseApplicationID);
 
                     try
@@ -127,9 +128,9 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsUpdated = rows > 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in UpdateLocalDrivingLicense for LocalDrivingLicenseApplicationID: {LocalDrivingLicenseApplicationInfo.LocalDrivingLicenseApplicationID}", ex);
                     }
                 }
             }
@@ -153,9 +154,9 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsDeleted = rows > 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in DeleteLocalDrivingLicense for LocalDrivingLicenseApplicationID: {LocalDrivingLicenseApplicationID}", ex);
                     }
                 }
             }
@@ -169,7 +170,7 @@ namespace DVLD_DataAccess
 
             using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
-                string sql = "if Exists(select 1 From LocalDrivingLicenseApplications where LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID)  select 1 else select 0 ;";
+                string sql = "if Exists(select 1 From LocalDrivingLicenseApplications where LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID) select 1 else select 0;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
                     cmd.Parameters.AddWithValue("@LocalDrivingLicenseApplicationID", LocalDrivingLicenseApplicationID);
@@ -182,15 +183,16 @@ namespace DVLD_DataAccess
                             IsExist = Convert.ToBoolean(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in IsLocalDrivingLicenseExist for LocalDrivingLicenseApplicationID: {LocalDrivingLicenseApplicationID}", ex);
                     }
                 }
             }
 
             return IsExist;
         }
+
         public static bool DoesPersonHaveActiveApplication(int PersonID, int LicenseClassID)
         {
             bool IsExist = false;
@@ -201,7 +203,7 @@ namespace DVLD_DataAccess
                          FROM LocalDrivingLicenseFullApplications_View 
                          WHERE ApplicantPersonID = @PersonID 
                          AND LicenseClassID = @LicenseClassID 
-                         AND ApplicationStatus = {(int)clsApplicationModel.enApplicationStatus.New}) select 1 else select 0 ;";
+                         AND ApplicationStatus = {(int)clsApplicationModel.enApplicationStatus.New}) select 1 else select 0;";
 
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
@@ -212,19 +214,19 @@ namespace DVLD_DataAccess
                     {
                         Connection.Open();
                         object Result = cmd.ExecuteScalar();
-                        if (Result != null) 
-                         IsExist =Convert.ToBoolean(Result);
-                        
+                        if (Result != null)
+                            IsExist = Convert.ToBoolean(Result);
                     }
                     catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in DoesPersonHaveActiveApplication for PersonID: {PersonID}, LicenseClassID: {LicenseClassID}", ex);
                     }
                 }
             }
 
             return IsExist;
         }
+
         static public DataTable GetAllLocalDrivingLicenseApplications()
         {
             DataTable dataTable = new DataTable();
@@ -245,9 +247,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in GetAllLocalDrivingLicenseApplications", ex);
                     }
                 }
             }
