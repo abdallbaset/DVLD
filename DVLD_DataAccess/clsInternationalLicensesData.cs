@@ -1,8 +1,8 @@
-﻿using DVLD_Model;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using static System.Net.Mime.MediaTypeNames;
+using DVLD_Model;
+using Infrastructure.Logging;
 
 namespace DVLD_DataAccess
 {
@@ -25,7 +25,6 @@ namespace DVLD_DataAccess
                         {
                             if (reader.Read())
                             {
-
                                 InternationalLicense = new clsInternationalLicenseModel();
 
                                 InternationalLicense.InternationalLicenseID = Convert.ToInt32(reader["InternationalLicenseID"]);
@@ -39,9 +38,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetInternationalLicenseInfoByID for InternationalLicenseID: {InternationalLicenseID}", ex);
                     }
                 }
             }
@@ -100,9 +99,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        // Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in AddNewInternationalLicense", ex);
                     }
                 }
             }
@@ -135,9 +134,9 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsUpdated = rows > 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in UpdateInternationalLicense for InternationalLicenseID: {InternationalLicense.InternationalLicenseID}", ex);
                     }
                 }
             }
@@ -165,9 +164,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in GetAllInternationalLicenses", ex);
                     }
                 }
             }
@@ -200,15 +199,14 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetAllInternationalLicensesByDriverID for DriverID: {DriverID}", ex);
                     }
                 }
             }
             return dataTable;
         }
-
 
         static public bool IsInternationalLicenseExist(int LicenseID)
         {
@@ -231,9 +229,9 @@ namespace DVLD_DataAccess
                             IsExist = Convert.ToBoolean(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in IsInternationalLicenseExist for LicenseID: {LicenseID}", ex);
                     }
                 }
             }
@@ -260,14 +258,13 @@ namespace DVLD_DataAccess
                             InternationalLicenseID = Convert.ToInt32(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetActiveInternationalLicense for LicenseID: {LicenseID}", ex);
                     }
                 }
             }
             return InternationalLicenseID;
         }
-
-        }
+    }
 }
