@@ -11,7 +11,7 @@ namespace Infrastructure.Logging
     [Description("Provides helper utilities to safely log information, warnings, and errors directly into the Windows Event Viewer under the DVLD_App source with dual-line tracking (Call line & Error line).")]
     public static class EventViewerLogger
     {
-        private const string SourceName = "DVLD_App";
+        private const string SourceName = "DVLD_System";
 
         /// <summary>
         /// Logs an informational event message.
