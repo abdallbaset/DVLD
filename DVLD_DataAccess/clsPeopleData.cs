@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using DVLD_Model;
+using Infrastructure.Logging;
 
 namespace DVLD_DataAccess
 {
@@ -45,8 +44,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
-                    {                        //Errors will be recorded in the LOG file later.
+                    catch (Exception ex)
+                    {
+                        EventViewerLogger.LogError($"Database Error in GetPersonInfoByID for PersonID: {PersonID}", ex);
                     }
                 }
             }
@@ -88,8 +88,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
-                    {                        //Errors will be recorded in the LOG file later.
+                    catch (Exception ex)
+                    {
+                        EventViewerLogger.LogError($"Database Error in GetPersonInfoByNationalNo for NationalNo: {NationalNo}", ex);
                     }
                 }
             }
@@ -131,8 +132,9 @@ namespace DVLD_DataAccess
                             PersonID = Convert.ToInt32(Result);
                         }
                     }
-                    catch (Exception) {
-                        //Errors will be recorded in the LOG file later
+                    catch (Exception ex)
+                    {
+                        EventViewerLogger.LogError("Database Error in AddNewPerson", ex);
                     }
                 }
             }
@@ -172,8 +174,9 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsUpdated = rows > 0;
                     }
-                    catch (Exception)
-                    {                         //Errors will be recorded in the LOG file later
+                    catch (Exception ex)
+                    {
+                        EventViewerLogger.LogError($"Database Error in UpdatePerson for PersonID: {Person.PersonID}", ex);
                     }
                 }
             }
@@ -203,8 +206,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
-                    {                         //Errors will be recorded in the LOG file later
+                    catch (Exception ex)
+                    {
+                        EventViewerLogger.LogError("Database Error in GetAllPeopl", ex);
                     }
                 }
             }
@@ -227,8 +231,9 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsDeleted = rows > 0;
                     }
-                    catch (Exception)
-                    {                         //Errors will be recorded in the LOG file later
+                    catch (Exception ex)
+                    {
+                        EventViewerLogger.LogError($"Database Error in DeletePerson for PersonID: {PersonID}", ex);
                     }
                 }
             }
@@ -254,8 +259,9 @@ namespace DVLD_DataAccess
                             IsExist = Convert.ToBoolean(Result);
                         }
                     }
-                    catch (Exception)
-                    {                         //Errors will be recorded in the LOG file later
+                    catch (Exception ex)
+                    {
+                        EventViewerLogger.LogError($"Database Error in IsPersonExist for PersonID: {PersonID}", ex);
                     }
                 }
             }
@@ -281,8 +287,9 @@ namespace DVLD_DataAccess
                             IsExist = Convert.ToBoolean(Result);
                         }
                     }
-                    catch (Exception)
-                    {                        //Errors will be recorded in the LOG file later
+                    catch (Exception ex)
+                    {
+                        EventViewerLogger.LogError($"Database Error in IsPersonExist for NationalNo: {NationalNo}", ex);
                     }
                 }
             }
