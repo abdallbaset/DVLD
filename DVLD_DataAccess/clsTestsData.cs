@@ -1,8 +1,8 @@
-﻿using DVLD_Model;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using static System.Net.Mime.MediaTypeNames;
+using DVLD_Model;
+using Infrastructure.Logging;
 
 namespace DVLD_DataAccess
 {
@@ -30,20 +30,21 @@ namespace DVLD_DataAccess
                                 Test.TestID = Convert.ToInt32(reader["TestID"]);
                                 Test.TestAppointmentID = Convert.ToInt32(reader["TestAppointmentID"]);
                                 Test.TestResult = Convert.ToBoolean(reader["TestResult"]);
-                                Test.Notes = ( reader["Notes"] == DBNull.Value) ? string.Empty : reader["Notes"].ToString();
+                                Test.Notes = (reader["Notes"] == DBNull.Value) ? string.Empty : reader["Notes"].ToString();
                                 Test.CreatedByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetTestInfoByID for TestID: {TestID}", ex);
                     }
                 }
             }
 
             return Test;
         }
+
         static public clsTestModel GetTestInfoByTestAppointmentID(int TestAppointmentID)
         {
             clsTestModel Test = null;
@@ -65,15 +66,15 @@ namespace DVLD_DataAccess
 
                                 Test.TestID = Convert.ToInt32(reader["TestID"]);
                                 Test.TestAppointmentID = Convert.ToInt32(reader["TestAppointmentID"]);
-                                Test.TestResult = Convert.ToBoolean( reader["TestResult"]);
-                                Test.Notes = ( reader["Notes"] == DBNull.Value) ? string.Empty : reader["Notes"].ToString();
+                                Test.TestResult = Convert.ToBoolean(reader["TestResult"]);
+                                Test.Notes = (reader["Notes"] == DBNull.Value) ? string.Empty : reader["Notes"].ToString();
                                 Test.CreatedByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetTestInfoByTestAppointmentID for TestAppointmentID: {TestAppointmentID}", ex);
                     }
                 }
             }
@@ -90,8 +91,8 @@ namespace DVLD_DataAccess
                 string sql = "INSERT INTO Tests (TestAppointmentID, TestResult, Notes, CreatedByUserID) " +
                              "OUTPUT INSERTED.TestID " +
                              "VALUES (@TestAppointmentID, @TestResult, @Notes, @CreatedByUserID);" +
-                             "UPDATE TestAppointments SET  IsLocked = @IsLocked "
-                                + "WHERE TestAppointmentID = @TestAppointmentID;";
+                             "UPDATE TestAppointments SET IsLocked = @IsLocked " +
+                             "WHERE TestAppointmentID = @TestAppointmentID;";
 
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
@@ -110,9 +111,9 @@ namespace DVLD_DataAccess
                             TestID = Convert.ToInt32(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in AddNewTest", ex);
                     }
                 }
             }
@@ -126,7 +127,7 @@ namespace DVLD_DataAccess
 
             using (SqlConnection Connection = new SqlConnection(clsDataAccessSetting.ConnectionString))
             {
-                string sql = "UPDATE Tests SET  TestAppointmentID = @TestAppointmentID,TestResult = @TestResult, Notes = @Notes, CreatedByUserID = @CreatedByUserID " +
+                string sql = "UPDATE Tests SET TestAppointmentID = @TestAppointmentID, TestResult = @TestResult, Notes = @Notes, CreatedByUserID = @CreatedByUserID " +
                              "WHERE TestID = @TestID;";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
@@ -142,9 +143,9 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsUpdated = rows > 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in UpdateTest for TestID: {Test.TestID}", ex);
                     }
                 }
             }
@@ -172,9 +173,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in GetAllTests", ex);
                     }
                 }
             }
@@ -192,7 +193,7 @@ namespace DVLD_DataAccess
                          FROM Tests 
                          INNER JOIN TestAppointments ON Tests.TestAppointmentID = TestAppointments.TestAppointmentID
                          WHERE TestAppointments.LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID
-						 AND Tests.TestResult = 1";
+                         AND Tests.TestResult = 1";
                 using (SqlCommand cmd = new SqlCommand(sql, Connection))
                 {
                     cmd.Parameters.AddWithValue("@LocalDrivingLicenseApplicationID", LocalDrivingLicenseApplicationID);
@@ -204,17 +205,17 @@ namespace DVLD_DataAccess
                         {
                             PassedTestCount = count;
                         }
-                        
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetTestPassedCount for LocalDrivingLicenseApplicationID: {LocalDrivingLicenseApplicationID}", ex);
                     }
                 }
             }
 
             return PassedTestCount;
         }
+
         static public byte GetTotalTrialsPerTest(int LocalDrivingLicenseApplicationID, clsEnumerationsModel.enTestType TestTypeID)
         {
             byte TotalTrials = 0;
@@ -238,11 +239,10 @@ namespace DVLD_DataAccess
                         {
                             TotalTrials = count;
                         }
-                        
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetTotalTrialsPerTest for LocalDrivingLicenseApplicationID: {LocalDrivingLicenseApplicationID}, TestTypeID: {TestTypeID}", ex);
                     }
                 }
             }
