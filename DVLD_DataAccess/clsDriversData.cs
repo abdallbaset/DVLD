@@ -1,8 +1,8 @@
-﻿using DVLD_Model;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using static System.Net.Mime.MediaTypeNames;
+using DVLD_Model;
+using Infrastructure.Logging;
 
 namespace DVLD_DataAccess
 {
@@ -25,9 +25,8 @@ namespace DVLD_DataAccess
                         {
                             if (reader.Read())
                             {
-                                
                                 Driver = new clsDriverModel();
-                                
+
                                 Driver.DriverID = Convert.ToInt32(reader["DriverID"]);
                                 Driver.PersonID = Convert.ToInt32(reader["PersonID"]);
                                 Driver.CreatedByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
@@ -35,9 +34,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetDriverInfoByDriverID for DriverID: {DriverID}", ex);
                     }
                 }
             }
@@ -62,7 +61,6 @@ namespace DVLD_DataAccess
                         {
                             if (reader.Read())
                             {
-                                
                                 Driver = new clsDriverModel();
 
                                 Driver.DriverID = Convert.ToInt32(reader["DriverID"]);
@@ -72,9 +70,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetDriverInfoByPersonID for PersonID: {PersonID}", ex);
                     }
                 }
             }
@@ -106,9 +104,9 @@ namespace DVLD_DataAccess
                             DriverID = Convert.ToInt32(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in AddNewDriver", ex);
                     }
                 }
             }
@@ -136,9 +134,9 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsUpdated = rows > 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in UpdateDriver for DriverID: {Driver.DriverID}", ex);
                     }
                 }
             }
@@ -166,9 +164,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in GetAllDrivers", ex);
                     }
                 }
             }
@@ -197,15 +195,16 @@ namespace DVLD_DataAccess
                             IsExist = Convert.ToBoolean(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in IsDriverExistByPersonID for PersonID: {PersonID}", ex);
                     }
                 }
             }
 
             return IsExist;
         }
+
         static public bool IsDriverExistByDriverID(int DriverID)
         {
             bool IsExist = false;
@@ -227,9 +226,9 @@ namespace DVLD_DataAccess
                             IsExist = Convert.ToBoolean(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in IsDriverExistByDriverID for DriverID: {DriverID}", ex);
                     }
                 }
             }
