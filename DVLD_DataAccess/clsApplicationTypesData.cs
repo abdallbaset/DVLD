@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using DVLD_Model;
+using Infrastructure.Logging;
 
 namespace DVLD_DataAccess
 {
@@ -33,15 +34,16 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetApplicationTypeInfoByID for ApplicationTypeID: {ApplicationTypeID}", ex);
                     }
                 }
             }
 
             return ApplicationType;
         }
+
         static public int AddNewApplicationType(clsApplicationTypesModel ApplicationType)
         {
             int ApplicationTypeID = (int)clsApplicationTypesModel.enApplicationTypes.NotSpecified;
@@ -64,15 +66,16 @@ namespace DVLD_DataAccess
                             ApplicationTypeID = Convert.ToInt32(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in AddNewApplicationType", ex);
                     }
                 }
             }
 
             return ApplicationTypeID;
         }
+
         static public bool UpdateApplicationType(clsApplicationTypesModel ApplicationType)
         {
             bool IsUpdated = false;
@@ -92,9 +95,9 @@ namespace DVLD_DataAccess
                         int rows = cmd.ExecuteNonQuery();
                         IsUpdated = rows > 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in UpdateApplicationType for ApplicationTypeID: {ApplicationType.ApplicationTypeID}", ex);
                     }
                 }
             }
@@ -122,9 +125,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        //Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in GetAllApplicationTypes", ex);
                     }
                 }
             }
