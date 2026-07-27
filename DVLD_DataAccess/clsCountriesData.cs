@@ -1,4 +1,5 @@
 ﻿using DVLD_Model;
+using Infrastructure.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -31,9 +32,9 @@ namespace DVLD_DataAccess
                             CountryName = Result.ToString();
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        // Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetCountryNameByCountryID for CountryID: {CountryID}", ex);
                     }
                 }
             }
@@ -60,9 +61,9 @@ namespace DVLD_DataAccess
                             CountryID = Convert.ToInt32(Result);
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        // Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError($"Database Error in GetCountryIDByCountryName for CountryName: {CountryName}", ex);
                     }
                 }
             }
@@ -89,9 +90,9 @@ namespace DVLD_DataAccess
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        // Errors will be recorded in the LOG file later.
+                        EventViewerLogger.LogError("Database Error in GetAllCountry", ex);
                     }
                 }
             }
