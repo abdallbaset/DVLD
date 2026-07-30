@@ -1,5 +1,8 @@
 ﻿using DVLD_Business;
 using DVLD_UI.GlobalClasses;
+using Infrastructure;
+using Infrastructure.Configuration;
+using Infrastructure.Security;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -26,44 +29,35 @@ namespace DVLD_UI.Login
         private void _HandleRememberMe()
         {
             string userName = txt_UserName.Text.Trim();
-            string password = clsGlobal.Encrypt(txt_PassWord.Text.Trim());
-            try
+            string password = txt_PassWord.Text.Trim();
+
+            if (ckb_RememberMe.Checked)
             {
-                if (ckb_RememberMe.Checked)
+                string encryptedPassword = SecurityHelper.Encrypt(password);
+
+                if (encryptedPassword != null)
                 {
-                    Registry.SetValue(clsGlobal.KeyPath, "UserName", userName);
-                    Registry.SetValue(clsGlobal.KeyPath, "Password", password);
-                }
-                else
-                {
-                    Registry.SetValue(clsGlobal.KeyPath, "UserName", "");
-                    Registry.SetValue(clsGlobal.KeyPath, "Password", "");
+                    RegistryManager.WriteToRegistry("UserName", userName);
+                    RegistryManager.WriteToRegistry("Password", encryptedPassword);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                // Errors will be recorded in the LOG file later.
-
+                RegistryManager.DeleteFromRegistry("UserName");
+                RegistryManager.DeleteFromRegistry("Password");
             }
         }
 
         private void _RetrieveRememberedData()
         {
-            try
-            {
-                string savedUser = Registry.GetValue(clsGlobal.KeyPath, "UserName", string.Empty) as string;
-                string savedPass = Registry.GetValue(clsGlobal.KeyPath, "Password", string.Empty) as string;
+             string savedUser = RegistryManager.ReadFromRegistry("UserName");
+             string savedPass = RegistryManager.ReadFromRegistry("Password");
 
-                if (!string.IsNullOrEmpty(savedUser) &&  !string.IsNullOrEmpty(savedPass))
-                {
-                   
-                    txt_UserName.Text = savedUser;
-                    txt_PassWord.Text = clsGlobal.Decrypt(savedPass);
-                    ckb_RememberMe.Checked = true;
-                }
-            }
-            catch
-            {                 // Errors will be recorded in the LOG file later.
+           if (!string.IsNullOrEmpty(savedUser) &&  !string.IsNullOrEmpty(savedPass))
+            {  
+              txt_UserName.Text = savedUser;
+              txt_PassWord.Text = SecurityHelper.Decrypt(savedPass);
+              ckb_RememberMe.Checked = true;
             }
         }
         private bool _IsUserLoginSuccessful()
