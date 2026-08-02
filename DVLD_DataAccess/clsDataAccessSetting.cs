@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Configuration;
+using Infrastructure.Configuration;
 namespace DVLD_DataAccess
 {
     static class clsDataAccessSetting
@@ -12,7 +13,7 @@ namespace DVLD_DataAccess
         {
             get
             {
-                return @"Server=DESKTOP-POD3TM1\SQLEXPRESS;Database=DVLD;Integrated Security=True;";
+                return AppConfigManager.GetDatabaseConnectionString();
             }
         }
     }
