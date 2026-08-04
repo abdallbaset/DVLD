@@ -2,6 +2,7 @@
 using DVLD_UI.GlobalClasses;
 using Infrastructure;
 using Infrastructure.Configuration;
+using Infrastructure.Logging;
 using Infrastructure.Security;
 using Microsoft.Win32;
 using System;
@@ -13,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 namespace DVLD_UI.Login
 {
     public partial class frmLogin : Form
@@ -26,47 +28,75 @@ namespace DVLD_UI.Login
         {
             this.Close();
         }
+
         private void _HandleRememberMe()
         {
             string userName = txt_UserName.Text.Trim();
             string password = txt_PassWord.Text.Trim();
 
-            if (ckb_RememberMe.Checked)
+            try
             {
-                string encryptedPassword = SecurityHelper.Encrypt(password);
-
-                if (encryptedPassword != null)
+                if (ckb_RememberMe.Checked)
                 {
-                    RegistryManager.WriteToRegistry("UserName", userName);
-                    RegistryManager.WriteToRegistry("Password", encryptedPassword);
+                    string encryptedPassword = SecurityHelper.Encrypt(password);
+
+                    if (encryptedPassword != null)
+                    {
+                        RegistryManager.WriteToRegistry("UserName", userName);
+                        RegistryManager.WriteToRegistry("Password", encryptedPassword);
+                    }
+                }
+                else
+                {
+                    RegistryManager.DeleteFromRegistry("UserName");
+                    RegistryManager.DeleteFromRegistry("Password");
                 }
             }
-            else
+            catch (UnauthorizedAccessException ex)
             {
-                RegistryManager.DeleteFromRegistry("UserName");
-                RegistryManager.DeleteFromRegistry("Password");
+                EventViewerLogger.LogError("Permission denied while saving credentials to Windows Registry.", ex);
+            }
+            catch (ArgumentException ex)
+            {
+                EventViewerLogger.LogError("Invalid arguments passed to RegistryManager during login.", ex);
+            }
+            catch (Exception ex)
+            {
+                EventViewerLogger.LogError("An error occurred while saving/deleting remembered credentials in Registry.", ex);
             }
         }
 
         private void _RetrieveRememberedData()
         {
-             string savedUser = RegistryManager.ReadFromRegistry("UserName");
-             string savedPass = RegistryManager.ReadFromRegistry("Password");
+            try
+            {
+                string savedUser = RegistryManager.ReadFromRegistry("UserName");
+                string savedPass = RegistryManager.ReadFromRegistry("Password");
 
-           if (!string.IsNullOrEmpty(savedUser) &&  !string.IsNullOrEmpty(savedPass))
-            {  
-              txt_UserName.Text = savedUser;
-              txt_PassWord.Text = SecurityHelper.Decrypt(savedPass);
-              ckb_RememberMe.Checked = true;
+                if (!string.IsNullOrEmpty(savedUser) && !string.IsNullOrEmpty(savedPass))
+                {
+                    txt_UserName.Text = savedUser;
+                    txt_PassWord.Text = SecurityHelper.Decrypt(savedPass);
+                    ckb_RememberMe.Checked = true;
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                EventViewerLogger.LogError("Invalid arguments passed to RegistryManager while reading credentials.", ex);
+            }
+            catch (Exception ex)
+            {
+                EventViewerLogger.LogError("Failed to read remembered credentials from Windows Registry.", ex);
             }
         }
+
         private bool _IsUserLoginSuccessful()
         {
-           clsGlobal.CurrentUser = clsUser.FindByUserameAndPassword(txt_UserName.Text.Trim(), txt_PassWord.Text.Trim());
+            clsGlobal.CurrentUser = clsUser.FindByUserameAndPassword(txt_UserName.Text.Trim(), txt_PassWord.Text.Trim());
             return clsGlobal.CurrentUser != null;
         }
 
-       private  bool _IsUserActive()
+        private bool _IsUserActive()
         {
             return clsGlobal.CurrentUser.UserInfo.IsActive;
         }
@@ -75,7 +105,7 @@ namespace DVLD_UI.Login
         {
             if (!this.ValidateChildren())
             {
-                MessageBox.Show("Some fileds are not valide!, put the mouse over the red icon(s) to see the erro",
+                MessageBox.Show("Some fields are not valid! Put the mouse over the red icon(s) to see the error.",
                    "Validation Error",
                            MessageBoxButtons.OK,
                            MessageBoxIcon.Warning);
@@ -92,7 +122,7 @@ namespace DVLD_UI.Login
                 }
                 else
                 {
-                    MessageBox.Show("Your account is not active, please contact the administrator",
+                    MessageBox.Show("Your account is not active, please contact the administrator.",
                         "Account Inactive",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
@@ -100,13 +130,11 @@ namespace DVLD_UI.Login
             }
             else
             {
-                MessageBox.Show("Invalid username or password, please try again",
+                MessageBox.Show("Invalid username or password, please try again.",
                     "Login Failed",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
-
-
         }
 
         private void txt_Box_Validating(object sender, CancelEventArgs e)
@@ -124,8 +152,6 @@ namespace DVLD_UI.Login
                     errorProvider1.SetError(txtBox, string.Empty);
                 }
             }
-
-
         }
 
         private void frmLogin_Load(object sender, EventArgs e)
