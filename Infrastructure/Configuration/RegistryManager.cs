@@ -1,17 +1,11 @@
-﻿using Infrastructure.Logging;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Configuration
 {
     public class RegistryManager
     {
-      
-        static readonly string   subKeyPath = @"SOFTWARE\ABDULBASIT\DVLD_System";
+        static readonly string subKeyPath = @"SOFTWARE\ABDULBASIT\DVLD_System";
 
         /// <summary>
         /// Writes or updates a string value in the Windows Registry under the specified subKeyPath.
@@ -19,10 +13,10 @@ namespace Infrastructure.Configuration
         /// <param name="valueName">The name of the value/entry to write (e.g., "Username" or "Password").</param>
         /// <param name="valueData">The string data/content to store.</param>
         /// <returns>True if the value was successfully saved; otherwise, false.</returns>
-        static public bool WriteToRegistry(string valueName, string valueData)
+        public static bool WriteToRegistry(string valueName, string valueData)
         {
             if (string.IsNullOrWhiteSpace(valueName))
-                return false;
+                throw new ArgumentException("Value name cannot be null or empty.", nameof(valueName));
 
             try
             {
@@ -33,18 +27,17 @@ namespace Infrastructure.Configuration
                         key.SetValue(valueName, valueData ?? string.Empty);
                         return true;
                     }
+                    return false;
                 }
             }
             catch (UnauthorizedAccessException ex)
             {
-                EventViewerLogger.LogError($"Permission Error: Insufficient rights to write '{valueName}' to Registry.", ex);
+                throw new UnauthorizedAccessException($"Permission Error: Insufficient rights to write '{valueName}' to Registry.", ex);
             }
             catch (Exception ex)
             {
-                EventViewerLogger.LogError($"Unexpected error occurred while writing '{valueName}' to Registry.", ex);
+                throw new Exception($"Unexpected error occurred while writing '{valueName}' to Registry.", ex);
             }
-
-            return false;
         }
 
         /// <summary>
@@ -53,14 +46,13 @@ namespace Infrastructure.Configuration
         /// <param name="valueName">The name of the value to read.</param>
         /// <param name="defaultValue">The default value to return if the key or value does not exist.</param>
         /// <returns>The stored string value, or default value if reading fails/not found.</returns>
-        static public string ReadFromRegistry(string valueName, string defaultValue = "")
+        public static string ReadFromRegistry(string valueName, string defaultValue = "")
         {
             if (string.IsNullOrWhiteSpace(valueName))
-                return defaultValue;
+                throw new ArgumentException("Value name cannot be null or empty.", nameof(valueName));
 
             try
             {
-
                 using (RegistryKey key = Registry.CurrentUser.OpenSubKey(subKeyPath, false))
                 {
                     if (key != null)
@@ -75,7 +67,7 @@ namespace Infrastructure.Configuration
             }
             catch (Exception ex)
             {
-                EventViewerLogger.LogError($"An error occurred while reading '{valueName}' from Registry.", ex);
+                throw new Exception($"An error occurred while reading '{valueName}' from Registry.", ex);
             }
 
             return defaultValue;
@@ -84,16 +76,16 @@ namespace Infrastructure.Configuration
         /// <summary>
         /// Deletes a specific value entry from the Registry path.
         /// </summary>
+
         /// <param name="valueName">The name of the value to delete.</param>
         /// <returns>True if successfully deleted or already absent; otherwise, false.</returns>
-        static public bool DeleteFromRegistry(string valueName)
+        public static bool DeleteFromRegistry(string valueName)
         {
             if (string.IsNullOrWhiteSpace(valueName))
-                return false;
+                throw new ArgumentException("Value name cannot be null or empty.", nameof(valueName));
 
             try
             {
-
                 using (RegistryKey key = Registry.CurrentUser.OpenSubKey(subKeyPath, true))
                 {
                     if (key != null)
@@ -101,14 +93,13 @@ namespace Infrastructure.Configuration
                         key.DeleteValue(valueName, false);
                         return true;
                     }
+                    return false;
                 }
             }
             catch (Exception ex)
             {
-                EventViewerLogger.LogError($"Error deleting registry value '{valueName}'.", ex);
+                throw new Exception($"Error deleting registry value '{valueName}'.", ex);
             }
-
-            return false;
         }
     }
 }
