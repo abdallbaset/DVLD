@@ -13,6 +13,8 @@ using DVLD_UI.Login;
 using DVLD_UI.Test;
 using DVLD_UI.Test.Test_Type;
 using DVLD_UI.Users;
+using Infrastructure.Configuration;
+using Infrastructure.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +33,23 @@ namespace DVLD_UI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-          
+
+            try
+            {
+                _ = AppConfigManager.GetDatabaseConnectionString();
+            }
+            catch (Exception ex)
+            {
+                EventViewerLogger.LogError("Critical failure during application startup: App.config is missing or invalid.", ex);
+     
+                MessageBox.Show($"System initialization failed due to a settings issue.:\n{ex.Message}",
+                                "critical error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+
+                return; 
+            }
+
             while (true)
             {
                 frmLogin loginForm = new frmLogin();
