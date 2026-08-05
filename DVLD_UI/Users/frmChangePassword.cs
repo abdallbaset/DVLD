@@ -69,7 +69,7 @@ namespace DVLD_UI.Users
             }
 
 
-            if (txt_CurrentPassword.Text.Trim() != _User.UserInfo.Password)
+            if (!_User.VerifyPassword(txt_CurrentPassword.Text.Trim()))
             {
                 e.Cancel = true;
                 errorProvider1.SetError(txt_CurrentPassword, $"Current Password is Worng!");
