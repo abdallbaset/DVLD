@@ -18,25 +18,14 @@ namespace Infrastructure.Configuration
             if (string.IsNullOrWhiteSpace(valueName))
                 throw new ArgumentException("Value name cannot be null or empty.", nameof(valueName));
 
-            try
+            using (RegistryKey key = Registry.CurrentUser.CreateSubKey(subKeyPath))
             {
-                using (RegistryKey key = Registry.CurrentUser.CreateSubKey(subKeyPath))
+                if (key != null)
                 {
-                    if (key != null)
-                    {
-                        key.SetValue(valueName, valueData ?? string.Empty);
-                        return true;
-                    }
-                    return false;
+                    key.SetValue(valueName, valueData ?? string.Empty);
+                    return true;
                 }
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                throw new UnauthorizedAccessException($"Permission Error: Insufficient rights to write '{valueName}' to Registry.", ex);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Unexpected error occurred while writing '{valueName}' to Registry.", ex);
+                return false;
             }
         }
 
@@ -51,23 +40,16 @@ namespace Infrastructure.Configuration
             if (string.IsNullOrWhiteSpace(valueName))
                 throw new ArgumentException("Value name cannot be null or empty.", nameof(valueName));
 
-            try
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(subKeyPath, false))
             {
-                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(subKeyPath, false))
+                if (key != null)
                 {
-                    if (key != null)
+                    object value = key.GetValue(valueName);
+                    if (value != null)
                     {
-                        object value = key.GetValue(valueName);
-                        if (value != null)
-                        {
-                            return value.ToString();
-                        }
+                        return value.ToString();
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"An error occurred while reading '{valueName}' from Registry.", ex);
             }
 
             return defaultValue;
@@ -84,21 +66,14 @@ namespace Infrastructure.Configuration
             if (string.IsNullOrWhiteSpace(valueName))
                 throw new ArgumentException("Value name cannot be null or empty.", nameof(valueName));
 
-            try
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(subKeyPath, true))
             {
-                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(subKeyPath, true))
+                if (key != null)
                 {
-                    if (key != null)
-                    {
-                        key.DeleteValue(valueName, false);
-                        return true;
-                    }
-                    return false;
+                    key.DeleteValue(valueName, false);
+                    return true;
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error deleting registry value '{valueName}'.", ex);
+                return false;
             }
         }
     }
