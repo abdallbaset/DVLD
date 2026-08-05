@@ -1,7 +1,8 @@
-﻿using System;
-using System.Data;
-using DVLD_DataAccess;
+﻿using DVLD_DataAccess;
 using DVLD_Model;
+using Infrastructure.Security;
+using System;
+using System.Data;
 
 namespace DVLD_Business
 {
@@ -79,7 +80,12 @@ namespace DVLD_Business
 
         public static clsUser FindByUserameAndPassword(string UserName, string Password)
         {
-            clsUsersModel UserInfo = clsUsersData.GetUserInfoByUsernameAndPassword(UserName, Password);
+            if (string.IsNullOrWhiteSpace(UserName) || string.IsNullOrWhiteSpace(Password))
+                return null;
+
+            string hashedPassword = HashingHelper.GenerateSHA256Hash(Password);
+
+            clsUsersModel UserInfo = clsUsersData.GetUserInfoByUsernameAndPassword(UserName, hashedPassword);
 
             if (UserInfo != null)
             {
@@ -91,13 +97,25 @@ namespace DVLD_Business
 
         private bool _AddNewUser()
         {
+           UserInfo.Password = HashingHelper.GenerateSHA256Hash(UserInfo.Password);
             UserInfo.UserID = clsUsersData.AddNewUser(UserInfo);
             return (UserInfo.UserID != -1);
         }
 
         private bool _UpdateUser()
         {
+            UserInfo.Password = HashingHelper.GenerateSHA256Hash(UserInfo.Password);
             return clsUsersData.UpdateUser(UserInfo);
+        }
+
+        public bool VerifyPassword(string plainPassword)
+        {
+            if (string.IsNullOrWhiteSpace(plainPassword))
+                return false;
+
+            string hashedInput = HashingHelper.GenerateSHA256Hash(plainPassword);
+
+            return this.UserInfo.Password == hashedInput;
         }
 
         public bool Save()
