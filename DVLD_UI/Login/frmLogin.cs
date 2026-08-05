@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography; 
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -38,7 +39,7 @@ namespace DVLD_UI.Login
             {
                 if (ckb_RememberMe.Checked)
                 {
-                    string encryptedPassword = SecurityHelper.Encrypt(password);
+                    string encryptedPassword = SymmetricCryptoHelper.Encrypt(password);
 
                     if (encryptedPassword != null)
                     {
@@ -51,6 +52,10 @@ namespace DVLD_UI.Login
                     RegistryManager.DeleteFromRegistry("UserName");
                     RegistryManager.DeleteFromRegistry("Password");
                 }
+            }
+            catch (CryptographicException ex)
+            {
+                EventViewerLogger.LogError("Cryptographic error occurred while encrypting password.", ex);
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -76,9 +81,21 @@ namespace DVLD_UI.Login
                 if (!string.IsNullOrEmpty(savedUser) && !string.IsNullOrEmpty(savedPass))
                 {
                     txt_UserName.Text = savedUser;
-                    txt_PassWord.Text = SecurityHelper.Decrypt(savedPass);
+                    txt_PassWord.Text = SymmetricCryptoHelper.Decrypt(savedPass);
                     ckb_RememberMe.Checked = true;
                 }
+            }
+            catch (FormatException ex)
+            {
+                EventViewerLogger.LogError("The saved password in Registry is not in a valid Base64 format.", ex);
+                txt_PassWord.Clear();
+                ckb_RememberMe.Checked = false;
+            }
+            catch (CryptographicException ex)
+            {
+                EventViewerLogger.LogError("Cryptographic error: Failed to decrypt the saved password.", ex);
+                txt_PassWord.Clear();
+                ckb_RememberMe.Checked = false;
             }
             catch (ArgumentException ex)
             {
@@ -107,33 +124,45 @@ namespace DVLD_UI.Login
             {
                 MessageBox.Show("Some fields are not valid! Put the mouse over the red icon(s) to see the error.",
                    "Validation Error",
-                           MessageBoxButtons.OK,
-                           MessageBoxIcon.Warning);
+                   MessageBoxButtons.OK,
+                   MessageBoxIcon.Warning);
                 return;
             }
 
-            if (_IsUserLoginSuccessful())
+            try
             {
-                if (_IsUserActive())
+                if (_IsUserLoginSuccessful())
                 {
-                    this.DialogResult = DialogResult.OK;
-                    _HandleRememberMe();
-                    this.Close();
+                    if (_IsUserActive())
+                    {
+                        this.DialogResult = DialogResult.OK;
+                        _HandleRememberMe();
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Your account is not active, please contact the administrator.",
+                            "Account Inactive",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Your account is not active, please contact the administrator.",
-                        "Account Inactive",
+                    MessageBox.Show("Invalid username or password, please try again.",
+                        "Login Failed",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
+                        MessageBoxIcon.Error);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Invalid username or password, please try again.",
-                    "Login Failed",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                EventViewerLogger.LogError("Database or network error occurred during user login attempt.", ex);
+
+                MessageBox.Show("An unexpected error occurred while attempting to connect to the system. Please check your network connection or try again later.",
+                                "System error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
             }
         }
 
