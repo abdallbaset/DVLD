@@ -53,7 +53,7 @@ namespace Infrastructure.Configuration
             }
             catch (ConfigurationErrorsException ex)
             {
-                throw new Exception("The App.config file is malformed or contains syntax errors.", ex);
+                throw new InvalidOperationException("The App.config file is malformed or contains syntax errors.", ex);
             }
             catch (ArgumentException ex)
             {
